@@ -11,4 +11,6 @@ public:
 	void SceneMainloop();
 
 	map<int, Object> SceneObjects;
+	Object * CreateSceneObject();
+	Object * GetSceneObjectByID(int ID);
 };

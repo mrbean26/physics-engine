@@ -2,6 +2,6 @@
 
 class Component {
 public:
-	void Initialise();
-	void Mainloop();
+	virtual ~Component() {};
+	virtual void Mainloop() = 0;
 };

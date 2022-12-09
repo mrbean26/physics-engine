@@ -17,16 +17,19 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 		return;
 	}
 
-	glfwMakeContextCurrent(mainWindow);
+	
 	EngineMainloop();
 }
 
 void PhysicsEngine::EngineMainloop() {
+	glfwMakeContextCurrent(mainWindow);
+
 	while (!glfwWindowShouldClose(mainWindow)) {
 		glClear(GL_COLOR_BUFFER_BIT);
-
+		
 		if (currentScene > -1) {
 			loadedScenes[currentScene].SceneMainloop();
+			
 		}
 
 		glfwSwapBuffers(mainWindow);

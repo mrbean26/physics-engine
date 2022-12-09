@@ -1,0 +1,8 @@
+﻿  Component.cpp
+  Engine.cpp
+  Object.cpp
+  Scene.cpp
+  main.cpp
+  Generating Code...
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Physics-Engine.vcxproj -> D:\Projects\Physics-Engine\x64\Debug\Physics-Engine.exe
