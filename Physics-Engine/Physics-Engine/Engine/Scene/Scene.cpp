@@ -8,7 +8,6 @@ Scene::Scene() {
 
 }
 void Scene::SceneMainloop() {
-	cout << "HI2" << endl;
 	// Run Mainloop of All Objects
 	for (map<int, Object>::iterator it = SceneObjects.begin(); it != SceneObjects.end(); it++) {
 		it->second.ObjectMainloop();
@@ -36,4 +35,8 @@ Object * Scene::CreateSceneObject() {
 }
 Object * Scene::GetSceneObjectByID(int ID) {
 	return &SceneObjects[ID];
+}
+
+void Scene::LoadScene(const char* filePath) {
+
 }

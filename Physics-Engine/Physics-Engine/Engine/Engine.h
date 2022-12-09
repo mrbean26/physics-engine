@@ -17,5 +17,5 @@ public:
 
 	GLFWwindow* mainWindow;
 	vector<Scene> loadedScenes;
-	int currentScene = -1;
+	int currentScene = 0;
 };

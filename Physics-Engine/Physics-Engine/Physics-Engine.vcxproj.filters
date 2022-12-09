@@ -39,9 +39,6 @@
     <ClCompile Include="Engine\Object\Object.cpp">
       <Filter>Source Files\Engine\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Component.cpp">
-      <Filter>Source Files\Engine\Component</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">

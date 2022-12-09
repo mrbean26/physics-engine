@@ -13,4 +13,6 @@ public:
 	map<int, Object> SceneObjects;
 	Object * CreateSceneObject();
 	Object * GetSceneObjectByID(int ID);
+
+	static void LoadScene(const char* filePath);
 };

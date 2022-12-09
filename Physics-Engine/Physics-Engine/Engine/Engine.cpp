@@ -1,6 +1,10 @@
 #include <Engine/Engine.h>
 
 PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool fullscreen) {
+	// Initialise Scene
+	
+
+	// Initialise Graphics
 	if (!glfwInit()) { return; }
 
 	if (fullscreen) {
@@ -16,8 +20,8 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 		glfwTerminate();
 		return;
 	}
-
 	
+	// Run Mainloop
 	EngineMainloop();
 }
 
@@ -27,10 +31,7 @@ void PhysicsEngine::EngineMainloop() {
 	while (!glfwWindowShouldClose(mainWindow)) {
 		glClear(GL_COLOR_BUFFER_BIT);
 		
-		if (currentScene > -1) {
-			loadedScenes[currentScene].SceneMainloop();
-			
-		}
+		loadedScenes[currentScene].SceneMainloop();
 
 		glfwSwapBuffers(mainWindow);
 		glfwPollEvents();
