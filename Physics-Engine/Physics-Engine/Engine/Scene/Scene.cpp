@@ -36,7 +36,3 @@ Object * Scene::CreateSceneObject() {
 Object * Scene::GetSceneObjectByID(int ID) {
 	return &SceneObjects[ID];
 }
-
-void Scene::LoadScene(const char* filePath) {
-
-}

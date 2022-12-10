@@ -1,8 +1,8 @@
 #include <Engine/Engine.h>
 
 PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool fullscreen) {
-	// Initialise Scene
-	
+	// Initialise An Empty Scene
+	loadedScenes.push_back(Scene());
 
 	// Initialise Graphics
 	if (!glfwInit()) { return; }
