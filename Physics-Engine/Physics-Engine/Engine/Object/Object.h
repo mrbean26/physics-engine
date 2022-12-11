@@ -5,7 +5,7 @@
 #include <string>
 using namespace std;
 
-#include <Engine/Component/Component.h>
+#include <Engine/Object/Component.h>
 #include <iostream>
 using namespace std;
 class Object {

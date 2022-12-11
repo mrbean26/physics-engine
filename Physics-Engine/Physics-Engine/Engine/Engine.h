@@ -8,6 +8,8 @@ using namespace std;
 
 #include <Engine/Scene/Scene.h>
 
+#include <GLM/glm.hpp>
+
 class PhysicsEngine {
 public:
 	PhysicsEngine(const char* title, int width, int height, bool fullscreen);
@@ -18,4 +20,7 @@ public:
 	GLFWwindow* mainWindow;
 	vector<Scene> loadedScenes;
 	int currentScene = 0;
+
+	static glm::mat4 viewMatrix();
+	static glm::mat4 projectionMatrix();
 };

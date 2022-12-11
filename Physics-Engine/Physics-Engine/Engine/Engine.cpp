@@ -1,12 +1,14 @@
 #include <Engine/Engine.h>
 
+#include <Engine/Components/ViewModel.h>
+
 PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool fullscreen) {
 	// Initialise An Empty Scene
 	loadedScenes.push_back(Scene());
-
+	
 	// Initialise Graphics
 	if (!glfwInit()) { return; }
-
+	
 	if (fullscreen) {
 		GLFWmonitor* primaryMonitor;
 		primaryMonitor = glfwGetPrimaryMonitor();
@@ -21,13 +23,30 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 		return;
 	}
 	
+	glfwMakeContextCurrent(mainWindow);
+
+	if (glewInit() != GLEW_OK) {
+		return;
+	}
+
+
+	Object * newObject = loadedScenes[0].CreateSceneObject();
+	
+	ViewModel newViewModel = ViewModel();
+	newViewModel.ObjectColour = vec3(1.0f, 0.0f, 1.0f);
+	newViewModel.verticesType = VERTICES_POINTS_ONLY;
+
+	newViewModel.vertices = { 0.0f, 0.0f, 0.0f,
+							1.0f, 0.0f, 0.0f,
+							0.0f, 1.0f, 0.0f };
+
+	newObject->AddComponent(&newViewModel, "ViewModel");
+
 	// Run Mainloop
 	EngineMainloop();
 }
 
 void PhysicsEngine::EngineMainloop() {
-	glfwMakeContextCurrent(mainWindow);
-
 	while (!glfwWindowShouldClose(mainWindow)) {
 		glClear(GL_COLOR_BUFFER_BIT);
 		
@@ -41,4 +60,11 @@ void PhysicsEngine::EngineMainloop() {
 }
 void PhysicsEngine::StopEngine() {
 	glfwTerminate();
+}
+
+mat4 PhysicsEngine::viewMatrix() {
+	return mat4(1.0f);
+}
+mat4 PhysicsEngine::projectionMatrix() {
+	return mat4(1.0f);
 }

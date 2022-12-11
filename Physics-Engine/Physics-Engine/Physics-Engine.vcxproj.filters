@@ -22,8 +22,11 @@
     <Filter Include="Source Files\Engine\Object">
       <UniqueIdentifier>{f62745a6-2748-40ca-b403-540f3fbd8d8d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Component">
+    <Filter Include="Source Files\Engine\Components">
       <UniqueIdentifier>{93c4723a-67fd-47ea-bb13-1ac9d23343f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Background">
+      <UniqueIdentifier>{77df4ad8-bcdd-4c36-bd25-0302772f50dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -39,6 +42,12 @@
     <ClCompile Include="Engine\Object\Object.cpp">
       <Filter>Source Files\Engine\Object</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Components\ViewModel.cpp">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Background\Shaders.cpp">
+      <Filter>Source Files\Engine\Background</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -50,8 +59,14 @@
     <ClInclude Include="Engine\Object\Object.h">
       <Filter>Source Files\Engine\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Component.h">
-      <Filter>Source Files\Engine\Component</Filter>
+    <ClInclude Include="Engine\Object\Component.h">
+      <Filter>Source Files\Engine\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\ViewModel.h">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Background\Shaders.h">
+      <Filter>Source Files\Engine\Background</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
