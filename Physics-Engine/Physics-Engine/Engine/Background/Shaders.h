@@ -15,3 +15,5 @@ int CreateProgram(vector<int> shaders);
 void SetShaderInt(int shader, const char* intName, int usedInt);
 void SetShaderMat4(int shader, const char* matrixName, mat4 usedMatrix);
 void SetShaderVec3(int shader, const char* vectorName, vec3 usedVector);
+
+GLuint LoadTexture(const char* filePath);

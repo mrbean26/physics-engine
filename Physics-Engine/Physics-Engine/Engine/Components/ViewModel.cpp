@@ -27,19 +27,19 @@ void ViewModel::initialiseShader() {
 		int vertex = CreateShader("Assets/Shaders/ViewModelPointsColours_v.txt", GL_VERTEX_SHADER);
 		int fragment = CreateShader("Assets/Shaders/ViewModelPointsColours_f.txt", GL_FRAGMENT_SHADER);
 
-		ViewModelPointsShader = CreateProgram({ vertex, fragment });
+		ViewModelPointsColourShader = CreateProgram({ vertex, fragment });
 	}
 	if (verticesType == VERTICES_POINTS_TEXTURE && ViewModelPointsTextureShader == -1) {
 		int vertex = CreateShader("Assets/Shaders/ViewModelPointsTexture_v.txt", GL_VERTEX_SHADER);
 		int fragment = CreateShader("Assets/Shaders/ViewModelPointsTexture_f.txt", GL_FRAGMENT_SHADER);
 
-		ViewModelPointsShader = CreateProgram({ vertex, fragment });
+		ViewModelPointsTextureShader = CreateProgram({ vertex, fragment });
 	}
 	if (verticesType == VERTICES_POINTS_COLOUR_TEXTURE && ViewModelPointsColourTextureShader == -1) {
 		int vertex = CreateShader("Assets/Shaders/ViewModelPointsColoursTexture_v.txt", GL_VERTEX_SHADER);
 		int fragment = CreateShader("Assets/Shaders/ViewModelPointsColoursTexture_f.txt", GL_FRAGMENT_SHADER);
 
-		ViewModelPointsShader = CreateProgram({ vertex, fragment });
+		ViewModelPointsColourTextureShader = CreateProgram({ vertex, fragment });
 	}
 }
 
@@ -70,7 +70,7 @@ void ViewModel::InitialiseVertices() {
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)3);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
 
 		ObjectDrawSize = vertices.size() / 5;
@@ -79,10 +79,10 @@ void ViewModel::InitialiseVertices() {
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)3);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
 
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)6);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 		glEnableVertexAttribArray(2);
 
 		ObjectDrawSize = vertices.size() / 8;
@@ -98,29 +98,32 @@ void ViewModel::Render() {
 
 	if (verticesType == VERTICES_POINTS_ONLY) {
 		glUseProgram(ViewModelPointsShader);
-		SetShaderVec3(ViewModelPointsShader, "colour", ObjectColour);
 		usedShader = ViewModelPointsShader;
 	}
 	if (verticesType == VERTICES_POINTS_COLOURS) {
 		glUseProgram(ViewModelPointsColourShader);
-		SetShaderVec3(ViewModelPointsColourShader, "colour", ObjectColour);
 		usedShader = ViewModelPointsColourShader;
 	}
 	if (verticesType == VERTICES_POINTS_TEXTURE) {
 		glUseProgram(ViewModelPointsTextureShader);
-		SetShaderVec3(ViewModelPointsColourShader, "colour", ObjectColour);
+
+		glActiveTexture(GL_TEXTURE1);
+		SetShaderInt(ViewModelPointsTextureShader, "texture0", 1);
+		
 		glBindTexture(GL_TEXTURE_2D, ObjectTextureID);
 		usedShader = ViewModelPointsTextureShader;
 	}
 	if (verticesType == VERTICES_POINTS_COLOUR_TEXTURE) {
 		glUseProgram(ViewModelPointsColourTextureShader);
-		SetShaderVec3(ViewModelPointsColourTextureShader, "colour", ObjectColour);
+
 		usedShader = ViewModelPointsColourTextureShader;
 	}
+
+	SetShaderVec3(usedShader, "colour", ObjectColour);
 
 	SetShaderMat4(usedShader, "view", PhysicsEngine::viewMatrix());
 	SetShaderMat4(usedShader, "projection", PhysicsEngine::projectionMatrix());
 	SetShaderMat4(usedShader, "model", getModelMatrix());
-
+	
 	glDrawArrays(GL_TRIANGLES, 0, ObjectDrawSize);	
 }

@@ -1,6 +1,8 @@
 #include <Engine/Engine.h>
 
 #include <Engine/Components/ViewModel.h>
+#include <Engine/Background/Shaders.h>
+
 
 PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool fullscreen) {
 	// Initialise An Empty Scene
@@ -29,16 +31,19 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 		return;
 	}
 
-
+	glEnable(GL_TEXTURE_2D);
+	
 	Object * newObject = loadedScenes[0].CreateSceneObject();
 	
 	ViewModel newViewModel = ViewModel();
-	newViewModel.ObjectColour = vec3(1.0f, 0.0f, 1.0f);
-	newViewModel.verticesType = VERTICES_POINTS_ONLY;
+	newViewModel.ObjectColour = vec3(1.0f, 1.0f, 1.0f);
+	newViewModel.verticesType = VERTICES_POINTS_TEXTURE;
+	
+	newViewModel.ObjectTextureID = LoadTexture("Assets/image.png");
 
-	newViewModel.vertices = { 0.0f, 0.0f, 0.0f,
-							1.0f, 0.0f, 0.0f,
-							0.0f, 1.0f, 0.0f };
+	newViewModel.vertices = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+							1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+							0.0f, 1.0f, 0.0f, 0.0f, 1.0f };
 
 	newObject->AddComponent(&newViewModel, "ViewModel");
 

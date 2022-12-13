@@ -1,5 +1,8 @@
 #include <Engine/Background/Shaders.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
 #include <glm/gtc/type_ptr.hpp>
 
 #include <fstream>
@@ -62,4 +65,32 @@ void SetShaderMat4(int shader, const char* matrixName, mat4 usedMatrix) {
 void SetShaderVec3(int shader, const char* vectorName, vec3 usedVector) {
 	int location = glGetUniformLocation(shader, vectorName);
 	glUniform3f(location, usedVector.x, usedVector.y, usedVector.z);
+}
+
+GLuint LoadTexture(const char* filePath) {
+	// Load Image Data
+	int width, height, channels;
+
+	stbi_set_flip_vertically_on_load(true);
+	unsigned char* imageData = stbi_load(filePath, &width, &height, &channels, 4);
+
+	if (!imageData) {
+		cout << "failed image load" << endl;
+	}
+	
+	// Set Image Data 
+	GLuint newTextureID;
+
+	glGenTextures(1, &newTextureID);
+	glBindTexture(GL_TEXTURE_2D, newTextureID);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	return newTextureID;
 }
