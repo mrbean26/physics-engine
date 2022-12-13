@@ -1,8 +1,14 @@
 #pragma once
 
+class Object;
+
 class Component {
 public:
 	bool initialised = false;
-	virtual ~Component() {};
-	virtual void Mainloop() = 0;
+	const char* componentObjectParentName;
+
+	virtual void Mainloop();
+	Object* parentObject;
 };
+
+#include <Engine/Object/Object.h>

@@ -3,6 +3,9 @@
 #include <Engine/Components/ViewModel.h>
 #include <Engine/Background/Shaders.h>
 
+#include <GLM/gtc/matrix_transform.hpp>
+
+#include <Engine/Components/Transform.h>
 
 PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool fullscreen) {
 	// Initialise An Empty Scene
@@ -26,6 +29,8 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	}
 	
 	glfwMakeContextCurrent(mainWindow);
+	displayWidth = width;
+	displayHeight = height;
 
 	if (glewInit() != GLEW_OK) {
 		return;
@@ -33,20 +38,26 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 
 	glEnable(GL_TEXTURE_2D);
 	
-	Object * newObject = loadedScenes[0].CreateSceneObject();
+
+	Object* newObject = loadedScenes[0].CreateSceneObject("Adam");
+
+	Transform newTransform = Transform();
+	newObject->AddComponent(&newTransform, "Transform");
 	
+
 	ViewModel newViewModel = ViewModel();
 	newViewModel.ObjectColour = vec3(1.0f, 1.0f, 1.0f);
 	newViewModel.verticesType = VERTICES_POINTS_TEXTURE;
 	
 	newViewModel.ObjectTextureID = LoadTexture("Assets/image.png");
 
-	newViewModel.vertices = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-							1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-							0.0f, 1.0f, 0.0f, 0.0f, 1.0f };
+	newViewModel.vertices = { 0.0f, 0.0f, -0.5f, 0.0f, 0.0f,
+							1.0f, 0.0f, -0.5f, 1.0f, 0.0f,
+							0.0f, 1.0f, -0.5f, 0.0f, 1.0f };
 
 	newObject->AddComponent(&newViewModel, "ViewModel");
 
+	
 	// Run Mainloop
 	EngineMainloop();
 }
@@ -71,5 +82,5 @@ mat4 PhysicsEngine::viewMatrix() {
 	return mat4(1.0f);
 }
 mat4 PhysicsEngine::projectionMatrix() {
-	return mat4(1.0f);
+	return perspective(radians(45.0f), displayWidth / displayHeight, 0.1f, 500.0f);
 }

@@ -10,7 +10,7 @@ public:
 	Scene();
 	void SceneMainloop();
 
-	map<int, Object> SceneObjects;
-	Object * CreateSceneObject();
-	Object * GetSceneObjectByID(int ID);
+	map<const char*, Object> SceneObjects;
+	Object * CreateSceneObject(const char * name);
+	Object * GetSceneObjectByID(const char * name);
 };

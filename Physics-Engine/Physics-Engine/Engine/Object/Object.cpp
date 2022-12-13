@@ -10,6 +10,8 @@ void Object::ObjectMainloop() {
 	}
 }
 
-void Object::AddComponent(Component* newComponent, const char * name) {
-	components.insert(make_pair(name, newComponent));
+void Object::AddComponent(Component* newComponent, const char * componentName) {
+	newComponent->componentObjectParentName = name;
+	newComponent->parentObject = this;
+	components.insert(make_pair(componentName, newComponent));
 }

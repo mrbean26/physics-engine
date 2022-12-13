@@ -17,9 +17,12 @@ public:
 	void EngineMainloop();
 	void StopEngine();
 
+	inline static float displayWidth;
+	inline static float displayHeight;
+
 	GLFWwindow* mainWindow;
-	vector<Scene> loadedScenes;
-	int currentScene = 0;
+	inline static vector<Scene> loadedScenes;
+	inline static int currentScene = 0;
 
 	static glm::mat4 viewMatrix();
 	static glm::mat4 projectionMatrix();

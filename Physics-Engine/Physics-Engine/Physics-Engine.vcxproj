@@ -148,14 +148,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Background\Shaders.cpp" />
+    <ClCompile Include="Engine\Components\Transform.cpp" />
     <ClCompile Include="Engine\Components\ViewModel.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\Object\Component.cpp" />
     <ClCompile Include="Engine\Object\Object.cpp" />
     <ClCompile Include="Engine\Scene\Scene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Background\Shaders.h" />
+    <ClInclude Include="Engine\Components\Transform.h" />
     <ClInclude Include="Engine\Components\ViewModel.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Object\Component.h" />

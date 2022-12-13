@@ -2,6 +2,8 @@
 #include <Engine/Background/Shaders.h>
 #include <Engine/Engine.h>
 
+#include <Engine/Components/Transform.h>
+
 void ViewModel::Mainloop() {
 	Initialise();
 	Render();
@@ -14,6 +16,8 @@ void ViewModel::Initialise() {
 	// Set Shaders To Uninitialised
 	initialiseShader();
 	InitialiseVertices();
+
+	initialised = true;
 }
 
 void ViewModel::initialiseShader() {
@@ -89,9 +93,6 @@ void ViewModel::InitialiseVertices() {
 	}
 }
 
-mat4 ViewModel::getModelMatrix() {
-	return mat4(1.0f);
-}
 void ViewModel::Render() {
 	glBindVertexArray(ObjectVAO);
 	GLuint usedShader;
@@ -107,8 +108,8 @@ void ViewModel::Render() {
 	if (verticesType == VERTICES_POINTS_TEXTURE) {
 		glUseProgram(ViewModelPointsTextureShader);
 
-		glActiveTexture(GL_TEXTURE1);
-		SetShaderInt(ViewModelPointsTextureShader, "texture0", 1);
+		glActiveTexture(GL_TEXTURE0);
+		SetShaderInt(ViewModelPointsTextureShader, "texture0", 0);
 		
 		glBindTexture(GL_TEXTURE_2D, ObjectTextureID);
 		usedShader = ViewModelPointsTextureShader;
@@ -123,7 +124,9 @@ void ViewModel::Render() {
 
 	SetShaderMat4(usedShader, "view", PhysicsEngine::viewMatrix());
 	SetShaderMat4(usedShader, "projection", PhysicsEngine::projectionMatrix());
-	SetShaderMat4(usedShader, "model", getModelMatrix());
+
+	mat4 modelMatrix = parentObject->GetComponent<Transform*>("Transform")->getModelMatrix();
+	SetShaderMat4(usedShader, "model", modelMatrix);
 	
 	glDrawArrays(GL_TRIANGLES, 0, ObjectDrawSize);	
 }

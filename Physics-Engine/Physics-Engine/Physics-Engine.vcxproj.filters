@@ -48,6 +48,12 @@
     <ClCompile Include="Engine\Background\Shaders.cpp">
       <Filter>Source Files\Engine\Background</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object\Component.cpp">
+      <Filter>Source Files\Engine\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\Transform.cpp">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -67,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Background\Shaders.h">
       <Filter>Source Files\Engine\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\Transform.h">
+      <Filter>Source Files\Engine\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -44,6 +44,5 @@ public:
 
 	void InitialiseVertices();
 
-	mat4 getModelMatrix();
 	void Render();
 };
