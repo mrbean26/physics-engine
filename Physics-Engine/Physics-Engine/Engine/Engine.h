@@ -21,6 +21,10 @@ public:
 	inline static float displayHeight;
 
 	GLFWwindow* mainWindow;
+
+	inline static float deltaTime;
+	inline static float runtime;
+
 	inline static vector<Scene> loadedScenes;
 	inline static int currentScene = 0;
 

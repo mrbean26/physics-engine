@@ -19,6 +19,10 @@ void Scene::SceneMainloop() {
 Object * Scene::CreateSceneObject(const char * name) {
 	Object newSceneObject = Object();
 	newSceneObject.name = name;
+
+	//Transform newTransform = Transform();
+	//newSceneObject.AddComponent(&newTransform, "Transform");
+
 	// insert
 	SceneObjects.insert(make_pair(name, newSceneObject));
 	return &SceneObjects[name];

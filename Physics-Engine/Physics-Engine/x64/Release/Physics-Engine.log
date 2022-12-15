@@ -1,10 +1,10 @@
 ﻿  Transform.cpp
-  Scene.cpp
+D:\Projects\Physics-Engine\Physics-Engine\Engine\Components\Transform.cpp(40,38): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  272 of 927 functions (29.3%) were compiled, the rest were copied from previous compilation.
+  1 of 795 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    98 functions had inline decision re-evaluated but remain unchanged
+    12 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'D:\Projects\Physics-Engine\x64\Release\vc120.pdb'; linking object as if no debug info
   Physics-Engine.vcxproj -> D:\Projects\Physics-Engine\x64\Release\Physics-Engine.exe

@@ -41,23 +41,41 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 
 	Object* newObject = loadedScenes[0].CreateSceneObject("Adam");
 
-	Transform newTransform = Transform();
-	newObject->AddComponent(&newTransform, "Transform");
+	Transform newTranform = Transform();
+	newTranform.scale = vec3(0.1f, 0.1f, 1.0f);
+	newTranform.charge = 5E-12;
+	newTranform.mass = 0.01f;
+	newObject->AddComponent(&newTranform, "Transform");
 	
 
 	ViewModel newViewModel = ViewModel();
 	newViewModel.ObjectColour = vec3(1.0f, 1.0f, 1.0f);
-	newViewModel.verticesType = VERTICES_POINTS_TEXTURE;
+	newViewModel.verticesType = VERTICES_POINTS_ONLY;
 	
-	newViewModel.ObjectTextureID = LoadTexture("Assets/image.png");
-
-	newViewModel.vertices = { 0.0f, 0.0f, -0.5f, 0.0f, 0.0f,
-							1.0f, 0.0f, -0.5f, 1.0f, 0.0f,
-							0.0f, 1.0f, -0.5f, 0.0f, 1.0f };
+	newViewModel.vertices = { 0.0f, 0.0f, -0.5f, 
+							1.0f, 0.0f, -0.5f,
+							0.0f, 1.0f, -0.5f,  };
 
 	newObject->AddComponent(&newViewModel, "ViewModel");
 
 	
+	Object* secondObject = loadedScenes[0].CreateSceneObject("Toby");
+	Transform secondTransform = Transform();
+	secondTransform.scale = vec3(0.1f, 0.1f, 1.0f);
+	secondTransform.position = vec3(-0.05f, 0.0f, 0.0f);
+	secondTransform.charge = 5E-12;
+	secondTransform.mass = 0.01f;
+	secondObject->AddComponent(&secondTransform, "Transform");
+
+	ViewModel newViewModel2 = ViewModel();
+	newViewModel2.ObjectColour = vec3(1.0f, 0.0f, 0.0f);
+	newViewModel2.verticesType = VERTICES_POINTS_ONLY;
+
+	newViewModel2.vertices = { 0.0f, 0.0f, -0.5f,
+							1.0f, 0.0f, -0.5f,
+							0.0f, 1.0f, -0.5f, };
+	secondObject->AddComponent(&newViewModel2, "ViewModel");
+
 	// Run Mainloop
 	EngineMainloop();
 }
@@ -67,6 +85,9 @@ void PhysicsEngine::EngineMainloop() {
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		loadedScenes[currentScene].SceneMainloop();
+
+		deltaTime = glfwGetTime() - runtime;
+		runtime = glfwGetTime();
 
 		glfwSwapBuffers(mainWindow);
 		glfwPollEvents();
