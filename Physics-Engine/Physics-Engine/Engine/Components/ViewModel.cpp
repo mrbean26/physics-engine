@@ -123,7 +123,6 @@ void ViewModel::Render() {
 	SetShaderVec3(usedShader, "colour", ObjectColour);
 
 	SetShaderMat4(usedShader, "view", PhysicsEngine::viewMatrix());
-	SetShaderMat4(usedShader, "projection", PhysicsEngine::projectionMatrix());
 
 	mat4 modelMatrix = parentObject->GetComponent<Transform*>("Transform")->getModelMatrix();
 	SetShaderMat4(usedShader, "model", modelMatrix);

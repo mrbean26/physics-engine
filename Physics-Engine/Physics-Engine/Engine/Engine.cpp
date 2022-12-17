@@ -1,6 +1,7 @@
 #include <Engine/Engine.h>
 
 #include <Engine/Components/ViewModel.h>
+#include <Engine/Components/Camera.h>
 #include <Engine/Background/Shaders.h>
 
 #include <GLM/gtc/matrix_transform.hpp>
@@ -42,9 +43,9 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	Object* newObject = loadedScenes[0].CreateSceneObject("Adam");
 
 	Transform newTranform = Transform();
-	newTranform.scale = vec3(0.1f, 0.1f, 1.0f);
-	newTranform.charge = 5E-12;
-	newTranform.mass = 0.01f;
+	newTranform.position = vec3(0.0f, 0.0f, -10.0f);
+
+
 	newObject->AddComponent(&newTranform, "Transform");
 	
 
@@ -61,20 +62,14 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	
 	Object* secondObject = loadedScenes[0].CreateSceneObject("Toby");
 	Transform secondTransform = Transform();
-	secondTransform.scale = vec3(0.1f, 0.1f, 1.0f);
-	secondTransform.position = vec3(-0.05f, 0.0f, 0.0f);
-	secondTransform.charge = 5E-12;
-	secondTransform.mass = 0.01f;
+
+	secondTransform.position = vec3(0.0f, -0.0f, 0.0f);
+	
 	secondObject->AddComponent(&secondTransform, "Transform");
 
-	ViewModel newViewModel2 = ViewModel();
-	newViewModel2.ObjectColour = vec3(1.0f, 0.0f, 0.0f);
-	newViewModel2.verticesType = VERTICES_POINTS_ONLY;
-
-	newViewModel2.vertices = { 0.0f, 0.0f, -0.5f,
-							1.0f, 0.0f, -0.5f,
-							0.0f, 1.0f, -0.5f, };
-	secondObject->AddComponent(&newViewModel2, "ViewModel");
+	Camera newCamera = Camera();
+	loadedScenes[currentScene].mainCamera = &newCamera;
+	secondObject->AddComponent(&newCamera, "Camera");
 
 	// Run Mainloop
 	EngineMainloop();
@@ -100,8 +95,5 @@ void PhysicsEngine::StopEngine() {
 }
 
 mat4 PhysicsEngine::viewMatrix() {
-	return mat4(1.0f);
-}
-mat4 PhysicsEngine::projectionMatrix() {
-	return perspective(radians(45.0f), displayWidth / displayHeight, 0.1f, 500.0f);
+	return loadedScenes[currentScene].mainCamera->viewMatrix();
 }

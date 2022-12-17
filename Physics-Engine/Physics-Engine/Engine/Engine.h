@@ -29,5 +29,4 @@ public:
 	inline static int currentScene = 0;
 
 	static glm::mat4 viewMatrix();
-	static glm::mat4 projectionMatrix();
 };
