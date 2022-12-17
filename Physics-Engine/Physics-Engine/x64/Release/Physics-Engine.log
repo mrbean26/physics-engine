@@ -1,9 +1,19 @@
-﻿  Camera.cpp
+﻿  ViewModel.cpp
+D:\Projects\Physics-Engine\Physics-Engine\Engine\Components\ViewModel.cpp(32,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Projects\Physics-Engine\Physics-Engine\Engine\Components\ViewModel.cpp(168,39): warning C4267: '=': conversion from 'size_t' to 'GLuint', possible loss of data
+D:\Projects\Physics-Engine\Physics-Engine\Engine\Components\ViewModel.cpp(177,39): warning C4267: '=': conversion from 'size_t' to 'GLuint', possible loss of data
+D:\Projects\Physics-Engine\Physics-Engine\Engine\Components\ViewModel.cpp(186,39): warning C4267: '=': conversion from 'size_t' to 'GLuint', possible loss of data
+D:\Projects\Physics-Engine\Physics-Engine\Engine\Components\ViewModel.cpp(198,39): warning C4267: '=': conversion from 'size_t' to 'GLuint', possible loss of data
+  Engine.cpp
+D:\Projects\Physics-Engine\Physics-Engine\Engine\Engine.cpp(33,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Projects\Physics-Engine\Physics-Engine\Engine\Engine.cpp(34,18): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Projects\Physics-Engine\Physics-Engine\Engine\Engine.cpp(82,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Projects\Physics-Engine\Physics-Engine\Engine\Engine.cpp(83,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  3 of 800 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+  0 of 971 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'D:\Projects\Physics-Engine\x64\Release\vc120.pdb'; linking object as if no debug info
   Physics-Engine.vcxproj -> D:\Projects\Physics-Engine\x64\Release\Physics-Engine.exe

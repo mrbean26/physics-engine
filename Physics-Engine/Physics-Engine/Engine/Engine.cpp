@@ -53,9 +53,7 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	newViewModel.ObjectColour = vec3(1.0f, 1.0f, 1.0f);
 	newViewModel.verticesType = VERTICES_POINTS_ONLY;
 	
-	newViewModel.vertices = { 0.0f, 0.0f, -0.5f, 
-							1.0f, 0.0f, -0.5f,
-							0.0f, 1.0f, -0.5f,  };
+	newViewModel.LoadOBJ("Assets/torus.obj");
 
 	newObject->AddComponent(&newViewModel, "ViewModel");
 

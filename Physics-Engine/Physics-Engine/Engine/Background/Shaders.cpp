@@ -1,26 +1,13 @@
 #include <Engine/Background/Shaders.h>
+#include <Engine/Background/FileLoading.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include <fstream>
 #include <iostream>
 #include <string>
-
-vector<string> readLines(const char* fileName) {
-	vector<string> allLines;
-	ifstream newFile(fileName);
-	string currentLine;
-	if (!newFile) {
-		cout << "File could not be opened: " << fileName << endl;
-	}
-	while (getline(newFile, currentLine)) {
-		allLines.push_back(currentLine);
-	}
-	return allLines;
-}
 
 int CreateShader(const char* filePath, GLenum shaderType) {
 	// get lines from file

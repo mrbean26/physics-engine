@@ -25,6 +25,11 @@ public:
 	GLuint ObjectVBO;
 	GLuint ObjectDrawSize;
 
+	// OBJ Loading - MAKE SURE FACES ARE TRIANGLES (CTRL+T IN BLENDER)
+	void LoadOBJ(const char* filePath);
+	void LoadOBJFace(vector<string> faceData, vector<vec3> fileVertices, vector<vec2> textureVertices, vector<vec3> vertexNormals);
+	ivec3 LoadOBJFacePoint(string point);
+
 	// Shaders
 	inline static GLuint ViewModelPointsShader = -1;
 

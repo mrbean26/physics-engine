@@ -57,6 +57,9 @@
     <ClCompile Include="Engine\Components\Camera.cpp">
       <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Background\FileLoading.cpp">
+      <Filter>Source Files\Engine\Background</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Components\Camera.h">
       <Filter>Source Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Background\FileLoading.h">
+      <Filter>Source Files\Engine\Background</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
