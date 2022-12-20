@@ -48,7 +48,7 @@ void ViewModel::LoadOBJ(const char* filePath) {
 				stof(lineData[1]),
 				stof(lineData[2])
 			);
-
+			
 			textureVertices.push_back(newTextureVertex);
 		}
 		if (lineData[0] == "vn") {
@@ -90,24 +90,24 @@ void ViewModel::LoadOBJFace(vector<string> faceData, vector<vec3> fileVertices, 
 		vertices.push_back(fileVertices[faceOne.x].y);
 		vertices.push_back(fileVertices[faceOne.x].z);
 
-		vertices.push_back(fileVertices[faceOne.y].x);
-		vertices.push_back(fileVertices[faceOne.y].y);
-
+		vertices.push_back(textureVertices[faceOne.y].x);
+		vertices.push_back(textureVertices[faceOne.y].y);
+		
 		// Face 2
 		vertices.push_back(fileVertices[faceTwo.x].x);
 		vertices.push_back(fileVertices[faceTwo.x].y);
 		vertices.push_back(fileVertices[faceTwo.x].z);
 
-		vertices.push_back(fileVertices[faceTwo.y].x);
-		vertices.push_back(fileVertices[faceTwo.y].y);
-
+		vertices.push_back(textureVertices[faceTwo.y].x);
+		vertices.push_back(textureVertices[faceTwo.y].y);
+		
 		// Face 3
 		vertices.push_back(fileVertices[faceThree.x].x);
 		vertices.push_back(fileVertices[faceThree.x].y);
 		vertices.push_back(fileVertices[faceThree.x].z);
-
-		vertices.push_back(fileVertices[faceThree.y].x);
-		vertices.push_back(fileVertices[faceThree.y].y);
+		
+		vertices.push_back(textureVertices[faceThree.y].x);
+		vertices.push_back(textureVertices[faceThree.y].y);
 	}
 }
 ivec3 ViewModel::LoadOBJFacePoint(string point) {
@@ -122,7 +122,7 @@ ivec3 ViewModel::LoadOBJFacePoint(string point) {
 	if (indexes[2] != "") {
 		result.z = stoi(indexes[2]) - 1;
 	}
-
+	
 	return result;
 }
 

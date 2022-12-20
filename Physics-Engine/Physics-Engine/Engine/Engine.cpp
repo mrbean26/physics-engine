@@ -37,8 +37,10 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 		return;
 	}
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);
-	
+	glEnable(GL_DEPTH_TEST);
 
 	Object* newObject = loadedScenes[0].CreateSceneObject("Adam");
 
@@ -51,9 +53,11 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 
 	ViewModel newViewModel = ViewModel();
 	newViewModel.ObjectColour = vec3(1.0f, 1.0f, 1.0f);
-	newViewModel.verticesType = VERTICES_POINTS_ONLY;
+	newViewModel.verticesType = VERTICES_POINTS_TEXTURE;
 	
-	newViewModel.LoadOBJ("Assets/torus.obj");
+	newViewModel.ObjectTextureID = LoadTexture("Assets/a.png");
+
+	newViewModel.LoadOBJ("Assets/textured.obj");
 
 	newObject->AddComponent(&newViewModel, "ViewModel");
 
@@ -75,10 +79,10 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 
 void PhysicsEngine::EngineMainloop() {
 	while (!glfwWindowShouldClose(mainWindow)) {
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		loadedScenes[currentScene].SceneMainloop();
-
+		loadedScenes[currentScene].SceneObjects["Adam"].GetComponent<Transform*>("Transform")->rotation.y += 30.0f * PhysicsEngine::deltaTime;
 		deltaTime = glfwGetTime() - runtime;
 		runtime = glfwGetTime();
 
