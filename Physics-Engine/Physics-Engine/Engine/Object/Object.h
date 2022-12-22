@@ -18,6 +18,8 @@ public:
 	void ObjectMainloop();
 
 	map<const char*, Component*> components;
+	bool HasComponent(const char* name);
+
 	void AddComponent(Component* newComponent, const char * name);
 	template<typename T> T GetComponent(const char* name) {
 		if (components.find(name) != components.end()) {

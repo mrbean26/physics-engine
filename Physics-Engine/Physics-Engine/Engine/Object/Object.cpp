@@ -10,6 +10,13 @@ void Object::ObjectMainloop() {
 	}
 }
 
+bool Object::HasComponent(const char* name) {
+	if (components.find(name) != components.end()) {
+		return true;
+	}
+	return false;
+}
+
 void Object::AddComponent(Component* newComponent, const char * componentName) {
 	newComponent->componentObjectParentName = name;
 	newComponent->parentObject = this;

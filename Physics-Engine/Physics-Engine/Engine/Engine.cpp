@@ -7,6 +7,7 @@
 #include <GLM/gtc/matrix_transform.hpp>
 
 #include <Engine/Components/Transform.h>
+#include <Engine/Components/Collider.h>
 
 PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool fullscreen) {
 	// Initialise An Empty Scene
@@ -41,38 +42,43 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
-
-	Object* newObject = loadedScenes[0].CreateSceneObject("Adam");
-
-	Transform newTranform = Transform();
-	newTranform.position = vec3(0.0f, 0.0f, -10.0f);
-
-
-	newObject->AddComponent(&newTranform, "Transform");
 	
-
+	Object* newObject = loadedScenes[0].CreateSceneObject("Adam");
+	Transform newTranform = Transform();
+	newTranform.position = vec3(0.0f, 0.0f, -25.0f);
+	newTranform.mass = 0.3f;
+	newObject->AddComponent(&newTranform, "Transform");
 	ViewModel newViewModel = ViewModel();
 	newViewModel.ObjectColour = vec3(1.0f, 1.0f, 1.0f);
-	newViewModel.verticesType = VERTICES_POINTS_TEXTURE;
-	
-	newViewModel.ObjectTextureID = LoadTexture("Assets/a.png");
-
-	newViewModel.LoadOBJ("Assets/textured.obj");
-
+	newViewModel.verticesType = VERTICES_POINTS_ONLY;
+	newViewModel.LoadOBJ("Assets/cube.obj");
 	newObject->AddComponent(&newViewModel, "ViewModel");
+	Collider c = Collider();
+	newObject->AddComponent(&c, "Collider");
 
+	Object* newObject1 = loadedScenes[0].CreateSceneObject("Adam1");
+	Transform newTranform1 = Transform();
+	newTranform1.velocity = vec3(5.0f, 0.0f, 0.0f);
+	newTranform1.position = vec3(-20.0f, 0.0f, -25.0f);
+	newTranform1.mass = 1.0f;
+	newObject1->AddComponent(&newTranform1, "Transform");
+	ViewModel newViewModel1 = ViewModel();
+	newViewModel1.ObjectColour = vec3(1.0f, 1.0f, 1.0f);
+	newViewModel1.verticesType = VERTICES_POINTS_ONLY;
+	newViewModel1.LoadOBJ("Assets/sphere.obj");
+	newObject1->AddComponent(&newViewModel1, "ViewModel");
+	Collider c1 = Collider();
+	newObject1->AddComponent(&c1, "Collider");
 	
+
 	Object* secondObject = loadedScenes[0].CreateSceneObject("Toby");
 	Transform secondTransform = Transform();
-
 	secondTransform.position = vec3(0.0f, -0.0f, 0.0f);
-	
 	secondObject->AddComponent(&secondTransform, "Transform");
-
 	Camera newCamera = Camera();
 	loadedScenes[currentScene].mainCamera = &newCamera;
 	secondObject->AddComponent(&newCamera, "Camera");
-
+	
 	// Run Mainloop
 	EngineMainloop();
 }
@@ -82,12 +88,14 @@ void PhysicsEngine::EngineMainloop() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		loadedScenes[currentScene].SceneMainloop();
-		loadedScenes[currentScene].SceneObjects["Adam"].GetComponent<Transform*>("Transform")->rotation.y += 30.0f * PhysicsEngine::deltaTime;
+		
 		deltaTime = glfwGetTime() - runtime;
 		runtime = glfwGetTime();
 
 		glfwSwapBuffers(mainWindow);
 		glfwPollEvents();
+
+		frameNumber = frameNumber + 1;
 	}
 
 	StopEngine();

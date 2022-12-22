@@ -24,6 +24,7 @@ public:
 
 	inline static float deltaTime;
 	inline static float runtime;
+	inline static int frameNumber = 0;
 
 	inline static vector<Scene> loadedScenes;
 	inline static int currentScene = 0;
