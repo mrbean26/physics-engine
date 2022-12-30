@@ -1,9 +1,12 @@
-#include <Engine/Components/ViewModel.h>
-#include <Engine/Background/Shaders.h>
 #include <Engine/Engine.h>
+#include <Engine/Components/ViewModel.h>
+
+#include <Engine/Background/Shaders.h>
 #include <Engine/Background/FileLoading.h>
 
 #include <Engine/Components/Transform.h>
+#include <Engine/Components/PointLight.h>
+#include <Engine/Components/DirectionalLight.h>
 
 void ViewModel::Mainloop() {
 	Initialise();
@@ -223,49 +226,9 @@ void ViewModel::Render() {
 
 	mat4 modelMatrix = parentObject->GetComponent<Transform*>("Transform")->getModelMatrix();
 	SetShaderMat4(usedShader, "model", modelMatrix);
-	
 
-
-	SetShaderInt(usedShader, "pointLightCount", 1);
-	SetShaderVec3(usedShader, "allPointLights[0].position", vec3(0.0f, 0.0f, -25.0f));
-	SetShaderFloat(usedShader, "allPointLights[0].intensity", 1.0f);
-	SetShaderFloat(usedShader, "allPointLights[0].ambient", 0.05f);
-	SetShaderFloat(usedShader, "allPointLights[0].diffuse", 0.8f);
-	SetShaderFloat(usedShader, "allPointLights[0].specular", 1.0f);
-
-
-
-	SetShaderFloat(usedShader, "allPointLights[0].attenuationConstant", 1.0f);
-	SetShaderFloat(usedShader, "allPointLights[0].attenuationLinear", 0.09f);
-	SetShaderFloat(usedShader, "allPointLights[0].attenuationQuadratic", 0.032f);
-
-	
-
-
-
-
-
-
-
-	SetShaderInt(usedShader, "directionalLightCount", 0);
-	SetShaderVec3(usedShader, "allDirectionalLights[0].position", vec3(0.0f, 0.0f, -15.0f));
-	SetShaderFloat(usedShader, "allDirectionalLights[0].intensity", 1.0f);
-	SetShaderFloat(usedShader, "allDirectionalLights[0].ambient", 0.05f);
-	SetShaderFloat(usedShader, "allDirectionalLights[0].diffuse", 0.8f);
-	SetShaderFloat(usedShader, "allDirectionalLights[0].specular", 1.0f);
-
-	SetShaderFloat(usedShader, "allDirectionalLights[0].cutOff", glm::cos(glm::radians(12.5f)));
-	SetShaderFloat(usedShader, "allDirectionalLights[0].outerCutOff", glm::cos(glm::radians(15.0f)));
-	SetShaderVec3(usedShader, "allDirectionalLights[0].direction", vec3(0.0f, 0.0f, -1.0f));
-
-	SetShaderFloat(usedShader, "allDirectionalLights[0].attenuationConstant", 1.0f);
-	SetShaderFloat(usedShader, "allDirectionalLights[0].attenuationLinear", 0.09f);
-	SetShaderFloat(usedShader, "allDirectionalLights[0].attenuationQuadratic", 0.032f);
-
-
-
-
-
+	PointLight::ApplyPointLights(usedShader);
+	DirectionalLight::ApplyDirectionalLights(usedShader);
 
 	glDrawArrays(GL_TRIANGLES, 0, ObjectDrawSize);	
 }

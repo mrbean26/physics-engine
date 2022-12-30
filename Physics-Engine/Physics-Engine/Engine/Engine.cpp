@@ -8,6 +8,8 @@
 
 #include <Engine/Components/Transform.h>
 #include <Engine/Components/Collider.h>
+#include <Engine/Components/PointLight.h>
+#include <Engine/Components/DirectionalLight.h>
 
 PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool fullscreen) {
 	// Initialise An Empty Scene
@@ -60,6 +62,7 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	Transform newTranform1 = Transform();
 	newTranform1.velocity = vec3(5.0f, 0.0f, 0.0f);
 	newTranform1.position = vec3(-20.0f, 0.0f, -25.0f);
+	newTranform1.rotation = vec3(0.0f, 90.0f, 0.0f);
 	newTranform1.mass = 1.0f;
 	newObject1->AddComponent(&newTranform1, "Transform");
 	ViewModel newViewModel1 = ViewModel();
@@ -69,6 +72,8 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	newObject1->AddComponent(&newViewModel1, "ViewModel");
 	Collider c1 = Collider();
 	newObject1->AddComponent(&c1, "Collider");
+	DirectionalLight newDir = DirectionalLight();
+	newObject1->AddComponent(&newDir, "DirectionalLight");
 	
 
 
@@ -79,7 +84,10 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	Camera newCamera = Camera();
 	loadedScenes[currentScene].mainCamera = &newCamera;
 	secondObject->AddComponent(&newCamera, "Camera");
-	
+	DirectionalLight newLight = DirectionalLight();
+	secondObject->AddComponent(&newLight, "DirectionalLight");
+
+
 	// Run Mainloop
 	EngineMainloop();
 }
