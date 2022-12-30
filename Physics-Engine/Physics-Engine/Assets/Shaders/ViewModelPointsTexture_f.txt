@@ -1,12 +1,119 @@
 #version 330 core
-
 in vec2 textureCoords;
+in vec3 fragPosition;
+in vec3 normalCoords;
+out vec4 FragColor;
 
 uniform sampler2D texture0;
 uniform vec3 colour;
 
-out vec4 FragColor;
+struct PointLight {
+	vec3 position;
+	
+	float ambient;
+	float diffuse;
+	float specular;
+
+	float intensity;
+
+	float attenuationConstant;
+	float attenuationLinear;
+	float attenuationQuadratic;
+};
+struct DirectionalLight {
+	vec3 position;
+	vec3 direction;
+	
+	float ambient;
+	float diffuse;
+	float specular;
+
+	float intensity;
+	float cutOff;
+	float outerCutOff;
+
+	float attenuationConstant;
+	float attenuationLinear;
+	float attenuationQuadratic;
+};
+
+// Number of Lights to process. Maximum number of each type of light in a scene is 30.
+uniform vec3 viewPosition;
+
+uniform int pointLightCount;
+uniform PointLight allPointLights[30];
+
+uniform int directionalLightCount;
+uniform DirectionalLight allDirectionalLights[30];
+
+// Light Calculation Functions
+vec3 calculatePointLight(PointLight light, vec3 originalColour, vec3 normal, vec3 fragPosition, vec3 viewDirection) {
+	vec3 lightDirection = normalize(light.position - fragPosition);
+	
+	// diffuse
+	float diffuse = max(dot(normal, lightDirection), 0.0f);
+
+	// specular
+	vec3 reflectDirection = reflect(-lightDirection, normal);
+	float specular = max(dot(viewDirection, reflectDirection), 0.0f);
+
+	// ambient
+	float ambient = light.ambient;
+
+	// attenuation
+	float distance = length(light.position - fragPosition);
+	float attenuation = light.intensity / (light.attenuationConstant + light.attenuationLinear * distance + light.attenuationQuadratic * pow(distance, 2.0f));
+	
+	// lighting
+	ambient = ambient * attenuation;
+	diffuse = diffuse * attenuation;
+	specular = specular * attenuation;
+	
+	return (ambient + diffuse + specular) * originalColour;	
+}
+vec3 calculateDirectionalLight(DirectionalLight light, vec3 originalColour, vec3 normal, vec3 fragPosition, vec3 viewDirection) {
+	vec3 lightDirection = normalize(light.position - fragPosition);
+	
+	// diffuse 
+	float diffuse = max(dot(normal, lightDirection), 0.0f);
+	
+	// specular 
+	vec3 reflectDirection = reflect(-lightDirection, normal);
+	float specular = max(dot(viewDirection, reflectDirection), 0.0f);
+	 
+	// ambient 
+	float ambient = light.ambient;
+	 
+	// attenuation 
+	float distance = length(light.position - fragPosition);
+	float attenuation = light.intensity / (light.attenuationConstant + light.attenuationLinear * distance + light.attenuationQuadratic * pow(distance, 2.0f));
+	
+	// intensity due to direction 
+	float theta = dot(lightDirection, normalize(-light.direction));
+	float epsilon = light.cutOff - light.outerCutOff;
+	float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0f, 1.0f);
+	float overallIntensity = intensity * light.intensity;
+	
+	// lighting 
+	ambient = ambient * attenuation * overallIntensity;
+	diffuse = diffuse * attenuation * overallIntensity;
+	specular = specular * attenuation * overallIntensity;
+	
+	return (ambient + diffuse + specular) * originalColour;	
+}
 
 void main(){
-	FragColor = texture(texture0, textureCoords) * vec4(colour, 1.0f);
+	vec3 overallColour = texture(texture0, textureCoords) * vec4(colour, 1.0f)
+	
+	vec3 originalColour = vec3(0.0f);
+	vec3 viewDirection = normalize(viewPosition - fragPosition);
+	
+	for(int i = 0; i < pointLightCount; i++) {
+		originalColour = originalColour + calculatePointLight(allPointLights[i], overallColour, normalCoords, fragPosition, viewDirection);
+	}
+	for(int i = 0; i < directionalLightCount; i++) {
+		originalColour = originalColour + calculateDirectionalLight(allDirectionalLights[i], overallColour, normalCoords, fragPosition, viewDirection);
+	}
+	
+	FragColor = vec4(originalColour, overallColour.w);
 }

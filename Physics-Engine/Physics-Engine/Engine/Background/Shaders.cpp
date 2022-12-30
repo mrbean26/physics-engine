@@ -53,6 +53,10 @@ void SetShaderVec3(int shader, const char* vectorName, vec3 usedVector) {
 	int location = glGetUniformLocation(shader, vectorName);
 	glUniform3f(location, usedVector.x, usedVector.y, usedVector.z);
 }
+void SetShaderFloat(int shader, const char* floatName, float usedFloat) {
+	int location = glGetUniformLocation(shader, floatName);
+	glUniform1f(location, usedFloat);
+}
 
 GLuint LoadTexture(const char* filePath) {
 	// Load Image Data
