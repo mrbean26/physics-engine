@@ -23,32 +23,6 @@ void Collider::InitialiseMeshVertices() {
 	if (objectViewModel->verticesType == VERTICES_POINTS_ONLY) {
 		int vertexCount = objectViewModel->vertices.size();
 
-		for (int i = 0; i < vertexCount; i += 3) {
-			vec3 newPoint = vec3(0.0f);
-
-			for (int j = 0; j < 3; j++) {
-				newPoint[j] = roundFloat(objectViewModel->vertices[i + j]);
-			}
-
-			triangleFaceVertices.push_back(newPoint);
-		}
-	}
-	if (objectViewModel->verticesType == VERTICES_POINTS_TEXTURE) {
-		int vertexCount = objectViewModel->vertices.size();
-
-		for (int i = 0; i < vertexCount; i += 5) {
-			vec3 newPoint = vec3(0.0f);
-
-			for (int j = 0; j < 3; j++) {
-				newPoint[j] = roundFloat(objectViewModel->vertices[i + j]);
-			}
-
-			triangleFaceVertices.push_back(newPoint);
-		}
-	}
-	if (objectViewModel->verticesType == VERTICES_POINTS_COLOURS) {
-		int vertexCount = objectViewModel->vertices.size();
-
 		for (int i = 0; i < vertexCount; i += 6) {
 			vec3 newPoint = vec3(0.0f);
 
@@ -59,7 +33,7 @@ void Collider::InitialiseMeshVertices() {
 			triangleFaceVertices.push_back(newPoint);
 		}
 	}
-	if (objectViewModel->verticesType == VERTICES_POINTS_COLOUR_TEXTURE) {
+	if (objectViewModel->verticesType == VERTICES_POINTS_TEXTURE) {
 		int vertexCount = objectViewModel->vertices.size();
 
 		for (int i = 0; i < vertexCount; i += 8) {

@@ -12,9 +12,7 @@ using namespace glm;
 using namespace std;
 
 #define VERTICES_POINTS_ONLY 0 
-#define VERTICES_POINTS_COLOURS 1
 #define VERTICES_POINTS_TEXTURE 2
-#define VERTICES_POINTS_COLOUR_TEXTURE 3
 
 class ViewModel : public Component {
 public:
@@ -24,6 +22,7 @@ public:
 	GLuint ObjectVAO;
 	GLuint ObjectVBO;
 	GLuint ObjectDrawSize;
+	vec3 ObjectColour;
 
 	// OBJ Loading - MAKE SURE FACES ARE TRIANGLES (CTRL+T IN BLENDER)
 	void LoadOBJ(const char* filePath);
@@ -33,15 +32,10 @@ public:
 	// Shaders
 	inline static GLuint ViewModelPointsShader = -1;
 
-	// Colour
-	inline static GLuint ViewModelPointsColourShader = -1;
-	vec3 ObjectColour;
-
 	// Texture
 	inline static GLuint ViewModelPointsTextureShader = -1;
 	GLuint ObjectTextureID;
 
-	inline static GLuint ViewModelPointsColourTextureShader = -1;
 	void initialiseShader();
 
 	int verticesType = VERTICES_POINTS_ONLY;

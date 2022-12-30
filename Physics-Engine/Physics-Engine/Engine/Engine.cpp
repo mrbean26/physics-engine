@@ -46,7 +46,7 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	Object* newObject = loadedScenes[0].CreateSceneObject("Adam");
 	Transform newTranform = Transform();
 	newTranform.position = vec3(0.0f, 0.0f, -25.0f);
-	newTranform.mass = 0.3f;
+	newTranform.mass = 0.1f;
 	newObject->AddComponent(&newTranform, "Transform");
 	ViewModel newViewModel = ViewModel();
 	newViewModel.ObjectColour = vec3(1.0f, 1.0f, 1.0f);
@@ -71,6 +71,7 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	newObject1->AddComponent(&c1, "Collider");
 	
 
+
 	Object* secondObject = loadedScenes[0].CreateSceneObject("Toby");
 	Transform secondTransform = Transform();
 	secondTransform.position = vec3(0.0f, -0.0f, 0.0f);
@@ -88,7 +89,7 @@ void PhysicsEngine::EngineMainloop() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		loadedScenes[currentScene].SceneMainloop();
-		
+
 		deltaTime = glfwGetTime() - runtime;
 		runtime = glfwGetTime();
 

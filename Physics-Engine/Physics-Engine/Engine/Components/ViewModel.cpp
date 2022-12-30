@@ -72,17 +72,32 @@ void ViewModel::LoadOBJFace(vector<string> faceData, vector<vec3> fileVertices, 
 	ivec3 faceThree = LoadOBJFacePoint(faceData[3]);
 
 	if (verticesType == VERTICES_POINTS_ONLY) {
+		// Face 1
 		vertices.push_back(fileVertices[faceOne.x].x);
 		vertices.push_back(fileVertices[faceOne.x].y);
 		vertices.push_back(fileVertices[faceOne.x].z);
 		
+		vertices.push_back(fileVertices[faceOne.z].x);
+		vertices.push_back(fileVertices[faceOne.z].y);
+		vertices.push_back(fileVertices[faceOne.z].z);
+		
+		// Face 2
 		vertices.push_back(fileVertices[faceTwo.x].x);
 		vertices.push_back(fileVertices[faceTwo.x].y);
 		vertices.push_back(fileVertices[faceTwo.x].z);
 
+		vertices.push_back(fileVertices[faceTwo.z].x);
+		vertices.push_back(fileVertices[faceTwo.z].y);
+		vertices.push_back(fileVertices[faceTwo.z].z);
+
+		// Face 3
 		vertices.push_back(fileVertices[faceThree.x].x);
 		vertices.push_back(fileVertices[faceThree.x].y);
 		vertices.push_back(fileVertices[faceThree.x].z);
+
+		vertices.push_back(fileVertices[faceThree.z].x);
+		vertices.push_back(fileVertices[faceThree.z].y);
+		vertices.push_back(fileVertices[faceThree.z].z);
 	}
 	if (verticesType == VERTICES_POINTS_TEXTURE) {
 		// Face 1
@@ -92,6 +107,10 @@ void ViewModel::LoadOBJFace(vector<string> faceData, vector<vec3> fileVertices, 
 
 		vertices.push_back(textureVertices[faceOne.y].x);
 		vertices.push_back(textureVertices[faceOne.y].y);
+
+		vertices.push_back(fileVertices[faceOne.z].x);
+		vertices.push_back(fileVertices[faceOne.z].y);
+		vertices.push_back(fileVertices[faceOne.z].z);
 		
 		// Face 2
 		vertices.push_back(fileVertices[faceTwo.x].x);
@@ -100,6 +119,10 @@ void ViewModel::LoadOBJFace(vector<string> faceData, vector<vec3> fileVertices, 
 
 		vertices.push_back(textureVertices[faceTwo.y].x);
 		vertices.push_back(textureVertices[faceTwo.y].y);
+
+		vertices.push_back(fileVertices[faceTwo.z].x);
+		vertices.push_back(fileVertices[faceTwo.z].y);
+		vertices.push_back(fileVertices[faceTwo.z].z);
 		
 		// Face 3
 		vertices.push_back(fileVertices[faceThree.x].x);
@@ -108,6 +131,10 @@ void ViewModel::LoadOBJFace(vector<string> faceData, vector<vec3> fileVertices, 
 		
 		vertices.push_back(textureVertices[faceThree.y].x);
 		vertices.push_back(textureVertices[faceThree.y].y);
+
+		vertices.push_back(fileVertices[faceThree.z].x);
+		vertices.push_back(fileVertices[faceThree.z].y);
+		vertices.push_back(fileVertices[faceThree.z].z);
 	}
 }
 ivec3 ViewModel::LoadOBJFacePoint(string point) {
@@ -133,23 +160,11 @@ void ViewModel::initialiseShader() {
 
 		ViewModelPointsShader = CreateProgram({ vertex, fragment });
 	}
-	if (verticesType == VERTICES_POINTS_COLOURS && ViewModelPointsColourShader == -1) {
-		int vertex = CreateShader("Assets/Shaders/ViewModelPointsColours_v.txt", GL_VERTEX_SHADER);
-		int fragment = CreateShader("Assets/Shaders/ViewModelPointsColours_f.txt", GL_FRAGMENT_SHADER);
-
-		ViewModelPointsColourShader = CreateProgram({ vertex, fragment });
-	}
 	if (verticesType == VERTICES_POINTS_TEXTURE && ViewModelPointsTextureShader == -1) {
 		int vertex = CreateShader("Assets/Shaders/ViewModelPointsTexture_v.txt", GL_VERTEX_SHADER);
 		int fragment = CreateShader("Assets/Shaders/ViewModelPointsTexture_f.txt", GL_FRAGMENT_SHADER);
 
 		ViewModelPointsTextureShader = CreateProgram({ vertex, fragment });
-	}
-	if (verticesType == VERTICES_POINTS_COLOUR_TEXTURE && ViewModelPointsColourTextureShader == -1) {
-		int vertex = CreateShader("Assets/Shaders/ViewModelPointsColoursTexture_v.txt", GL_VERTEX_SHADER);
-		int fragment = CreateShader("Assets/Shaders/ViewModelPointsColoursTexture_f.txt", GL_FRAGMENT_SHADER);
-
-		ViewModelPointsColourTextureShader = CreateProgram({ vertex, fragment });
 	}
 }
 
@@ -162,12 +177,6 @@ void ViewModel::InitialiseVertices() {
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
 
 	if (verticesType == VERTICES_POINTS_ONLY) {
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(0);
-
-		ObjectDrawSize = vertices.size() / 3;
-	}
-	if (verticesType == VERTICES_POINTS_COLOURS) {
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
@@ -177,22 +186,13 @@ void ViewModel::InitialiseVertices() {
 		ObjectDrawSize = vertices.size() / 6;
 	}
 	if (verticesType == VERTICES_POINTS_TEXTURE) {
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(0);
-
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-		glEnableVertexAttribArray(1);
-
-		ObjectDrawSize = vertices.size() / 5;
-	}
-	if (verticesType == VERTICES_POINTS_COLOUR_TEXTURE) {
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
 
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
 		glEnableVertexAttribArray(2);
 
 		ObjectDrawSize = vertices.size() / 8;
@@ -207,10 +207,6 @@ void ViewModel::Render() {
 		glUseProgram(ViewModelPointsShader);
 		usedShader = ViewModelPointsShader;
 	}
-	if (verticesType == VERTICES_POINTS_COLOURS) {
-		glUseProgram(ViewModelPointsColourShader);
-		usedShader = ViewModelPointsColourShader;
-	}
 	if (verticesType == VERTICES_POINTS_TEXTURE) {
 		glUseProgram(ViewModelPointsTextureShader);
 
@@ -219,11 +215,6 @@ void ViewModel::Render() {
 		
 		glBindTexture(GL_TEXTURE_2D, ObjectTextureID);
 		usedShader = ViewModelPointsTextureShader;
-	}
-	if (verticesType == VERTICES_POINTS_COLOUR_TEXTURE) {
-		glUseProgram(ViewModelPointsColourTextureShader);
-
-		usedShader = ViewModelPointsColourTextureShader;
 	}
 
 	SetShaderVec3(usedShader, "colour", ObjectColour);

@@ -16,6 +16,9 @@ public:
 
 	mat4 getModelMatrix();
 
+	// Forces
+	void UpdateGravityElectricalForce(Transform* secondTransform);
+
 	// Physics Elements
 	vec3 velocity;
 	vec3 force;

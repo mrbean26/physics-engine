@@ -16,7 +16,7 @@ public:
 
 	Object();
 	void ObjectMainloop();
-
+	
 	map<const char*, Component*> components;
 	bool HasComponent(const char* name);
 

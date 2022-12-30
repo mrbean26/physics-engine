@@ -63,6 +63,12 @@
     <ClCompile Include="Engine\Components\Collider.cpp">
       <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Components\DirectionalLight.cpp">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\PointLight.cpp">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -93,6 +99,12 @@
       <Filter>Source Files\Engine\Background</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Components\Collider.h">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\DirectionalLight.h">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\PointLight.h">
       <Filter>Source Files\Engine\Components</Filter>
     </ClInclude>
   </ItemGroup>

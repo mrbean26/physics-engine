@@ -7,6 +7,8 @@ using namespace std;
 
 #include <GLM/gtc/matrix_transform.hpp>
 
+#include <Engine/Components/ViewModel.h>
+
 #define GRAVITATIONAL_CONSTANT 0.00000606743
 #define ELECTRIC_CONSTANT 8998000000
 
@@ -31,19 +33,7 @@ void Transform::Mainloop() {
 			}
 
 			Transform* secondTransform = it->second.GetComponent<Transform*>("Transform");
-			float distanceApart = distance(position, secondTransform->position);
-
-			if (distanceApart <= 0.01f) {
-				distanceApart = INFINITY;
-			}
-
-			float gravitationalForceMagnitude = -GRAVITATIONAL_CONSTANT * ((mass * secondTransform->mass) / powf(distanceApart, 2.0f)); // universal law of gravitation
-			float electricalForceMagnitude = ELECTRIC_CONSTANT * ((charge * secondTransform->charge) / powf(distanceApart, 2.0f)); // couloumbs law
-			
-			// get unit vector between two positions
-			vec3 unitDirectionVector = normalize(position - secondTransform->position);
-			
-			force = force + unitDirectionVector * (gravitationalForceMagnitude + electricalForceMagnitude);
+			UpdateGravityElectricalForce(secondTransform);
 		}
 	}
 
@@ -71,4 +61,19 @@ mat4 Transform::getModelMatrix() {
 	newMatrix = rotate(newMatrix, radians(rotation.z), vec3(0.0f, 0.0f, 1.0f));
 
 	return newMatrix;
+}
+
+void Transform::UpdateGravityElectricalForce(Transform* secondTransform) {
+	float distanceApart = distance(position, secondTransform->position);
+
+	if (distanceApart <= 0.01f) {
+		distanceApart = INFINITY;
+	}
+
+	float gravitationalForceMagnitude = -GRAVITATIONAL_CONSTANT * ((mass * secondTransform->mass) / powf(distanceApart, 2.0f)); // universal law of gravitation
+	float electricalForceMagnitude = ELECTRIC_CONSTANT * ((charge * secondTransform->charge) / powf(distanceApart, 2.0f)); // couloumbs law
+
+	// update force
+	vec3 unitDirectionVector = normalize(position - secondTransform->position);
+	force = force + unitDirectionVector * (gravitationalForceMagnitude + electricalForceMagnitude);
 }
