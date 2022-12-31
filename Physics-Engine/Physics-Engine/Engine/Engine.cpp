@@ -44,7 +44,19 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
+
 	
+	Object* backWal = loadedScenes[0].CreateSceneObject("Wall");
+	Transform newt = Transform();
+	newt.position = vec3(0.0f, 0.0f, -40.0f);
+	newt.scale = vec3(50.0f, 50.0f, 1.0f);
+	backWal->AddComponent(&newt, "Transform");
+	ViewModel newViewModela = ViewModel();
+	newViewModela.ObjectColour = vec3(1.0f, 1.0f, 1.0f);
+	newViewModela.verticesType = VERTICES_POINTS_ONLY;
+	newViewModela.LoadOBJ("Assets/cube.obj");
+	backWal->AddComponent(&newViewModela, "ViewModel");
+
 	Object* newObject = loadedScenes[0].CreateSceneObject("Adam");
 	Transform newTranform = Transform();
 	newTranform.position = vec3(0.0f, 0.0f, -25.0f);
@@ -57,8 +69,6 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	newObject->AddComponent(&newViewModel, "ViewModel");
 	Collider c = Collider();
 	newObject->AddComponent(&c, "Collider");
-	PointLight newLight = PointLight();
-	newObject->AddComponent(&newLight, "PointLight");
 
 	Object* newObject1 = loadedScenes[0].CreateSceneObject("Adam1");
 	Transform newTranform1 = Transform();
@@ -77,11 +87,23 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	
 	Object* secondObject = loadedScenes[0].CreateSceneObject("Toby");
 	Transform secondTransform = Transform();
-	secondTransform.position = vec3(0.0f, -0.0f, 0.0f);
+	secondTransform.position = vec3(0.0f, 10.0f, 0.0f);
+	secondTransform.rotation = vec3(0.0f, -17.0f, 0.0f);
 	secondObject->AddComponent(&secondTransform, "Transform");
 	Camera newCamera = Camera();
 	loadedScenes[currentScene].mainCamera = &newCamera;
 	secondObject->AddComponent(&newCamera, "Camera");
+	
+
+	Object* lightObject = loadedScenes[0].CreateSceneObject("light");
+	Transform lt = Transform();
+	lt.position = vec3(0.0f);
+	lightObject->AddComponent(&lt, "Transform");
+	DirectionalLight newLight = DirectionalLight();
+	newLight.lowerAngleLight = 12.5f;
+	newLight.upperAngleLight = 15.0f;
+	newLight.intensity = 5.0f;
+	lightObject->AddComponent(&newLight, "DirectionalLight");
 	
 	// Run Mainloop
 	EngineMainloop();
@@ -91,6 +113,12 @@ void PhysicsEngine::EngineMainloop() {
 	while (!glfwWindowShouldClose(mainWindow)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
+		DirectionalLight::initialiseDepthMap();
+		DirectionalLight::renderDepthMap();
+
+
+
+
 		loadedScenes[currentScene].SceneMainloop();
 
 		deltaTime = glfwGetTime() - runtime;
