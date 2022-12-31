@@ -96,7 +96,7 @@ void Collider::updateMatrixVertices() {
 
 	modelMatrixVertices.clear();
 	int count = triangleFaceVertices.size();
-
+	
 	mat4 modelMatrix = parentObject->GetComponent<Transform*>("Transform")->getModelMatrix();
 	for (int i = 0; i < count; i++) {
 		vec3 modelPoint = modelMatrix * vec4(triangleFaceVertices[i], 1.0f);
@@ -198,8 +198,10 @@ void Collider::updateCollisions() {
 					// Assign
 					thisTransform->velocity = newVelocityOne;
 					secondTransform->velocity = newVelocityTwo;
-
+					
 					secondCollider->alreadyCollidedObjects.push_back(parentObject->name);
+					
+					break;
 				}
 			}
 		}
