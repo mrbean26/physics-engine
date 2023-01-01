@@ -8,15 +8,28 @@
 #include <GLM/gtc/matrix_transform.hpp>
 using namespace glm;
 
-void DirectionalLight::initialiseDepthMap() {
-	if (initialisedDepthMap) {
+void DirectionalLight::Mainloop() {
+	Initialise();
+	RenderDepthMap();
+}
+void DirectionalLight::Initialise() {
+	if (initialised) {
 		return;
 	}
+
+	InitialiseDepthMap();
+	InitialiseDepthMapShader();
+
+	initialised = true;
+}
+
+
+void DirectionalLight::InitialiseDepthMap() {
 	glGenFramebuffers(1, &depthMapFBO);
 
 	glGenTextures(1, &depthMap);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_RESOLUTION, SHADOW_RESOLUTION, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -27,22 +40,28 @@ void DirectionalLight::initialiseDepthMap() {
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+void DirectionalLight::InitialiseDepthMapShader() {
+	if (depthMapShader > -1) {
+		return;
+	}
 
 	int vert = CreateShader("Assets/Shaders/DepthMap_v.txt", GL_VERTEX_SHADER);
 	int frag = CreateShader("Assets/Shaders/DepthMap_f.txt", GL_FRAGMENT_SHADER);
 	depthMapShader = CreateProgram({ vert, frag });
-
-	initialisedDepthMap = true;
 }
-void DirectionalLight::renderDepthMap() {
-	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+
+void DirectionalLight::RenderDepthMap() {
+	glViewport(0, 0, SHADOW_RESOLUTION, SHADOW_RESOLUTION);
+	
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
+	
 	glUseProgram(depthMapShader);
 
 	Scene* currentScene = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene];
 	map<const char*, Object>* sceneObjects = &currentScene->SceneObjects;
-
+	
 	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
 		if (it->second.HasComponent("ViewModel")) {
 			ViewModel* currentViewModel = it->second.GetComponent<ViewModel*>("ViewModel");
@@ -50,25 +69,42 @@ void DirectionalLight::renderDepthMap() {
 
 			glBindVertexArray(currentViewModel->ObjectVAO);
 			SetShaderMat4(depthMapShader, "model", currentTransform->getModelMatrix());
-
-			float near_plane = 1.0f, far_plane = 50.0f;
-			glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-
-			
-			glm::mat4 lightView = glm::lookAt(glm::vec3(-0.0f, 0.0f, 0.0f),
-				glm::vec3(0.0f, 0.0f, -1.0f),
-				glm::vec3(0.0f, 1.0f, 0.0f));
-			glm::mat4 lightSpaceMatrix = lightProjection * lightView;
-			SetShaderMat4(depthMapShader, "lightSpaceMatrix", lightSpaceMatrix);
-
-
+			SetShaderMat4(depthMapShader, "lightSpaceMatrix", LightSpaceMatrix());
 
 			glDrawArrays(GL_TRIANGLES, 0, currentViewModel->ObjectDrawSize);
 		}
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, 1280, 720);
+	glViewport(0, 0, PhysicsEngine::displayWidth, PhysicsEngine::displayHeight);
+}
+
+vec3 DirectionalLight::LightTarget() {
+	vec3 direction = vec3(0.0f, 0.0f, -1.0f);
+
+	Transform* parentTransform = parentObject->GetComponent<Transform*>("Transform");
+
+	mat4 rotationalMatrix = mat4(1.0f);
+	rotationalMatrix = rotate(rotationalMatrix, -radians(parentTransform->rotation.x), vec3(0.0f, 1.0f, 0.0f));
+	rotationalMatrix = rotate(rotationalMatrix, -radians(parentTransform->rotation.y), vec3(1.0f, 0.0f, 0.0f));
+	rotationalMatrix = rotate(rotationalMatrix, radians(parentTransform->rotation.z), vec3(0.0f, 0.0f, 1.0f));
+
+	return vec3(rotationalMatrix * vec4(direction, 1.0f));
+}
+mat4 DirectionalLight::LightSpaceMatrix() {
+	// Projection
+	float near_plane = 1.0f, far_plane = 50.0f;
+	mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+
+	// View
+	Transform* parentTransform = parentObject->GetComponent<Transform*>("Transform");
+
+
+	mat4 lightView = glm::lookAt(parentTransform->position, LightTarget(), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	// Overall
+	mat4 lightSpaceMatrix = lightProjection * lightView;
+	return lightSpaceMatrix;
 }
 
 void DirectionalLight::ApplyDirectionalLights(int shaderValue) {
@@ -109,6 +145,14 @@ void DirectionalLight::ApplyDirectionalLights(int shaderValue) {
 
 			currentLightTransform->position = oldPosition;
 			currentLightTransform->scale = oldScale;
+
+			// Shadow Variables
+			
+			SetShaderMat4(shaderValue, ("lightSpaceMatrices[" + to_string(lightCount) + "]").data(), currentDirectionalLight->LightSpaceMatrix());
+
+			glActiveTexture(GL_TEXTURE1 + lightCount);
+			glBindTexture(GL_TEXTURE_2D, currentDirectionalLight->depthMap);
+			SetShaderInt(shaderValue, ("directionalShadowMaps[" + to_string(lightCount) + "]").data(), lightCount + 1);
 
 			lightCount = lightCount + 1;
 		}

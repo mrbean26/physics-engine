@@ -223,24 +223,7 @@ void ViewModel::Render() {
 	}
 
 	SetShaderVec3(usedShader, "colour", ObjectColour);
-	
 	SetShaderMat4(usedShader, "view", PhysicsEngine::viewMatrix());
-
-
-
-
-	float near_plane = 1.0f, far_plane = 50.0f;
-	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-
-
-	glm::mat4 lightView = glm::lookAt(glm::vec3(-0.0f, 0.0f, -0.0f),
-		glm::vec3(0.0f, 0.0f, -1.0f),
-		glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 lightSpaceMatrix = lightProjection * lightView;
-	SetShaderMat4(usedShader, "lightSpaceMatrix", lightSpaceMatrix);
-
-	glBindTexture(GL_TEXTURE_2D, DirectionalLight::depthMap);
-
 
 	mat4 modelMatrix = parentObject->GetComponent<Transform*>("Transform")->getModelMatrix();
 	SetShaderMat4(usedShader, "model", modelMatrix);

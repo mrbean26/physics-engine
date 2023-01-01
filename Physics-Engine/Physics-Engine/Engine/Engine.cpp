@@ -104,6 +104,17 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	newLight.upperAngleLight = 15.0f;
 	newLight.intensity = 5.0f;
 	lightObject->AddComponent(&newLight, "DirectionalLight");
+
+	Object* lightObject1 = loadedScenes[0].CreateSceneObject("light1");
+	Transform lt1 = Transform();
+	lt1.position = vec3(0.0f, 0.0f, -28.0);
+	lightObject1->AddComponent(&lt1, "Transform");
+	DirectionalLight newLight1 = DirectionalLight();
+	newLight1.lowerAngleLight = 12.5f;
+	newLight1.upperAngleLight = 15.0f;
+	newLight1.intensity = 5.0f;
+	lightObject1->AddComponent(&newLight1, "DirectionalLight");
+	
 	
 	// Run Mainloop
 	EngineMainloop();
@@ -113,12 +124,6 @@ void PhysicsEngine::EngineMainloop() {
 	while (!glfwWindowShouldClose(mainWindow)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		DirectionalLight::initialiseDepthMap();
-		DirectionalLight::renderDepthMap();
-
-
-
-
 		loadedScenes[currentScene].SceneMainloop();
 
 		deltaTime = glfwGetTime() - runtime;

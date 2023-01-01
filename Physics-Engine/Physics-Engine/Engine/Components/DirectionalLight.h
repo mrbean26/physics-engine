@@ -3,16 +3,14 @@
 #include <Engine/Object/Component.h>
 #include <Engine/Engine.h>
 
+#define SHADOW_RESOLUTION 1024
+
 class DirectionalLight : public Component {
 public:
-	inline static GLuint depthMapFBO;
-	inline static const int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
-	inline static GLuint depthMap;
-	inline static GLuint depthMapShader;
-	static void initialiseDepthMap();
-	static void renderDepthMap();
-	inline static bool initialisedDepthMap = false;
-
+	void Mainloop();
+	void Initialise();
+	
+	// Light Attributes
 	float intensity = 1.0f;
 
 	float attenuationConstant = 1.0f;
@@ -26,5 +24,19 @@ public:
 	float lowerAngleLight = 12.5f;
 	float upperAngleLight = 15.0f;
 
+	// Shadows
+	GLuint depthMapFBO;
+	GLuint depthMap;
+	inline static GLuint depthMapShader = -1;
+
+	void InitialiseDepthMap();
+	void InitialiseDepthMapShader();
+
+	void RenderDepthMap();
+
+	vec3 LightTarget();
+	mat4 LightSpaceMatrix();
+
+	// All
 	static void ApplyDirectionalLights(int shaderValue);
 };

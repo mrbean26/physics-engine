@@ -5,16 +5,21 @@ layout(location = 1) in vec3 normal;
 
 out vec3 fragPosition;
 out vec3 normalCoords;
-out vec4 fragPosLightSpace;
+out vec4 directionalFragPosLightSpaces[30];
 
 uniform mat4 model;
 uniform mat4 view;
-uniform mat4 lightSpaceMatrix;
+uniform mat4 lightSpaceMatrices[30];
 
 void main(){
     gl_Position = view * model * vec4(vertex, 1.0f);
 
     normalCoords = mat3(transpose(inverse(model))) * normal;
     fragPosition = vec3(model * vec4(vertex, 1.0f));
-    fragPosLightSpace = lightSpaceMatrix * vec4(fragPosition, 1.0f);
+    
+	directionalFragPosLightSpaces[0] = lightSpaceMatrices[0] * vec4(fragPosition, 1.0f);
+	directionalFragPosLightSpaces[1] = lightSpaceMatrices[1] * vec4(fragPosition, 1.0f);
+	directionalFragPosLightSpaces[2] = lightSpaceMatrices[2] * vec4(fragPosition, 1.0f);
+	
+	
 }

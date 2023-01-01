@@ -1,13 +1,11 @@
 ﻿  DirectionalLight.cpp
-  ViewModel.cpp
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\ViewModel.cpp(37,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\ViewModel.cpp(191,39): warning C4267: '=': conversion from 'size_t' to 'GLuint', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\ViewModel.cpp(203,39): warning C4267: '=': conversion from 'size_t' to 'GLuint', possible loss of data
+D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\DirectionalLight.cpp(79,63): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\DirectionalLight.cpp(79,34): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  2 of 1119 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  3 of 1125 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    3 functions had inline decision re-evaluated but remain unchanged
+    8 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
   Physics-Engine.vcxproj -> D:\Projects\Physics Engine\Physics-Engine\x64\Release\Physics-Engine.exe
