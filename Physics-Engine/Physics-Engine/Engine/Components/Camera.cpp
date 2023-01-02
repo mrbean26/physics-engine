@@ -1,6 +1,7 @@
+#include <Engine/Engine.h>
+
 #include <Engine/Components/Camera.h>
 #include <Engine/Components/Transform.h>
-#include <Engine/Engine.h>
 
 #include <GLM/gtc/matrix_transform.hpp>
 

@@ -1,7 +1,8 @@
+#include <Engine/Engine.h>
+
 #include <Engine/Components/Collider.h>
 #include <Engine/Components/Transform.h>
 #include <Engine/Components/ViewModel.h>
-#include <Engine/Engine.h>
 
 int decimalPlacesRound = 2;
 float roundFloat(float input) {

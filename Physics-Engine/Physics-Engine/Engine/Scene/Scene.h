@@ -4,7 +4,6 @@ using namespace std;
 #include <map>
 
 #include <Engine/Object/Object.h>
-#include <Engine/Components/Camera.h>
 
 class Scene {
 public:

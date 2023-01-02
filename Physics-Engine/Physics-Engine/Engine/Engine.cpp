@@ -46,63 +46,22 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	glEnable(GL_DEPTH_TEST);
 
 	
-	Object* backWal = loadedScenes[0].CreateSceneObject("Wall");
-	Transform newt = Transform();
-	newt.position = vec3(0.0f, 0.0f, -40.0f);
-	newt.scale = vec3(50.0f, 50.0f, 1.0f);
-	backWal->AddComponent(&newt, "Transform");
-	ViewModel newViewModela = ViewModel();
-	newViewModela.ObjectColour = vec3(1.0f, 1.0f, 1.0f);
-	newViewModela.verticesType = VERTICES_POINTS_ONLY;
-	newViewModela.LoadOBJ("Assets/cube.obj");
-	backWal->AddComponent(&newViewModela, "ViewModel");
+	Object* cameraObject = loadedScenes[0].CreateSceneObject("Adam");
+	cameraObject->AddComponent("Transform");
+	cameraObject->AddComponent("Camera");
+	cameraObject->AddComponent("PointLight");
+	cameraObject->GetComponent<PointLight*>("PointLight")->intensity = 50.0f;
 	
-	Object* newObject = loadedScenes[0].CreateSceneObject("Adam");
-	Transform newTranform = Transform();
-	newTranform.position = vec3(0.0f, 0.0f, -25.0f);
-	newTranform.mass = 0.1f;
-	newObject->AddComponent(&newTranform, "Transform");
-	ViewModel newViewModel = ViewModel();
-	newViewModel.ObjectColour = vec3(1.0f, 1.0f, 1.0f);
-	newViewModel.verticesType = VERTICES_POINTS_TEXTURE;
-	newViewModel.LoadOBJ("Assets/textured.obj");
-	newViewModel.ObjectTextureID = LoadTexture("Assets/a.png");
-	newObject->AddComponent(&newViewModel, "ViewModel");
-	Collider c = Collider();
-	newObject->AddComponent(&c, "Collider");
+	loadedScenes[0].mainCamera = cameraObject->GetComponent<Camera*>("Camera");
 
-	Object* newObject1 = loadedScenes[0].CreateSceneObject("Adam1");
-	Transform newTranform1 = Transform();
-	newTranform1.velocity = vec3(5.0f, 0.0f, 0.0f);
-	newTranform1.position = vec3(-20.0f, 0.0f, -25.0f);
-	newTranform1.rotation = vec3(0.0f, 0.0f, 0.0f);
-	newTranform1.mass = 1.0f;
-	newObject1->AddComponent(&newTranform1, "Transform");
-	ViewModel newViewModel1 = ViewModel();
-	newViewModel1.ObjectColour = vec3(1.0f, 1.0f, 1.0f);
-	newViewModel1.verticesType = VERTICES_POINTS_ONLY;
-	newViewModel1.LoadOBJ("Assets/sphere.obj");
-	newObject1->AddComponent(&newViewModel1, "ViewModel");
-	Collider c1 = Collider();
-	newObject1->AddComponent(&c1, "Collider");
+	Object* viewObject = loadedScenes[0].CreateSceneObject("Toby");
+	viewObject->AddComponent("Transform");
+	viewObject->AddComponent("ViewModel");
+	viewObject->GetComponent<ViewModel*>("ViewModel")->verticesType = VERTICES_POINTS_ONLY;
+	viewObject->GetComponent<ViewModel*>("ViewModel")->LoadOBJ("assets/cube.obj");
+	viewObject->GetComponent<ViewModel*>("ViewModel")->ObjectColour = vec3(1.0f);
+	viewObject->GetComponent<Transform*>("Transform")->position = vec3(0.0f, 0.0f, -25.0f);
 	
-	Object* secondObject = loadedScenes[0].CreateSceneObject("Toby");
-	Transform secondTransform = Transform();
-	secondTransform.position = vec3(0.0f, 10.0f, 0.0f);
-	secondTransform.rotation = vec3(0.0f, -17.0f, 0.0f);
-	secondObject->AddComponent(&secondTransform, "Transform");
-	Camera newCamera = Camera();
-	loadedScenes[currentScene].mainCamera = &newCamera;
-	secondObject->AddComponent(&newCamera, "Camera");
-	
-
-	Object* lightObject = loadedScenes[0].CreateSceneObject("light");
-	Transform lt = Transform();
-	lt.position = vec3(0.0f);
-	lightObject->AddComponent(&lt, "Transform");
-	PointLight newLight = PointLight();
-	newLight.intensity = 15.0f;
-	lightObject->AddComponent(&newLight, "PointLight");
 	
 	// Run Mainloop
 	EngineMainloop();

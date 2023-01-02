@@ -1,10 +1,7 @@
 #include <Engine/Scene/Scene.h>
 
-#include <Engine/Components/Transform.h>
-
 #include <iostream>
 using namespace std;
-
 
 Scene::Scene() {
 

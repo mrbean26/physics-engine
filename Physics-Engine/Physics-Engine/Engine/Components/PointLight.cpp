@@ -1,6 +1,6 @@
-#include <Engine/Components/PointLight.h>
-
 #include <Engine/Engine.h>
+
+#include <Engine/Components/PointLight.h>
 #include <Engine/Components/Transform.h>
 #include <Engine/Components/ViewModel.h>
 #include <Engine/Background/Shaders.h>

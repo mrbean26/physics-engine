@@ -1,7 +1,15 @@
 #pragma once
 
 #include <Engine/Object/Component.h>
-#include <Engine/Engine.h>
+
+#include <OpenGL/GLEW/glew.h>
+#include <OpenGL/GLFW/glfw3.h>
+
+#include <GLM/glm.hpp>
+using namespace glm;
+
+#include <vector>
+using namespace std;
 
 class PointLight : public Component {
 public:

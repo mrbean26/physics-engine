@@ -1,9 +1,9 @@
 #include <Engine/Engine.h>
-#include <Engine/Components/ViewModel.h>
 
 #include <Engine/Background/Shaders.h>
 #include <Engine/Background/FileLoading.h>
 
+#include <Engine/Components/ViewModel.h>
 #include <Engine/Components/Transform.h>
 #include <Engine/Components/PointLight.h>
 #include <Engine/Components/DirectionalLight.h>
@@ -221,7 +221,7 @@ void ViewModel::Render() {
 		glBindTexture(GL_TEXTURE_2D, ObjectTextureID);
 		usedShader = ViewModelPointsTextureShader;
 	}
-
+	
 	SetShaderVec3(usedShader, "colour", ObjectColour);
 	SetShaderMat4(usedShader, "view", PhysicsEngine::viewMatrix());
 

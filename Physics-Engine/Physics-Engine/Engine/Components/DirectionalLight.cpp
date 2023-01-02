@@ -1,6 +1,6 @@
-#include <Engine/Components/DirectionalLight.h>
-
 #include <Engine/Engine.h>
+
+#include <Engine/Components/DirectionalLight.h>
 #include <Engine/Components/Transform.h>
 #include <Engine/Background/Shaders.h>
 #include <Engine/Components/ViewModel.h>

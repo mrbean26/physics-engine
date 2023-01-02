@@ -1,13 +1,9 @@
-﻿  Engine.cpp
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Engine.cpp(36,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Engine.cpp(37,18): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Engine.cpp(117,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Engine.cpp(118,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+﻿  Object.cpp
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  236 of 1319 functions (17.9%) were compiled, the rest were copied from previous compilation.
+  5 of 1268 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    190 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
   Physics-Engine.vcxproj -> D:\Projects\Physics Engine\Physics-Engine\x64\Release\Physics-Engine.exe
