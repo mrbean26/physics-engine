@@ -99,23 +99,11 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	Transform lt = Transform();
 	lt.position = vec3(0.0f);
 	lightObject->AddComponent(&lt, "Transform");
-	DirectionalLight newLight = DirectionalLight();
-	newLight.lowerAngleLight = 12.5f;
-	newLight.upperAngleLight = 15.0f;
-	newLight.intensity = 5.0f;
-	lightObject->AddComponent(&newLight, "DirectionalLight");
-
-	Object* lightObject1 = loadedScenes[0].CreateSceneObject("light1");
-	Transform lt1 = Transform();
-	lt1.position = vec3(0.0f, 0.0f, -28.0);
-	lightObject1->AddComponent(&lt1, "Transform");
-	DirectionalLight newLight1 = DirectionalLight();
-	newLight1.lowerAngleLight = 12.5f;
-	newLight1.upperAngleLight = 15.0f;
-	newLight1.intensity = 5.0f;
-	lightObject1->AddComponent(&newLight1, "DirectionalLight");
+	PointLight newLight = PointLight();
 	
-	
+	newLight.intensity = 20.0f;
+	lightObject->AddComponent(&newLight, "PointLight");
+		
 	// Run Mainloop
 	EngineMainloop();
 }

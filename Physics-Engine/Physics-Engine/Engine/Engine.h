@@ -10,6 +10,8 @@ using namespace std;
 
 #include <GLM/glm.hpp>
 
+#define SHADOW_RESOLUTION 1024
+
 class PhysicsEngine {
 public:
 	PhysicsEngine(const char* title, int width, int height, bool fullscreen);

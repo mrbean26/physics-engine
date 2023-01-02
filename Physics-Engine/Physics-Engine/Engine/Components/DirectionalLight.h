@@ -3,8 +3,6 @@
 #include <Engine/Object/Component.h>
 #include <Engine/Engine.h>
 
-#define SHADOW_RESOLUTION 1024
-
 class DirectionalLight : public Component {
 public:
 	void Mainloop();

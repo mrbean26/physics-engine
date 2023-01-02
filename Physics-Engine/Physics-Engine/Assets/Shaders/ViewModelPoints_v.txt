@@ -5,11 +5,11 @@ layout(location = 1) in vec3 normal;
 
 out vec3 fragPosition;
 out vec3 normalCoords;
-out vec4 directionalFragPosLightSpaces[30];
+out vec4 directionalFragPosLightSpaces[15];
 
 uniform mat4 model;
 uniform mat4 view;
-uniform mat4 lightSpaceMatrices[30];
+uniform mat4 lightSpaceMatrices[15];
 
 void main(){
     gl_Position = view * model * vec4(vertex, 1.0f);
@@ -17,34 +17,7 @@ void main(){
     normalCoords = mat3(transpose(inverse(model))) * normal;
     fragPosition = vec3(model * vec4(vertex, 1.0f));
     
-	directionalFragPosLightSpaces[0] = lightSpaceMatrices[0] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[1] = lightSpaceMatrices[1] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[2] = lightSpaceMatrices[2] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[3] = lightSpaceMatrices[0] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[4] = lightSpaceMatrices[1] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[5] = lightSpaceMatrices[2] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[6] = lightSpaceMatrices[0] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[7] = lightSpaceMatrices[1] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[8] = lightSpaceMatrices[2] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[9] = lightSpaceMatrices[2] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[10] = lightSpaceMatrices[0] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[11] = lightSpaceMatrices[1] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[12] = lightSpaceMatrices[2] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[13] = lightSpaceMatrices[0] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[14] = lightSpaceMatrices[1] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[15] = lightSpaceMatrices[2] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[16] = lightSpaceMatrices[0] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[17] = lightSpaceMatrices[1] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[18] = lightSpaceMatrices[2] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[19] = lightSpaceMatrices[2] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[20] = lightSpaceMatrices[0] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[21] = lightSpaceMatrices[1] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[22] = lightSpaceMatrices[2] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[23] = lightSpaceMatrices[0] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[24] = lightSpaceMatrices[1] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[25] = lightSpaceMatrices[2] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[26] = lightSpaceMatrices[0] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[27] = lightSpaceMatrices[1] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[28] = lightSpaceMatrices[2] * vec4(fragPosition, 1.0f);
-	directionalFragPosLightSpaces[29] = lightSpaceMatrices[2] * vec4(fragPosition, 1.0f);
+	for(int i = 0; i < 15; i++) {
+		directionalFragPosLightSpaces[i] = lightSpaceMatrices[i] * vec4(fragPosition, 1.0f);
+	}
 }
