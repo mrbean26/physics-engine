@@ -2,6 +2,7 @@
 in vec2 textureCoords;
 in vec3 fragPosition;
 in vec3 normalCoords;
+in vec4 directionalFragPosLightSpaces[15];
 out vec4 FragColor;
 
 uniform sampler2D texture0;
@@ -41,13 +42,49 @@ struct DirectionalLight {
 uniform vec3 viewPosition;
 
 uniform int pointLightCount;
-uniform PointLight allPointLights[30];
+uniform float pointShadowFars[15];
+uniform samplerCube pointShadowMaps[15];
+uniform PointLight allPointLights[15];
 
 uniform int directionalLightCount;
-uniform DirectionalLight allDirectionalLights[30];
+uniform sampler2D directionalShadowMaps[15];
+uniform DirectionalLight allDirectionalLights[15];
+
+float ShadowCalculationDirectional(int lightIndex) {
+    // perform perspective divide
+    vec3 projCoords = directionalFragPosLightSpaces[lightIndex].xyz / directionalFragPosLightSpaces[lightIndex].w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(directionalShadowMaps[lightIndex], projCoords.xy).r; 
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // check whether current frag pos is in shadow
+	float bias = 0.5f;
+    float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
+	
+    return shadow;
+}  
+float ShadowCalculationPoint(int lightIndex) {
+    // get vector between fragment position and light position
+    vec3 fragToLight = fragPosition - allPointLights[lightIndex].position;
+    // ise the fragment to light vector to sample from the depth map    
+    float closestDepth = texture(pointShadowMaps[lightIndex], fragToLight).r;
+    // it is currently in linear range between [0,1], let's re-transform it back to original depth value
+    closestDepth *= pointShadowFars[lightIndex];
+    // now get current linear depth as the length between the fragment and light position
+    float currentDepth = length(fragToLight);
+    // test for shadows
+    float bias = 0.5f; // we use a much larger bias since depth is now in [near_plane, far_plane] range
+    float shadow = currentDepth -  bias > closestDepth ? 1.0 : 0.0;        
+    // display closestDepth as debug (to visualize depth cubemap)
+    // FragColor = vec4(vec3(closestDepth / far_plane), 1.0);    
+        
+    return shadow;
+}
 
 // Light Calculation Functions
-vec3 calculatePointLight(PointLight light, vec3 originalColour, vec3 normal, vec3 fragPosition, vec3 viewDirection) {
+vec3 calculatePointLight(PointLight light, vec3 originalColour, vec3 normal, vec3 fragPosition, vec3 viewDirection, int lightIndex) {
 	vec3 lightDirection = normalize(light.position - fragPosition);
 	
 	// diffuse
@@ -69,9 +106,11 @@ vec3 calculatePointLight(PointLight light, vec3 originalColour, vec3 normal, vec
 	diffuse = diffuse * attenuation;
 	specular = specular * attenuation;
 	
-	return (ambient + diffuse + specular) * originalColour;	
+	float shadow = ShadowCalculationPoint(lightIndex);                      
+        
+	return (ambient + (1.0f - shadow) * (diffuse + specular)) * originalColour;		
 }
-vec3 calculateDirectionalLight(DirectionalLight light, vec3 originalColour, vec3 normal, vec3 fragPosition, vec3 viewDirection) {
+vec3 calculateDirectionalLight(DirectionalLight light, vec3 originalColour, vec3 normal, vec3 fragPosition, vec3 viewDirection, int lightIndex) {
 	vec3 lightDirection = normalize(light.position - fragPosition);
 	
 	// diffuse 
@@ -99,20 +138,22 @@ vec3 calculateDirectionalLight(DirectionalLight light, vec3 originalColour, vec3
 	diffuse = diffuse * attenuation * overallIntensity;
 	specular = specular * attenuation * overallIntensity;
 	
-	return (ambient + diffuse + specular) * originalColour;	
-}
+	float shadow = ShadowCalculationDirectional(lightIndex);
+	
+	return (ambient + (1.0 - shadow) * (diffuse + specular)) * originalColour;
+}	
 
 void main(){
-	vec3 overallColour = texture(texture0, textureCoords) * vec4(colour, 1.0f)
+	vec4 overallColour = texture(texture0, textureCoords) * vec4(colour, 1.0f);
 	
 	vec3 originalColour = vec3(0.0f);
 	vec3 viewDirection = normalize(viewPosition - fragPosition);
 	
 	for(int i = 0; i < pointLightCount; i++) {
-		originalColour = originalColour + calculatePointLight(allPointLights[i], overallColour, normalCoords, fragPosition, viewDirection);
+		originalColour = originalColour + calculatePointLight(allPointLights[i], vec3(overallColour), normalCoords, fragPosition, viewDirection, i);
 	}
 	for(int i = 0; i < directionalLightCount; i++) {
-		originalColour = originalColour + calculateDirectionalLight(allDirectionalLights[i], overallColour, normalCoords, fragPosition, viewDirection);
+		originalColour = originalColour + calculateDirectionalLight(allDirectionalLights[i], vec3(overallColour), normalCoords, fragPosition, viewDirection, i);
 	}
 	
 	FragColor = vec4(originalColour, overallColour.w);

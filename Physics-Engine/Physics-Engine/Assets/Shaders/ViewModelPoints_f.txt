@@ -5,11 +5,6 @@ in vec4 directionalFragPosLightSpaces[15];
 out vec4 FragColor;
 
 uniform vec3 colour;
-uniform sampler2D directionalShadowMaps[15];
-uniform samplerCube pointShadowMaps[15];
-uniform float pointShadowFars[15];
-
-
 
 struct PointLight {
 	vec3 position;
@@ -45,11 +40,13 @@ struct DirectionalLight {
 uniform vec3 viewPosition;
 
 uniform int pointLightCount;
+uniform float pointShadowFars[15];
+uniform samplerCube pointShadowMaps[15];
 uniform PointLight allPointLights[15];
 
 uniform int directionalLightCount;
+uniform sampler2D directionalShadowMaps[15];
 uniform DirectionalLight allDirectionalLights[15];
-
 
 float ShadowCalculationDirectional(int lightIndex) {
     // perform perspective divide
@@ -61,7 +58,8 @@ float ShadowCalculationDirectional(int lightIndex) {
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
-    float shadow = currentDepth > closestDepth  ? 1.0 : 0.0;
+	float bias = 0.5f;
+    float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
 	
     return shadow;
 }  
@@ -75,15 +73,13 @@ float ShadowCalculationPoint(int lightIndex) {
     // now get current linear depth as the length between the fragment and light position
     float currentDepth = length(fragToLight);
     // test for shadows
-    float bias = 0.05; // we use a much larger bias since depth is now in [near_plane, far_plane] range
+    float bias = 0.5f; // we use a much larger bias since depth is now in [near_plane, far_plane] range
     float shadow = currentDepth -  bias > closestDepth ? 1.0 : 0.0;        
     // display closestDepth as debug (to visualize depth cubemap)
     // FragColor = vec4(vec3(closestDepth / far_plane), 1.0);    
         
     return shadow;
 }
-
-
 
 // Light Calculation Functions
 vec3 calculatePointLight(PointLight light, vec3 originalColour, vec3 normal, vec3 fragPosition, vec3 viewDirection, int lightIndex) {

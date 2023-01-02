@@ -56,7 +56,7 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	newViewModela.verticesType = VERTICES_POINTS_ONLY;
 	newViewModela.LoadOBJ("Assets/cube.obj");
 	backWal->AddComponent(&newViewModela, "ViewModel");
-
+	
 	Object* newObject = loadedScenes[0].CreateSceneObject("Adam");
 	Transform newTranform = Transform();
 	newTranform.position = vec3(0.0f, 0.0f, -25.0f);
@@ -64,8 +64,9 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	newObject->AddComponent(&newTranform, "Transform");
 	ViewModel newViewModel = ViewModel();
 	newViewModel.ObjectColour = vec3(1.0f, 1.0f, 1.0f);
-	newViewModel.verticesType = VERTICES_POINTS_ONLY;
-	newViewModel.LoadOBJ("Assets/cube.obj");
+	newViewModel.verticesType = VERTICES_POINTS_TEXTURE;
+	newViewModel.LoadOBJ("Assets/textured.obj");
+	newViewModel.ObjectTextureID = LoadTexture("Assets/a.png");
 	newObject->AddComponent(&newViewModel, "ViewModel");
 	Collider c = Collider();
 	newObject->AddComponent(&c, "Collider");
@@ -100,10 +101,9 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	lt.position = vec3(0.0f);
 	lightObject->AddComponent(&lt, "Transform");
 	PointLight newLight = PointLight();
-	
-	newLight.intensity = 20.0f;
+	newLight.intensity = 15.0f;
 	lightObject->AddComponent(&newLight, "PointLight");
-		
+	
 	// Run Mainloop
 	EngineMainloop();
 }
