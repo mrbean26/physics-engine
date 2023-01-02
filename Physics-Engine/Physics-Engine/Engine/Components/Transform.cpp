@@ -33,7 +33,7 @@ void Transform::Mainloop() {
 				continue;
 			}
 
-			Transform* secondTransform = it->second.GetComponent<Transform*>("Transform");
+			Transform* secondTransform = it->second.GetComponent<Transform*>();
 			UpdateGravityElectricalForce(secondTransform);
 		}
 	}

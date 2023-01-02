@@ -61,7 +61,7 @@ vector<mat4> PointLight::ShadowTransforms() {
 	mat4 shadowProjection = perspective(radians(90.0f), 1.0f, near, far);
 
 	// Views
-	Transform* objectTransform = parentObject->GetComponent<Transform*>("Transform");
+	Transform* objectTransform = parentObject->GetComponent<Transform*>();
 
 	mat4 viewOne = lookAt(objectTransform->position, objectTransform->position + vec3(1.0f, 0.0f, 0.0f), vec3(0.0f, -1.0f, 0.0f));
 	mat4 viewTwo = lookAt(objectTransform->position, objectTransform->position + vec3(-1.0f, 0.0f, 0.0f), vec3(0.0f, -1.0f, 0.0f));
@@ -97,7 +97,7 @@ void PointLight::RenderCubeMap() {
 		SetShaderMat4(cubemapShader, name.data(), shadowMatrices[i]);
 	}
 
-	Transform* parentTransform = parentObject->GetComponent<Transform*>("Transform");
+	Transform* parentTransform = parentObject->GetComponent<Transform*>();
 
 	SetShaderFloat(cubemapShader, "far_plane", far);
 	SetShaderVec3(cubemapShader, "lightPos", parentTransform->position);
@@ -108,8 +108,8 @@ void PointLight::RenderCubeMap() {
 
 	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
 		if (it->second.HasComponent("ViewModel")) {
-			ViewModel* currentViewModel = it->second.GetComponent<ViewModel*>("ViewModel");
-			Transform* currentTransform = it->second.GetComponent<Transform*>("Transform");
+			ViewModel* currentViewModel = it->second.GetComponent<ViewModel*>();
+			Transform* currentTransform = it->second.GetComponent<Transform*>();
 
 			glBindVertexArray(currentViewModel->ObjectVAO);
 			SetShaderMat4(cubemapShader, "model", currentTransform->getModelMatrix());
@@ -131,8 +131,8 @@ void PointLight::ApplyPointLights(int shaderValue) {
 
 	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
 		if (it->second.HasComponent("PointLight")) {
-			PointLight* currentPointLight = it->second.GetComponent<PointLight*>("PointLight");
-			Transform* currentLightTransform = it->second.GetComponent<Transform*>("Transform");
+			PointLight* currentPointLight = it->second.GetComponent<PointLight*>();
+			Transform* currentLightTransform = it->second.GetComponent<Transform*>();
 			string overallString = "allPointLights[" + to_string(lightCount) + "].";
 
 			SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->position);

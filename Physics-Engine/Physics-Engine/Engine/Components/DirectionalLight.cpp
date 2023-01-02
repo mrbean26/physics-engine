@@ -64,8 +64,8 @@ void DirectionalLight::RenderDepthMap() {
 	
 	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
 		if (it->second.HasComponent("ViewModel")) {
-			ViewModel* currentViewModel = it->second.GetComponent<ViewModel*>("ViewModel");
-			Transform* currentTransform = it->second.GetComponent<Transform*>("Transform");
+			ViewModel* currentViewModel = it->second.GetComponent<ViewModel*>();
+			Transform* currentTransform = it->second.GetComponent<Transform*>();
 
 			glBindVertexArray(currentViewModel->ObjectVAO);
 			SetShaderMat4(depthMapShader, "model", currentTransform->getModelMatrix());
@@ -82,7 +82,7 @@ void DirectionalLight::RenderDepthMap() {
 vec3 DirectionalLight::LightTarget() {
 	vec3 direction = vec3(0.0f, 0.0f, -1.0f);
 
-	Transform* parentTransform = parentObject->GetComponent<Transform*>("Transform");
+	Transform* parentTransform = parentObject->GetComponent<Transform*>();
 
 	mat4 rotationalMatrix = mat4(1.0f);
 	rotationalMatrix = rotate(rotationalMatrix, -radians(parentTransform->rotation.x), vec3(0.0f, 1.0f, 0.0f));
@@ -97,7 +97,7 @@ mat4 DirectionalLight::LightSpaceMatrix() {
 	mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
 
 	// View
-	Transform* parentTransform = parentObject->GetComponent<Transform*>("Transform");
+	Transform* parentTransform = parentObject->GetComponent<Transform*>();
 
 
 	mat4 lightView = glm::lookAt(parentTransform->position, LightTarget(), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -115,8 +115,8 @@ void DirectionalLight::ApplyDirectionalLights(int shaderValue) {
 
 	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
 		if (it->second.HasComponent("DirectionalLight")) {
-			DirectionalLight* currentDirectionalLight = it->second.GetComponent<DirectionalLight*>("DirectionalLight");
-			Transform* currentLightTransform = it->second.GetComponent<Transform*>("Transform");
+			DirectionalLight* currentDirectionalLight = it->second.GetComponent<DirectionalLight*>();
+			Transform* currentLightTransform = it->second.GetComponent<Transform*>();
 			string overallString = "allDirectionalLights[" + to_string(lightCount) + "].";
 
 			SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->position);

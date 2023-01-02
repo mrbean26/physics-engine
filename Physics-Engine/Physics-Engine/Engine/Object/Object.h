@@ -7,8 +7,7 @@ using namespace std;
 
 #include <Engine/Object/Component.h>
 
-#include <iostream>
-using namespace std;
+#include <Engine/Background/FileLoading.h>
 
 #include <Engine/Components/Camera.h>
 #include <Engine/Components/Collider.h>
@@ -16,6 +15,14 @@ using namespace std;
 #include <Engine/Components/PointLight.h>
 #include <Engine/Components/Transform.h>
 #include <Engine/Components/ViewModel.h>
+
+/*
+----ADDING A NEW COMPONENT---
+Include here
+Add to AllComponents struct below
+Add to CreateComponent method in object.cpp
+Try not to include engine.h in the component header, and if needed in cpp file, include first
+*/
 
 struct AllComponents {
 	Camera camera;
@@ -26,6 +33,11 @@ struct AllComponents {
 	ViewModel viewModel;
 };
 
+Component* CreateComponent(AllComponents* objectComponents, string componentName);
+
+#include <iostream>
+using namespace std;
+
 class Object {
 public:
 	const char* name;
@@ -34,18 +46,29 @@ public:
 	void ObjectMainloop();
 	
 	AllComponents allComponents;
-	map<const char*, Component*> components;
-	bool HasComponent(const char* name);
+	map<string, Component*> components;
+	bool HasComponent(string name);
 
-	void AddComponent(const char * name);
-	template<typename T> T GetComponent(const char* name) {
-		if (components.find(name) != components.end()) {
-			return (T) (components[name]);
+	//void AddComponent(string name);
+	template<typename T> void AddComponent() {
+		string templateName = typeid(T).name();
+		string componentName = templateName.substr(6, templateName.size() - 6);
+		
+		Component * newComponent = CreateComponent(&allComponents, componentName);
+		newComponent->componentObjectParentName = name;
+		newComponent->parentObject = this;
+		components.insert(make_pair(componentName, newComponent));
+	}
+
+	template<typename T> T GetComponent() {
+		string templateName = typeid(T).name();
+		string componentName = templateName.substr(6, templateName.find("*") - 6 - 1);
+
+		if (components.find(componentName) != components.end()) {
+			return (T) (components[componentName]);
 		}
-
 		// create exception
-		string componentName(name);
-		cout << componentName << endl;
+		cout << "Unfound component:" << componentName.data() << endl;
 		throw ("Component with name " + componentName + " not found.").data();
 	}
 };

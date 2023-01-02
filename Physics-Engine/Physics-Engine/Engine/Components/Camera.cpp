@@ -11,7 +11,7 @@ mat4 Camera::viewMatrix() {
 	projectionMatrix = perspective(radians(45.0f), PhysicsEngine::displayWidth / PhysicsEngine::displayHeight, nearViewProjection, farViewProjection);
 	
 	// View
-	Transform* cameraTransform = parentObject->GetComponent<Transform*>("Transform");
+	Transform* cameraTransform = parentObject->GetComponent<Transform*>();
 
 	vec3 cameraPosition = cameraTransform->position;
 	vec3 cameraRotation = cameraTransform->rotation;

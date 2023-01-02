@@ -47,20 +47,20 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 
 	
 	Object* cameraObject = loadedScenes[0].CreateSceneObject("Adam");
-	cameraObject->AddComponent("Transform");
-	cameraObject->AddComponent("Camera");
-	cameraObject->AddComponent("PointLight");
-	cameraObject->GetComponent<PointLight*>("PointLight")->intensity = 50.0f;
+	cameraObject->AddComponent<Transform>();
+	cameraObject->AddComponent<Camera>();
+	cameraObject->AddComponent<PointLight>();
+	cameraObject->GetComponent<PointLight*>()->intensity = 50.0f;
 	
-	loadedScenes[0].mainCamera = cameraObject->GetComponent<Camera*>("Camera");
+	loadedScenes[0].mainCamera = cameraObject->GetComponent<Camera*>();
 
 	Object* viewObject = loadedScenes[0].CreateSceneObject("Toby");
-	viewObject->AddComponent("Transform");
-	viewObject->AddComponent("ViewModel");
-	viewObject->GetComponent<ViewModel*>("ViewModel")->verticesType = VERTICES_POINTS_ONLY;
-	viewObject->GetComponent<ViewModel*>("ViewModel")->LoadOBJ("assets/cube.obj");
-	viewObject->GetComponent<ViewModel*>("ViewModel")->ObjectColour = vec3(1.0f);
-	viewObject->GetComponent<Transform*>("Transform")->position = vec3(0.0f, 0.0f, -25.0f);
+	viewObject->AddComponent<Transform>();
+	viewObject->AddComponent<ViewModel>();
+	viewObject->GetComponent<ViewModel*>()->verticesType = VERTICES_POINTS_ONLY;
+	viewObject->GetComponent<ViewModel*>()->LoadOBJ("assets/cube.obj");
+	viewObject->GetComponent<ViewModel*>()->ObjectColour = vec3(1.0f);
+	viewObject->GetComponent<Transform*>()->position = vec3(0.0f, 0.0f, -25.0f);
 	
 	
 	// Run Mainloop
