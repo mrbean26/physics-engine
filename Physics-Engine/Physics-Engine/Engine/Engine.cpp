@@ -11,9 +11,9 @@
 #include <Engine/Components/PointLight.h>
 #include <Engine/Components/DirectionalLight.h>
 
-PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool fullscreen) {
+PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool fullscreen, Scene initialScene) {
 	// Initialise An Empty Scene
-	loadedScenes.push_back(Scene());
+	loadedScenes.push_back(initialScene);
 	
 	// Initialise Graphics
 	if (!glfwInit()) { return; }
@@ -44,24 +44,6 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
-
-	
-	Object* cameraObject = loadedScenes[0].CreateSceneObject("Adam");
-	cameraObject->AddComponent<Transform>();
-	cameraObject->AddComponent<Camera>();
-	cameraObject->AddComponent<PointLight>();
-	cameraObject->GetComponent<PointLight*>()->intensity = 50.0f;
-	
-	loadedScenes[0].mainCamera = cameraObject->GetComponent<Camera*>();
-
-	Object* viewObject = loadedScenes[0].CreateSceneObject("Toby");
-	viewObject->AddComponent<Transform>();
-	viewObject->AddComponent<ViewModel>();
-	viewObject->GetComponent<ViewModel*>()->verticesType = VERTICES_POINTS_ONLY;
-	viewObject->GetComponent<ViewModel*>()->LoadOBJ("assets/cube.obj");
-	viewObject->GetComponent<ViewModel*>()->ObjectColour = vec3(1.0f);
-	viewObject->GetComponent<Transform*>()->position = vec3(0.0f, 0.0f, -25.0f);
-	
 	
 	// Run Mainloop
 	EngineMainloop();
@@ -86,6 +68,23 @@ void PhysicsEngine::EngineMainloop() {
 }
 void PhysicsEngine::StopEngine() {
 	glfwTerminate();
+}
+
+void PhysicsEngine::AddScene(Scene newScene) {
+	loadedScenes.push_back(newScene);
+}
+void PhysicsEngine::LoadScene(string name) {
+	int sceneCount = loadedScenes.size();
+
+	for (int i = 0; i < sceneCount; i++) {
+		if (loadedScenes[i].name == name) {
+			currentScene = i;
+			return;
+		}
+	}
+
+	// Scene not found
+	throw ("Scene with name: " + name + " not found.").data();
 }
 
 mat4 PhysicsEngine::viewMatrix() {

@@ -14,7 +14,7 @@ using namespace std;
 
 class PhysicsEngine {
 public:
-	PhysicsEngine(const char* title, int width, int height, bool fullscreen);
+	PhysicsEngine(const char* title, int width, int height, bool fullscreen, Scene initialScene);
 
 	void EngineMainloop();
 	void StopEngine();
@@ -27,6 +27,9 @@ public:
 	inline static float deltaTime;
 	inline static float runtime;
 	inline static int frameNumber = 0;
+
+	void AddScene(Scene newScene);
+	void LoadScene(string name);
 
 	inline static vector<Scene> loadedScenes;
 	inline static int currentScene = 0;

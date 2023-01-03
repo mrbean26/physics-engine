@@ -7,7 +7,8 @@ using namespace std;
 
 class Scene {
 public:
-	Scene();
+	Scene(string newName);
+	string name;
 	void SceneMainloop();
 
 	map<const char*, Object> SceneObjects;

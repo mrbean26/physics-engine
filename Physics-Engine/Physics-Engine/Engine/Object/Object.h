@@ -67,6 +67,18 @@ public:
 		newComponent->parentObject = this;
 		components.insert(make_pair(componentName, newComponent));
 	}
+	template<typename T> void RemoveComponent() {
+		string templateName = typeid(T).name();
+		string componentName = templateName.substr(6, templateName.size() - 6);
+
+		if (components.find(componentName) != components.end()) {
+			components.erase(componentName);
+			return;
+		}
+		// create exception
+		cout << "Unfound component:" << componentName.data() << endl;
+		throw ("Component with name " + componentName + " not found.").data();
+	}
 	template<typename T> T GetComponent() {
 		string templateName = typeid(T).name();
 		string componentName = templateName.substr(6, templateName.find("*") - 6 - 1);

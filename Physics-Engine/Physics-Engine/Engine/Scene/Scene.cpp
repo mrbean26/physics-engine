@@ -3,8 +3,8 @@
 #include <iostream>
 using namespace std;
 
-Scene::Scene() {
-
+Scene::Scene(string newName) {
+	name = newName;
 }
 void Scene::SceneMainloop() {
 	// Run Mainloop of All Objects
@@ -16,12 +16,11 @@ void Scene::SceneMainloop() {
 Object * Scene::CreateSceneObject(const char * name) {
 	Object newSceneObject = Object();
 	newSceneObject.name = name;
-
-	//Transform newTransform = Transform();
-	//newSceneObject.AddComponent(&newTransform, "Transform");
-
+	
 	// insert
 	SceneObjects.insert(make_pair(name, newSceneObject));
+	SceneObjects[name].AddComponent<Transform>();
+
 	return &SceneObjects[name];
 }
 Object * Scene::GetSceneObjectByID(const char * name) {

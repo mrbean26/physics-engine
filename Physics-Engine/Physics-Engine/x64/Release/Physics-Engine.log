@@ -1,19 +1,9 @@
-﻿  Collider.cpp
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Collider.cpp(25,53): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Collider.cpp(38,53): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Collider.cpp(99,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Collider.cpp(112,47): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Collider.cpp(182,43): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  DirectionalLight.cpp
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\DirectionalLight.cpp(79,63): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\DirectionalLight.cpp(79,34): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-  PointLight.cpp
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\PointLight.cpp(123,63): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\PointLight.cpp(123,34): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+﻿  main.cpp
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  All 1298 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  7 of 1308 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    76 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
   Physics-Engine.vcxproj -> D:\Projects\Physics Engine\Physics-Engine\x64\Release\Physics-Engine.exe
