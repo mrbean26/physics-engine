@@ -172,7 +172,7 @@ void Collider::updateCollisions() {
 		}
 
 		// check for collision
-		if (it->second.HasComponent("Collider")) {
+		if (it->second.HasComponent<Collider>()) {
 			Collider* secondCollider = it->second.GetComponent<Collider*>();
 			secondCollider->updateMatrixVertices();
 

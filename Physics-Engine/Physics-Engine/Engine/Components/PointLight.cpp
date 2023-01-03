@@ -107,7 +107,7 @@ void PointLight::RenderCubeMap() {
 	map<const char*, Object>* sceneObjects = &currentScene->SceneObjects;
 
 	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
-		if (it->second.HasComponent("ViewModel")) {
+		if (it->second.HasComponent<ViewModel>()) {
 			ViewModel* currentViewModel = it->second.GetComponent<ViewModel*>();
 			Transform* currentTransform = it->second.GetComponent<Transform*>();
 
@@ -130,7 +130,7 @@ void PointLight::ApplyPointLights(int shaderValue) {
 	map<const char*, Object>* sceneObjects = &currentScene->SceneObjects;
 
 	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
-		if (it->second.HasComponent("PointLight")) {
+		if (it->second.HasComponent<PointLight>()) {
 			PointLight* currentPointLight = it->second.GetComponent<PointLight*>();
 			Transform* currentLightTransform = it->second.GetComponent<Transform*>();
 			string overallString = "allPointLights[" + to_string(lightCount) + "].";

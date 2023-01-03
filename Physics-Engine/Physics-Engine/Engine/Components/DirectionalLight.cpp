@@ -63,7 +63,7 @@ void DirectionalLight::RenderDepthMap() {
 	map<const char*, Object>* sceneObjects = &currentScene->SceneObjects;
 	
 	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
-		if (it->second.HasComponent("ViewModel")) {
+		if (it->second.HasComponent<ViewModel>()) {
 			ViewModel* currentViewModel = it->second.GetComponent<ViewModel*>();
 			Transform* currentTransform = it->second.GetComponent<Transform*>();
 
@@ -114,7 +114,7 @@ void DirectionalLight::ApplyDirectionalLights(int shaderValue) {
 	map<const char*, Object>* sceneObjects = &currentScene->SceneObjects;
 
 	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
-		if (it->second.HasComponent("DirectionalLight")) {
+		if (it->second.HasComponent<DirectionalLight>()) {
 			DirectionalLight* currentDirectionalLight = it->second.GetComponent<DirectionalLight*>();
 			Transform* currentLightTransform = it->second.GetComponent<Transform*>();
 			string overallString = "allDirectionalLights[" + to_string(lightCount) + "].";

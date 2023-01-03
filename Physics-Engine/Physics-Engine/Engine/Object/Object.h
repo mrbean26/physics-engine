@@ -47,9 +47,17 @@ public:
 	
 	AllComponents allComponents;
 	map<string, Component*> components;
-	bool HasComponent(string name);
 
-	//void AddComponent(string name);
+	// Template functions
+	template<typename T> bool HasComponent() {
+		string templateName = typeid(T).name();
+		string componentName = templateName.substr(6, templateName.size() - 6);
+
+		if (components.find(componentName) != components.end()) {
+			return true;
+		}
+		return false;
+	}
 	template<typename T> void AddComponent() {
 		string templateName = typeid(T).name();
 		string componentName = templateName.substr(6, templateName.size() - 6);
@@ -59,7 +67,6 @@ public:
 		newComponent->parentObject = this;
 		components.insert(make_pair(componentName, newComponent));
 	}
-
 	template<typename T> T GetComponent() {
 		string templateName = typeid(T).name();
 		string componentName = templateName.substr(6, templateName.find("*") - 6 - 1);
