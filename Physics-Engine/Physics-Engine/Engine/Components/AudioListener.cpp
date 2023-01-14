@@ -87,7 +87,15 @@ void AudioListener::UpdateSourceVolumes() {
 				leftIntensity = 0.0f;
 			}
 
-			cout << "LEFT:   " << leftIntensity << "        " << "RIGHT:   " << rightIntensity << endl;
+			// Calculate intensity decrease due to distance
+			float distance = glm::distance(listenerPosition, currentTransform->position);
+			float distanceIntensityMultiplier = 1.0f / (currentAudioSource->attenuationConstant + currentAudioSource->attenuationLinear * distance + currentAudioSource->attenuationQuadratic * powf(distance, 2.0f));
+
+			// Overall intensities
+			rightIntensity = rightIntensity * distanceIntensityMultiplier;
+			leftIntensity = leftIntensity * distanceIntensityMultiplier;
+
+
 		}
 	}
 }
