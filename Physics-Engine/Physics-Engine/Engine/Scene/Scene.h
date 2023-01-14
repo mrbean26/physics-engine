@@ -16,4 +16,5 @@ public:
 	Object * GetSceneObjectByID(const char * name);
 
 	Camera* mainCamera;
+	AudioListener* mainAudioListener;
 };

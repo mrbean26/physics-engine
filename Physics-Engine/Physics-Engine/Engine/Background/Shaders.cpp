@@ -58,6 +58,10 @@ void SetShaderFloat(int shader, const char* floatName, float usedFloat) {
 	glUniform1f(location, usedFloat);
 }
 
+void OutputVec3(vec3 input) {
+	cout << input.x << " " << input.y << " " << input.z << endl;
+}
+
 GLuint LoadTexture(const char* filePath) {
 	// Load Image Data
 	int width, height, channels;

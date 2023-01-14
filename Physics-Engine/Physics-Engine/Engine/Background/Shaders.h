@@ -17,4 +17,6 @@ void SetShaderMat4(int shader, const char* matrixName, mat4 usedMatrix);
 void SetShaderVec3(int shader, const char* vectorName, vec3 usedVector);
 void SetShaderFloat(int shader, const char* floatName, float usedFloat);
 
+void OutputVec3(vec3 input);
+
 GLuint LoadTexture(const char* filePath);

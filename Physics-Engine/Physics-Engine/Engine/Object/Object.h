@@ -15,6 +15,8 @@ using namespace std;
 #include <Engine/Components/PointLight.h>
 #include <Engine/Components/Transform.h>
 #include <Engine/Components/ViewModel.h>
+#include <Engine/Components/AudioListener.h>
+#include <Engine/Components/AudioSource.h>
 
 /*
 ----ADDING A NEW COMPONENT---
@@ -31,6 +33,8 @@ struct AllComponents {
 	PointLight pointLight;
 	Transform transform;
 	ViewModel viewModel;
+	AudioListener audioListener;
+	AudioSource audioSource;
 };
 
 Component* CreateComponent(AllComponents* objectComponents, string componentName);

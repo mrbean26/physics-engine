@@ -23,6 +23,6 @@ mat4 Camera::viewMatrix() {
 	viewMatrix = rotate(viewMatrix, radians(cameraRotation.z), vec3(0.0f, 0.0f, 1.0f));
 	
 	viewMatrix = translate(viewMatrix, -cameraPosition);
-	
+
 	return projectionMatrix * viewMatrix;
 }

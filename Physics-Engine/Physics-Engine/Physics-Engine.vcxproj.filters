@@ -69,6 +69,12 @@
     <ClCompile Include="Engine\Components\PointLight.cpp">
       <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Components\AudioListener.cpp">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\AudioSource.cpp">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -105,6 +111,12 @@
       <Filter>Source Files\Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Components\PointLight.h">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\AudioListener.h">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\AudioSource.h">
       <Filter>Source Files\Engine\Components</Filter>
     </ClInclude>
   </ItemGroup>

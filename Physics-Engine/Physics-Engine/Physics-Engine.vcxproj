@@ -149,6 +149,8 @@
   <ItemGroup>
     <ClCompile Include="Engine\Background\FileLoading.cpp" />
     <ClCompile Include="Engine\Background\Shaders.cpp" />
+    <ClCompile Include="Engine\Components\AudioListener.cpp" />
+    <ClCompile Include="Engine\Components\AudioSource.cpp" />
     <ClCompile Include="Engine\Components\Camera.cpp" />
     <ClCompile Include="Engine\Components\Collider.cpp" />
     <ClCompile Include="Engine\Components\DirectionalLight.cpp" />
@@ -164,6 +166,8 @@
   <ItemGroup>
     <ClInclude Include="Engine\Background\FileLoading.h" />
     <ClInclude Include="Engine\Background\Shaders.h" />
+    <ClInclude Include="Engine\Components\AudioListener.h" />
+    <ClInclude Include="Engine\Components\AudioSource.h" />
     <ClInclude Include="Engine\Components\Camera.h" />
     <ClInclude Include="Engine\Components\Collider.h" />
     <ClInclude Include="Engine\Components\DirectionalLight.h" />

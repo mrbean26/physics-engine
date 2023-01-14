@@ -30,6 +30,14 @@ Component* CreateComponent(AllComponents* objectComponents, string componentName
 		objectComponents->viewModel = ViewModel();
 		newComponent = &objectComponents->viewModel;
 	}
+	if (componentName == "AudioSource") {
+		objectComponents->audioSource = AudioSource();
+		newComponent = &objectComponents->audioSource;
+	}
+	if (componentName == "AudioListener") {
+		objectComponents->audioListener = AudioListener();
+		newComponent = &objectComponents->audioListener;
+	}
 
 	return newComponent;
 }
