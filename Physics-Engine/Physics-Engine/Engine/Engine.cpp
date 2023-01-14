@@ -44,6 +44,17 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
+
+	// Initialise OpenAL
+	mainAudioDevice = alcOpenDevice(NULL);
+	audioContext = alcCreateContext(mainAudioDevice, NULL);
+	alcMakeContextCurrent(audioContext);
+
+	ALenum errorCheck = alGetError();
+	if (errorCheck != AL_NO_ERROR) {
+		cout << "OpenAL Error." << endl;
+		return;
+	}
 	
 	// Run Mainloop
 	EngineMainloop();

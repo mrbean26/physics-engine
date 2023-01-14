@@ -6,6 +6,9 @@ using namespace std;
 #include <OpenGL/GLEW/glew.h>
 #include <OpenGL/GLFW/glfw3.h>
 
+#include <AL/al.h>
+#include <AL/alc.h>
+
 #include <Engine/Scene/Scene.h>
 
 #include <GLM/glm.hpp>
@@ -19,6 +22,7 @@ public:
 	void EngineMainloop();
 	void StopEngine();
 
+	// Display
 	inline static float displayWidth;
 	inline static float displayHeight;
 
@@ -28,6 +32,11 @@ public:
 	inline static float runtime;
 	inline static int frameNumber = 0;
 
+	// Audio
+	ALCdevice* mainAudioDevice;
+	ALCcontext* audioContext;
+
+	// Scenes
 	void AddScene(Scene newScene);
 	void LoadScene(string name);
 
