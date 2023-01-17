@@ -5,6 +5,4 @@
 class AudioListener : public Component {
 public:
 	void Mainloop();
-
-	void UpdateSourceVolumes();
 };

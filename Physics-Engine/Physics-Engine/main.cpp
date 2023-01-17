@@ -27,6 +27,7 @@ int main(void) {
 
 	Object* viewObject = newScene.CreateSceneObject("Toby");
 	viewObject->AddComponent<AudioSource>();
+	viewObject->GetComponent<AudioSource*>()->audioFileMP3Filename = "Assets/tone.mp3";
 	viewObject->AddComponent<ViewModel>();
 	viewObject->GetComponent<ViewModel*>()->verticesType = VERTICES_POINTS_ONLY;
 	viewObject->GetComponent<ViewModel*>()->LoadOBJ("assets/cube.obj");

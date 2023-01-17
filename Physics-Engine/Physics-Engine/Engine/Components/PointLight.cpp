@@ -58,7 +58,7 @@ void PointLight::InitialiseCubeMap() {
 
 vector<mat4> PointLight::ShadowTransforms() {
 	// Projection
-	mat4 shadowProjection = perspective(radians(90.0f), 1.0f, near, far);
+	mat4 shadowProjection = perspective(radians(90.0f), 1.0f, nearLight, farLight);
 
 	// Views
 	Transform* objectTransform = parentObject->GetComponent<Transform*>();
@@ -99,7 +99,7 @@ void PointLight::RenderCubeMap() {
 
 	Transform* parentTransform = parentObject->GetComponent<Transform*>();
 
-	SetShaderFloat(cubemapShader, "far_plane", far);
+	SetShaderFloat(cubemapShader, "far_plane", farLight);
 	SetShaderVec3(cubemapShader, "lightPos", parentTransform->position);
 	
 	// Draw
@@ -150,7 +150,7 @@ void PointLight::ApplyPointLights(int shaderValue) {
 			glActiveTexture(GL_TEXTURE16 + lightCount);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, currentPointLight->depthCubemap);
 			SetShaderInt(shaderValue, ("pointShadowMaps[" + to_string(lightCount) + "]").data(), 16 + lightCount);
-			SetShaderFloat(shaderValue, ("pointShadowFars[" + to_string(lightCount) + "]").data(), currentPointLight->far);
+			SetShaderFloat(shaderValue, ("pointShadowFars[" + to_string(lightCount) + "]").data(), currentPointLight->farLight);
 
 			lightCount = lightCount + 1;
 		}

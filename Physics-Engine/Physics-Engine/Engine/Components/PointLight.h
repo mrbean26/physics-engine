@@ -17,8 +17,8 @@ public:
 	void Initialise();
 
 	// Shadows
-	float near = 1.0f;
-	float far = 50.0f;
+	float nearLight = 1.0f;
+	float farLight = 50.0f;
 
 	inline static GLuint cubemapShader = -1;
 	GLuint depthCubemap;
