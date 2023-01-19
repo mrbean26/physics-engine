@@ -1,0 +1,12 @@
+#version 330 core
+
+layout(location = 0) in vec3 vertex;
+layout(location = 1) in vec2 uvCoordinate;
+
+out vec2 uvPosition;
+uniform mat4 model;
+
+void main(){
+    gl_Position = model * vec4(vertex, 1.0f);
+	uvPosition = uvCoordinate;
+}

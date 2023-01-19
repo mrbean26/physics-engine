@@ -19,6 +19,8 @@ void ViewModel::Initialise() {
 		return;
 	}
 	
+	ObjectTextureID = LoadTexture(texturePath.data());
+
 	// Set Shaders To Uninitialised
 	initialiseShader();
 	InitialiseVertices();

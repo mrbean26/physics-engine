@@ -34,6 +34,7 @@ public:
 
 	// Texture
 	inline static GLuint ViewModelPointsTextureShader = -1;
+	string texturePath;
 	GLuint ObjectTextureID;
 
 	void initialiseShader();

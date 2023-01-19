@@ -17,13 +17,14 @@ using namespace std;
 #include <Engine/Components/ViewModel.h>
 #include <Engine/Components/AudioListener.h>
 #include <Engine/Components/AudioSource.h>
+#include <Engine/Components/Button.h>
 
 /*
 ----ADDING A NEW COMPONENT---
 Include here
 Add to AllComponents struct below
 Add to CreateComponent method in object.cpp
-Try not to include engine.h in the component header, and if needed in cpp file, include first
+Include Engine.h first in componentName.cpp
 */
 
 struct AllComponents {
@@ -35,6 +36,7 @@ struct AllComponents {
 	ViewModel viewModel;
 	AudioListener audioListener;
 	AudioSource audioSource;
+	Button button;
 };
 
 Component* CreateComponent(AllComponents* objectComponents, string componentName);

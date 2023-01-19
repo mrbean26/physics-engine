@@ -1,0 +1,10 @@
+#version 330 core
+in vec2 uvPosition;
+out vec4 FragColor;
+
+uniform sampler2D texture0;
+uniform vec3 colour;
+
+void main(){
+	FragColor = texture(texture0, uvPosition) * vec4(colour, 1.0f);
+}

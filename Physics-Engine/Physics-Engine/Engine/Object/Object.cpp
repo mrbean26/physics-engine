@@ -38,6 +38,10 @@ Component* CreateComponent(AllComponents* objectComponents, string componentName
 		objectComponents->audioListener = AudioListener();
 		newComponent = &objectComponents->audioListener;
 	}
+	if (componentName == "Button") {
+		objectComponents->button = Button();
+		newComponent = &objectComponents->button;
+	}
 
 	return newComponent;
 }
