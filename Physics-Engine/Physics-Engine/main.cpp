@@ -9,7 +9,6 @@ int main(void) {
 	cameraObject->GetComponent<Transform*>()->scale = vec3(0.5f);
 	
 	cameraObject->AddComponent<Text>();
-	cameraObject->GetComponent<Text*>()->FontFilePath = "Assets/purplesmile.ttf";
 
 	newScene.mainCamera = cameraObject->GetComponent<Camera*>();
 

@@ -21,7 +21,7 @@ public:
 	void Mainloop();
 	void Initialise();
 
-	string FontFilePath;
+	string FontFilePath = "Assets/Defaults/Font.ttf";
 	map<GLchar, Character> * FontCharacters;
 
 	inline static FT_Library FreetypeLibrary;

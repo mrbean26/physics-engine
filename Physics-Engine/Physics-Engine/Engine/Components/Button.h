@@ -19,7 +19,7 @@ public:
 	inline static GLuint ButtonShader = -1;
 
 	GLuint ButtonTextureID;
-	string texturePath;
+	string texturePath = "Assets/Defaults/Texture.png";
 	
 	vec3 ButtonColour = vec3(1.0f);
 
