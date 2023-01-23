@@ -30,6 +30,11 @@ mat4 Button::GetUIMatrix() {
 	vec3 newScale = objectTransform->scale * vec3(PhysicsEngine::displayHeight / PhysicsEngine::displayWidth, 1.0f, 1.0f);
 	newModelMatrix = scale(newModelMatrix, newScale);
 
+	vec3 rotation = objectTransform->rotation;
+	newModelMatrix = rotate(newModelMatrix, radians(rotation.x), vec3(1.0f, 0.0f, 0.0f));
+	newModelMatrix = rotate(newModelMatrix, radians(rotation.y), vec3(0.0f, 1.0f, 0.0f));
+	newModelMatrix = rotate(newModelMatrix, radians(rotation.z), vec3(0.0f, 0.0f, 1.0f));
+
 	return newModelMatrix;
 }
 void Button::Render() {

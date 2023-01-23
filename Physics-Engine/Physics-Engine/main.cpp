@@ -7,6 +7,7 @@ int main(void) {
 	cameraObject->AddComponent<Camera>();
 	cameraObject->GetComponent<Transform*>()->position = vec3(0.5f, 0.0f, 0.0f);
 	cameraObject->GetComponent<Transform*>()->scale = vec3(0.5f);
+	cameraObject->GetComponent<Transform*>()->rotation = vec3(0.0f, 0.0f, -45.0f);
 	cameraObject->AddComponent<Button>();
 	cameraObject->GetComponent<Button*>()->texturePath= "Assets/a.png";
 
