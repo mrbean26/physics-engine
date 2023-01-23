@@ -2,6 +2,9 @@
 
 #include <Engine/Object/Component.h>
 
+#include <map>
+using namespace std;
+
 #include <Freetype/ft2build.h>
 #include FT_FREETYPE_H
 
@@ -16,7 +19,14 @@ struct Character {
 class Text : public Component {
 public:
 	void Mainloop();
+	void Initialise();
 
-	string fontFilePath;
-	map<GLchar, Character> * fontCharacters;
+	string FontFilePath;
+	map<GLchar, Character> * FontCharacters;
+
+	inline static FT_Library FreetypeLibrary;
+	inline static bool FreetypeInitialised = false;
+
+	inline static map<string, map<GLchar, Character>> AllFonts;
+	inline static map<GLchar, Character> * LoadFont(string FilePath);
 };

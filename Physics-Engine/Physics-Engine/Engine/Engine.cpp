@@ -79,6 +79,10 @@ void PhysicsEngine::EngineMainloop() {
 }
 void PhysicsEngine::StopEngine() {
 	glfwTerminate();
+	
+	if (Text::FreetypeInitialised) {
+		FT_Done_FreeType(Text::FreetypeLibrary);
+	}
 }
 
 void PhysicsEngine::AddScene(Scene newScene) {
