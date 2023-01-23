@@ -42,6 +42,10 @@ Component* CreateComponent(AllComponents* objectComponents, string componentName
 		objectComponents->button = Button();
 		newComponent = &objectComponents->button;
 	}
+	if (componentName == "Text") {
+		objectComponents->text = Text();
+		newComponent = &objectComponents->text;
+	}
 
 	return newComponent;
 }

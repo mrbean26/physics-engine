@@ -18,6 +18,7 @@ using namespace std;
 #include <Engine/Components/AudioListener.h>
 #include <Engine/Components/AudioSource.h>
 #include <Engine/Components/Button.h>
+#include <Engine/Components/Text.h>
 
 /*
 ----ADDING A NEW COMPONENT---
@@ -37,6 +38,7 @@ struct AllComponents {
 	AudioListener audioListener;
 	AudioSource audioSource;
 	Button button;
+	Text text;
 };
 
 Component* CreateComponent(AllComponents* objectComponents, string componentName);

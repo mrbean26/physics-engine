@@ -1,8 +1,5 @@
 #include <Engine/Engine.h>
 
-#include <Freetype/ft2build.h>
-#include FT_FREETYPE_H
-
 int main(void) {
     Scene newScene = Scene("New Scene");
 	
