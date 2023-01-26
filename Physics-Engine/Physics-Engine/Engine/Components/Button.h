@@ -13,6 +13,13 @@ public:
 	mat4 GetUIMatrix();
 	void Render();
 
+	// Button OnClicks
+	bool ClickedLastFrame = false;
+	bool ButtonPressed = false;
+
+	void UpdateClicks();
+	void (*ButtonOnClickFunction)();
+
 	// GL Attributes
 	inline static GLuint ButtonVAO = -1;
 	inline static GLuint ButtonVBO = -1;

@@ -9,6 +9,7 @@ void Button::Mainloop() {
 	Initialise();
 
 	Render();
+	UpdateClicks();
 }
 void Button::Initialise() {
 	if (initialised) {
@@ -19,6 +20,39 @@ void Button::Initialise() {
 	ButtonTextureID = LoadTexture(texturePath.data());
 
 	initialised = true;
+}
+
+void Button::UpdateClicks() {
+	mat4 CurrentModelMatrix = GetUIMatrix();
+
+	vec2 PointOne = CurrentModelMatrix * vec4(-1.0f, -1.0f, 0.0f, 1.0f);
+	vec2 PointTwo = CurrentModelMatrix * vec4(-1.0f, 1.0f, 0.0f, 1.0f);
+	vec2 PointThree = CurrentModelMatrix * vec4(1.0f, -1.0f, 0.0f, 1.0f);
+	vec2 PointFour = CurrentModelMatrix * vec4(1.0f, 1.0f, 0.0f, 1.0f);
+
+	vec2 MousePosition = (vec2(PhysicsEngine::MousePosition) / vec2(PhysicsEngine::displayWidth / 2, PhysicsEngine::displayHeight / 2)) - vec2(1.0f, 1.0f);
+	
+	bool OldClicked = ClickedLastFrame;
+	if (PhysicsEngine::MouseLeftDown) {
+		if (Collider::pointInTriangle(MousePosition, PointOne, PointTwo, PointThree)) {
+			ClickedLastFrame = true;
+		}
+		else if (Collider::pointInTriangle(MousePosition, PointFour, PointTwo, PointThree)) {
+			ClickedLastFrame = true;
+		}
+		else {
+			ClickedLastFrame = false;
+		}
+	}
+	else {
+		ClickedLastFrame = false;
+	}
+	
+	if (OldClicked && !ClickedLastFrame) {
+		ButtonOnClickFunction();
+		ButtonPressed = true;
+	}
+	ButtonPressed = false;
 }
 
 mat4 Button::GetUIMatrix() {
@@ -45,6 +79,7 @@ void Button::Render() {
 	glUseProgram(ButtonShader);
 
 	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, ButtonTextureID);
 	SetShaderInt(ButtonShader, "texture0", 0);
 
 	SetShaderVec3(ButtonShader, "colour", ButtonColour);

@@ -33,6 +33,7 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	}
 	
 	glfwMakeContextCurrent(mainWindow);
+	glfwSetMouseButtonCallback(mainWindow, UpdateMouseEvent);
 	displayWidth = width;
 	displayHeight = height;
 
@@ -63,6 +64,7 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 void PhysicsEngine::EngineMainloop() {
 	while (!glfwWindowShouldClose(mainWindow)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glfwGetCursorPos(mainWindow, &MousePosition.x, &MousePosition.y);
 		
 		loadedScenes[currentScene].SceneMainloop();
 
@@ -82,6 +84,25 @@ void PhysicsEngine::StopEngine() {
 	
 	if (Text::FreetypeInitialised) {
 		FT_Done_FreeType(Text::FreetypeLibrary);
+	}
+}
+
+void PhysicsEngine::UpdateMouseEvent(GLFWwindow* window, int button, int action, int mods) {
+	if (button == GLFW_MOUSE_BUTTON_LEFT) {
+		if (action == GLFW_PRESS) {
+			MouseLeftDown = true;
+		}
+		if (action == GLFW_RELEASE) {
+			MouseLeftDown = false;
+		}
+	}
+	if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+		if (action == GLFW_PRESS) {
+			MouseRightDown = true;
+		}
+		if (action == GLFW_RELEASE) {
+			MouseRightDown = false;
+		}
 	}
 }
 

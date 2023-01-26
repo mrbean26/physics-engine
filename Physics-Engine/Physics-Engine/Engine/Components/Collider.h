@@ -23,8 +23,8 @@ public:
 	void Mainloop();
 
 	// Point in Triangle Detection
-	float sign(vec2 pointOne, vec2 pointTwo, vec2 pointThree);
-	bool pointInTriangle(vec2 point, vec2 pointOne, vec2 pointTwo, vec2 pointThree);
+	static float sign(vec2 pointOne, vec2 pointTwo, vec2 pointThree);
+	static bool pointInTriangle(vec2 point, vec2 pointOne, vec2 pointTwo, vec2 pointThree);
 
 	// Detection
 	vector<vec3> triangleFaceVertices;

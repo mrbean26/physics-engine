@@ -32,6 +32,14 @@ public:
 	inline static float runtime;
 	inline static int frameNumber = 0;
 
+	// Input
+	static void UpdateMouseEvent(GLFWwindow* window, int button, int action, int mods);
+
+	inline static dvec2 MousePosition;
+
+	inline static bool MouseRightDown;
+	inline static bool MouseLeftDown;
+
 	// Audio
 	ALCdevice* mainAudioDevice;
 	ALCcontext* audioContext;
