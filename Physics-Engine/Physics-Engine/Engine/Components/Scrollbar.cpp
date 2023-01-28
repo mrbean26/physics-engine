@@ -58,7 +58,7 @@ void Scrollbar::UpdateObjectTransforms() {
 
 	vec2 VectorDeltas = MaximumPoint - MinimumPoint;
 	
-	if (ScrollbarSlider->GetComponent<Button*>()->ClickedLastFrame) {
+	if (ScrollbarSlider->GetComponent<Button*>()->ButtonPressedDown) {
 		// Solve (for lambda) A Vector Equation r = min + lambda (max - min) to find closest point on line of slider path to shift it
 		ScrollbarValue = (VectorDeltas.x * (NewPosition.x - MinimumPoint.x) + VectorDeltas.y * (NewPosition.y - MinimumPoint.y)) / (powf(VectorDeltas.x, 2.0f) + powf(VectorDeltas.y, 2.0f));
 		ScrollbarValue = glm::clamp(ScrollbarValue, 0.0f, 1.0f);

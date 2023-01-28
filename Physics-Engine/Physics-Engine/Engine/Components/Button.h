@@ -16,7 +16,9 @@ public:
 	// Button OnClicks
 	int LastFrameClickUpdate = -1;
 	bool ClickedLastFrame = false;
-	bool ButtonPressed = false;
+	
+	bool ButtonPressedDown = false;
+	bool ButtonClicked = false;
 
 	void UpdateClicks();
 	void (*ButtonOnClickFunction)() = nullptr;

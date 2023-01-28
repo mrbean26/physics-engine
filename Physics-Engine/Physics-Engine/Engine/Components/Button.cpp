@@ -49,7 +49,7 @@ void Button::UpdateClicks() {
 					secondButton->UpdateClicks();
 				}
 
-				if (secondButton->ClickedLastFrame || secondButton->ButtonPressed) {
+				if (secondButton->ClickedLastFrame || secondButton->ButtonPressedDown || secondButton->ButtonClicked) {
 					ClickedButtonOverlaying = true;
 				}
 			}
@@ -67,9 +67,11 @@ void Button::UpdateClicks() {
 	if (PhysicsEngine::MouseLeftDown) {
 		if (Collider::pointInTriangle(PhysicsEngine::DisplayMousePosition, PointOne, PointTwo, PointThree)) {
 			ClickedLastFrame = true;
+			ButtonPressedDown = true;
 		}
 		else if (Collider::pointInTriangle(PhysicsEngine::DisplayMousePosition, PointFour, PointTwo, PointThree)) {
 			ClickedLastFrame = true;
+			ButtonPressedDown = true;
 		}
 		else {
 			ClickedLastFrame = false;
@@ -77,15 +79,18 @@ void Button::UpdateClicks() {
 	}
 	else {
 		ClickedLastFrame = false;
+		ButtonPressedDown = false;
 	}
 	
 	if (OldClicked && !ClickedLastFrame) {
 		if (ButtonOnClickFunction != nullptr) {
 			ButtonOnClickFunction();
 		}
-		ButtonPressed = true;
+		ButtonClicked = true;
 	}
-	ButtonPressed = false;
+	else {
+		ButtonClicked = false;
+	}
 
 	LastFrameClickUpdate = PhysicsEngine::frameNumber;
 }
