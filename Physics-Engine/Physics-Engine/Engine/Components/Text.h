@@ -11,9 +11,7 @@ using namespace std;
 #define DEFAULT_FONT_SIZE 60
 struct Character {
 	GLuint TextureID;   // ID handle of the glyph texture
-	vec2 Size;    // Size of glyph (pixels)
-	vec2 Bearing;  // Offset from baseline to left/top of glyph (pixels)
-	float Advance;    // Horizontal offset to advance to next glyph (pixels)
+	vec2 Size;    // Size of glyph (0 to 1)
 };
 
 class Text : public Component {
@@ -26,12 +24,17 @@ public:
 	inline static GLuint CharacterVBO = -1;
 	inline static GLuint CharacterShader = -1;
 
+	vec2 MeasureText();
+	mat4 ParentMatrix(Transform* ObjectTransform, float AspectRatio);
+
 	void InitialiseGLAttributes();
 	void Render();
 
 	// Text
 	string FontFilePath = "Assets/Defaults/Font.ttf";
 	map<GLchar, Character> * FontCharacters;
+
+	vec3 Colour = vec3(1.0f);
 	string DisplayedText = "Default Text";
 
 	inline static FT_Library FreetypeLibrary;

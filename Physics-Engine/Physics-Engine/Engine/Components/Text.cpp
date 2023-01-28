@@ -19,6 +19,29 @@ void Text::Initialise() {
 	initialised = true;
 }
 
+vec2 Text::MeasureText() {
+	vec2 ResultantSize = vec2(0.0f); // Length X, Max Y
+
+	int TextLength = DisplayedText.length();
+	for (int i = 0; i < TextLength; i++) {
+		ResultantSize.x += FontCharacters->at(DisplayedText[i]).Size.x;
+		ResultantSize.y = fmaxf(ResultantSize.y, FontCharacters->at(DisplayedText[i]).Size.y);
+	}
+
+	return ResultantSize;
+}
+mat4 Text::ParentMatrix(Transform* ObjectTransform, float AspectRatio) {
+	mat4 InitialModelMatrix = translate(mat4(1.0f), ObjectTransform->position);
+	InitialModelMatrix = scale(InitialModelMatrix, vec3(AspectRatio, 1.0f, 1.0f));
+
+	vec3 rotation = ObjectTransform->rotation;
+	InitialModelMatrix = rotate(InitialModelMatrix, radians(rotation.x), vec3(1.0f, 0.0f, 0.0f));
+	InitialModelMatrix = rotate(InitialModelMatrix, radians(rotation.y), vec3(0.0f, 1.0f, 0.0f));
+	InitialModelMatrix = rotate(InitialModelMatrix, radians(rotation.z), vec3(0.0f, 0.0f, 1.0f));
+
+	return InitialModelMatrix;
+}
+
 void Text::InitialiseGLAttributes() {
 	if (CharacterVAO > -1) {
 		return;
@@ -62,17 +85,45 @@ void Text::Render() {
 	SetShaderInt(CharacterShader, "texture0", 0);
 
 	Transform* ObjectTransform = parentObject->GetComponent<Transform*>();
-	SetShaderVec3(CharacterShader, "colour", vec3(1.0f));
+	SetShaderVec3(CharacterShader, "colour", Colour);
+	
+	// Prequisites for measuring
+	vec2 TextSize = MeasureText(); // Length X, Max Y
+	float AspectRatio = PhysicsEngine::displayHeight / PhysicsEngine::displayWidth;
 
+	float fullLength = 2.0f * ObjectTransform->scale.x * AspectRatio;
+	float SizeRatio = fullLength / TextSize.x;
+	
+	float StartX = -1.0f * ObjectTransform->scale.x * AspectRatio;
+	float AccumulativeSize = 0.0f;
+	
+	// Initial Model Matrix
+	mat4 InitialModelMatrix = ParentMatrix(ObjectTransform, AspectRatio);
+
+	// Render character by character
 	int TextLength = DisplayedText.length();
 	for (int i = 0; i < TextLength; i++) {
 		glBindTexture(GL_TEXTURE_2D, FontCharacters->at(DisplayedText[i]).TextureID);
+		mat4 ModelMatrix = InitialModelMatrix;
 
-		mat4 ModelMatrix = mat4(1.0f);
+		// Reverse Scaling To Translate To Character Position
+		ModelMatrix = scale(ModelMatrix, vec3(1.0f / AspectRatio, 1.0f, 1.0f));
+		ModelMatrix = translate(ModelMatrix, vec3(StartX, 0.0f, 0.0f));
+
+		float RightShift = (AccumulativeSize + 0.5f * FontCharacters->at(DisplayedText[i]).Size.x) * SizeRatio;
+		ModelMatrix = translate(ModelMatrix, vec3(RightShift, 0.0f, 0.0f));
 		
+		// Scale To Character Shape and As A Proportion of Entire Text
+		ModelMatrix = scale(ModelMatrix, vec3(AspectRatio, 1.0f, 1.0f));
+		ModelMatrix = scale(ModelMatrix, vec3(FontCharacters->at(DisplayedText[i]).Size, 1.0f));
+		ModelMatrix = scale(ModelMatrix, vec3((FontCharacters->at(DisplayedText[i]).Size.x / TextSize.x) / AspectRatio, 1.0f, 1.0f));
+		ModelMatrix = scale(ModelMatrix, ObjectTransform->scale);
 
+		// Render
 		SetShaderMat4(CharacterShader, "model", ModelMatrix);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		AccumulativeSize += FontCharacters->at(DisplayedText[i]).Size.x;
 	}
 }
 
@@ -124,9 +175,7 @@ map<GLchar, Character>* Text::LoadFont(string FilePath) {
 		// Store
 		Character NewCharacter = {
 			newTextureID,
-			vec2(NewFont->glyph->bitmap.width, NewFont->glyph->bitmap.rows),
-			vec2(NewFont->glyph->bitmap_left, NewFont->glyph->bitmap_top),
-			NewFont->glyph->advance.x >> 6 // advance is measured in 1/64 of a pixels, so multiply by 2^6 to get to standard pixels
+			vec2(NewFont->glyph->advance.x >> 6, NewFont->glyph->bitmap.rows) // advance is measured in 1/64 of a pixels, so multiply by 2^6 to get to standard pixels
 		};
 
 		MaxDimensions = vec2(glm::max(NewCharacter.Size.x, MaxDimensions.x), glm::max(NewCharacter.Size.y, MaxDimensions.y));

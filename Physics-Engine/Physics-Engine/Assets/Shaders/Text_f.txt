@@ -8,4 +8,8 @@ uniform vec3 colour;
 void main(){
 	vec4 sampled = vec4(1.0, 1.0, 1.0, texture(texture0, uvPosition).r);
 	FragColor = sampled * vec4(colour, 1.0f);
+
+	if(sampled.a < 1.0f){
+		discard;
+	}
 }
