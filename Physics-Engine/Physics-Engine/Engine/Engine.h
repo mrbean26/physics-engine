@@ -36,6 +36,7 @@ public:
 	static void UpdateMouseEvent(GLFWwindow* window, int button, int action, int mods);
 
 	inline static dvec2 MousePosition;
+	inline static vec2 DisplayMousePosition;
 
 	inline static bool MouseRightDown;
 	inline static bool MouseLeftDown;

@@ -19,6 +19,7 @@ using namespace std;
 #include <Engine/Components/AudioSource.h>
 #include <Engine/Components/Button.h>
 #include <Engine/Components/Text.h>
+#include <Engine/Components/Scrollbar.h>
 
 /*
 ----ADDING A NEW COMPONENT---
@@ -39,6 +40,7 @@ struct AllComponents {
 	AudioSource audioSource;
 	Button button;
 	Text text;
+	Scrollbar scrollbar;
 };
 
 Component* CreateComponent(AllComponents* objectComponents, string componentName);

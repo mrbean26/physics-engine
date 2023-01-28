@@ -64,8 +64,11 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 void PhysicsEngine::EngineMainloop() {
 	while (!glfwWindowShouldClose(mainWindow)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glfwGetCursorPos(mainWindow, &MousePosition.x, &MousePosition.y);
 		
+		glfwGetCursorPos(mainWindow, &MousePosition.x, &MousePosition.y);
+		DisplayMousePosition = (vec2(MousePosition) / vec2(displayWidth / 2, displayHeight / 2)) - vec2(1.0f, 1.0f);
+		DisplayMousePosition.y = -DisplayMousePosition.y;
+
 		loadedScenes[currentScene].SceneMainloop();
 
 		deltaTime = glfwGetTime() - runtime;

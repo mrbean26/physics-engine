@@ -7,4 +7,7 @@ uniform vec3 colour;
 
 void main(){
 	FragColor = texture(texture0, uvPosition) * vec4(colour, 1.0f);
+	if (FragColor.a < 1.0f){
+		discard;
+	}
 }

@@ -12,13 +12,14 @@ void Button::Mainloop() {
 	UpdateClicks();
 }
 void Button::Initialise() {
+
 	if (initialised) {
 		return;
 	}
 
 	InitialiseVertices();
 	ButtonTextureID = LoadTexture(texturePath.data());
-
+	
 	initialised = true;
 }
 
@@ -30,14 +31,11 @@ void Button::UpdateClicks() {
 	vec2 PointThree = CurrentModelMatrix * vec4(1.0f, -1.0f, 0.0f, 1.0f);
 	vec2 PointFour = CurrentModelMatrix * vec4(1.0f, 1.0f, 0.0f, 1.0f);
 
-	vec2 MousePosition = (vec2(PhysicsEngine::MousePosition) / vec2(PhysicsEngine::displayWidth / 2, PhysicsEngine::displayHeight / 2)) - vec2(1.0f, 1.0f);
-	
 	Transform* ParentTransform = parentObject->GetComponent<Transform*>();
 	Scene* currentScene = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene];
 	map<const char*, Object>* sceneObjects = &currentScene->SceneObjects;
 
 	bool ClickedButtonOverlaying = false;
-
 	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
 		if (it->first == parentObject->name) {
 			continue;
@@ -67,10 +65,10 @@ void Button::UpdateClicks() {
 	// On Click Logic
 	bool OldClicked = ClickedLastFrame;
 	if (PhysicsEngine::MouseLeftDown) {
-		if (Collider::pointInTriangle(MousePosition, PointOne, PointTwo, PointThree)) {
+		if (Collider::pointInTriangle(PhysicsEngine::DisplayMousePosition, PointOne, PointTwo, PointThree)) {
 			ClickedLastFrame = true;
 		}
-		else if (Collider::pointInTriangle(MousePosition, PointFour, PointTwo, PointThree)) {
+		else if (Collider::pointInTriangle(PhysicsEngine::DisplayMousePosition, PointFour, PointTwo, PointThree)) {
 			ClickedLastFrame = true;
 		}
 		else {
@@ -82,7 +80,9 @@ void Button::UpdateClicks() {
 	}
 	
 	if (OldClicked && !ClickedLastFrame) {
-		ButtonOnClickFunction();
+		if (ButtonOnClickFunction != nullptr) {
+			ButtonOnClickFunction();
+		}
 		ButtonPressed = true;
 	}
 	ButtonPressed = false;

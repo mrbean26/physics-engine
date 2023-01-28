@@ -46,6 +46,10 @@ Component* CreateComponent(AllComponents* objectComponents, string componentName
 		objectComponents->text = Text();
 		newComponent = &objectComponents->text;
 	}
+	if (componentName == "Scrollbar") {
+		objectComponents->scrollbar = Scrollbar();
+		newComponent = &objectComponents->scrollbar;
+	}
 
 	return newComponent;
 }
@@ -58,5 +62,3 @@ void Object::ObjectMainloop() {
 		it->second->Mainloop();
 	}
 }
-
-

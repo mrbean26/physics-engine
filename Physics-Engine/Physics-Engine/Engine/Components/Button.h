@@ -19,7 +19,7 @@ public:
 	bool ButtonPressed = false;
 
 	void UpdateClicks();
-	void (*ButtonOnClickFunction)();
+	void (*ButtonOnClickFunction)() = nullptr;
 
 	// GL Attributes
 	inline static GLuint ButtonVAO = -1;
