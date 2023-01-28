@@ -14,6 +14,7 @@ public:
 	void Render();
 
 	// Button OnClicks
+	int LastFrameClickUpdate = -1;
 	bool ClickedLastFrame = false;
 	bool ButtonPressed = false;
 

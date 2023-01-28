@@ -32,6 +32,39 @@ void Button::UpdateClicks() {
 
 	vec2 MousePosition = (vec2(PhysicsEngine::MousePosition) / vec2(PhysicsEngine::displayWidth / 2, PhysicsEngine::displayHeight / 2)) - vec2(1.0f, 1.0f);
 	
+	Transform* ParentTransform = parentObject->GetComponent<Transform*>();
+	Scene* currentScene = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene];
+	map<const char*, Object>* sceneObjects = &currentScene->SceneObjects;
+
+	bool ClickedButtonOverlaying = false;
+
+	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
+		if (it->first == parentObject->name) {
+			continue;
+		}
+
+		if (it->second.HasComponent<Button>()) {
+			if (it->second.GetComponent<Transform*>()->position.z < ParentTransform->position.z) {
+				Button* secondButton = it->second.GetComponent<Button*>();
+				
+				if (secondButton->LastFrameClickUpdate != PhysicsEngine::frameNumber) {
+					secondButton->UpdateClicks();
+				}
+
+				if (secondButton->ClickedLastFrame || secondButton->ButtonPressed) {
+					ClickedButtonOverlaying = true;
+				}
+			}
+		}
+	}
+
+	if (ClickedButtonOverlaying) {
+		LastFrameClickUpdate = PhysicsEngine::frameNumber;
+		ClickedLastFrame = false;
+		return;
+	}
+
+	// On Click Logic
 	bool OldClicked = ClickedLastFrame;
 	if (PhysicsEngine::MouseLeftDown) {
 		if (Collider::pointInTriangle(MousePosition, PointOne, PointTwo, PointThree)) {
@@ -53,6 +86,8 @@ void Button::UpdateClicks() {
 		ButtonPressed = true;
 	}
 	ButtonPressed = false;
+
+	LastFrameClickUpdate = PhysicsEngine::frameNumber;
 }
 
 mat4 Button::GetUIMatrix() {
