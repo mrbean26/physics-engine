@@ -28,7 +28,7 @@ pair<int, vector<int16_t>> GetAudioSamples(const char* fileNameMP3) {
 void AudioSource::Mainloop() {
 	Initialise();
 
-	Transform* parentTransform = parentObject->GetComponent<Transform*>();
+	Transform* parentTransform = ParentObject()->GetComponent<Transform*>();
 
 	vec3 parentPosition = parentTransform->position;
 	alSource3f(sourceID, AL_POSITION, parentPosition.x, parentPosition.y, parentPosition.z);

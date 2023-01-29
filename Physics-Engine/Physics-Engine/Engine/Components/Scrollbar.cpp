@@ -19,16 +19,16 @@ void Scrollbar::Initialise() {
 }
 
 void Scrollbar::CreateSubObjects() {
-	PhysicsEngine::loadedScenes[PhysicsEngine::currentScene].GetSceneObjectByID(parentObject->name)->AddComponent<Button>();
-	PhysicsEngine::loadedScenes[PhysicsEngine::currentScene].GetSceneObjectByID(parentObject->name)->GetComponent<Button*>()->texturePath = ScrollbarBackgroundTexturePath;
+	ParentObject()->AddComponent<Button>();
+	ParentObject()->GetComponent<Button*>()->texturePath = ScrollbarBackgroundTexturePath;
 
-	ScrollbarSlider = PhysicsEngine::loadedScenes[PhysicsEngine::currentScene].CreateSceneObject((string(parentObject->name) + "_ScrollbarSlider").data());
+	ScrollbarSlider = PhysicsEngine::loadedScenes[PhysicsEngine::currentScene].CreateSceneObject((string(ParentObjectName) + "_ScrollbarSlider").data());
 	ScrollbarSlider->AddComponent<Button>();
 	ScrollbarSlider->GetComponent<Button*>()->texturePath = ScrollbarSliderTexturePath;
 	ScrollbarSlider->GetComponent<Transform*>()->scale = ScrollbarSliderScale;
 }
 mat4 Scrollbar::GetUIMatrix() {
-	Transform* ParentTransform = parentObject->GetComponent<Transform*>();
+	Transform* ParentTransform = ParentObject()->GetComponent<Transform*>();
 
 	mat4 NewMatrix = mat4(1.0f);
 	NewMatrix = translate(NewMatrix, ParentTransform->position);
@@ -44,7 +44,7 @@ mat4 Scrollbar::GetUIMatrix() {
 	return NewMatrix;
 }
 void Scrollbar::UpdateObjectTransforms() {
-	Transform* ParentTransform = parentObject->GetComponent<Transform*>();
+	Transform* ParentTransform = ParentObject()->GetComponent<Transform*>();
 	
 	vec2 NewPosition = PhysicsEngine::DisplayMousePosition;
 	mat4 TransformationMatrix = GetUIMatrix();

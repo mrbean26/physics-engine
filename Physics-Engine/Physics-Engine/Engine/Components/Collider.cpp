@@ -19,7 +19,7 @@ void Collider::InitialiseShapeVertices() {
 	}
 }
 void Collider::InitialiseMeshVertices() {
-	ViewModel* objectViewModel = parentObject->GetComponent<ViewModel*>();
+	ViewModel* objectViewModel = ParentObject()->GetComponent<ViewModel*>();
 
 	if (objectViewModel->verticesType == VERTICES_POINTS_ONLY) {
 		int vertexCount = objectViewModel->vertices.size();
@@ -98,7 +98,7 @@ void Collider::updateMatrixVertices() {
 	modelMatrixVertices.clear();
 	int count = triangleFaceVertices.size();
 	
-	mat4 modelMatrix = parentObject->GetComponent<Transform*>()->getModelMatrix();
+	mat4 modelMatrix = ParentObject()->GetComponent<Transform*>()->getModelMatrix();
 	for (int i = 0; i < count; i++) {
 		vec3 modelPoint = modelMatrix * vec4(triangleFaceVertices[i], 1.0f);
 		modelMatrixVertices.push_back(modelPoint);
@@ -157,12 +157,12 @@ bool Collider::pointInCollider(vec3 point) {
 
 // Correction
 void Collider::updateCollisions() {
-	map<const char*, Object>* allSceneObjects = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene].SceneObjects;
+	map<string, Object>* allSceneObjects = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene].SceneObjects;
 	updateMatrixVertices();
-	Transform* thisTransform = parentObject->GetComponent<Transform*>();
+	Transform* thisTransform = ParentObject()->GetComponent<Transform*>();
 
-	for (map<const char*, Object>::iterator it = allSceneObjects->begin(); it != allSceneObjects->end(); it++) {
-		if (it->first == parentObject->name) {
+	for (map<string, Object>::iterator it = allSceneObjects->begin(); it != allSceneObjects->end(); it++) {
+		if (it->first == ParentObjectName) {
 			continue;
 		}
 		
@@ -200,7 +200,7 @@ void Collider::updateCollisions() {
 					thisTransform->velocity = newVelocityOne;
 					secondTransform->velocity = newVelocityTwo;
 					
-					secondCollider->alreadyCollidedObjects.push_back(parentObject->name);
+					secondCollider->alreadyCollidedObjects.push_back(ParentObjectName);
 					
 					break;
 				}

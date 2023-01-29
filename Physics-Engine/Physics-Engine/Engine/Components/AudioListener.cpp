@@ -7,7 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 void AudioListener::Mainloop() {
-	Transform* parentTransform = parentObject->GetComponent<Transform*>();
+	Transform* parentTransform = ParentObject()->GetComponent<Transform*>();
 	vec3 parentPosition = parentTransform->position;
 
 	alListener3f(AL_POSITION, parentPosition.x, parentPosition.y, parentPosition.z);

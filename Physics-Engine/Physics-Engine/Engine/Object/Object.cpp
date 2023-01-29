@@ -50,6 +50,10 @@ Component* CreateComponent(AllComponents* objectComponents, string componentName
 		objectComponents->scrollbar = Scrollbar();
 		newComponent = &objectComponents->scrollbar;
 	}
+	if (componentName == "Dropdown") {
+		objectComponents->dropdown = Dropdown();
+		newComponent = &objectComponents->dropdown;
+	}
 
 	return newComponent;
 }
@@ -58,7 +62,7 @@ Object::Object() {
 	//AddComponent<Transform>();
 }
 void Object::ObjectMainloop() {
-	for (map<string, Component*>::iterator it = components.begin(); it != components.end(); it++) {
+	for (unordered_map<string, Component*>::iterator it = components.begin(); it != components.end(); it++) {
 		it->second->Mainloop();
 	}
 }

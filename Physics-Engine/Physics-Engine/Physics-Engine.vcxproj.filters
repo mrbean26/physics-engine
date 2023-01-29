@@ -84,6 +84,9 @@
     <ClCompile Include="Engine\Components\Scrollbar.cpp">
       <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Components\Dropdown.cpp">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -135,6 +138,9 @@
       <Filter>Source Files\Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Components\Scrollbar.h">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\Dropdown.h">
       <Filter>Source Files\Engine\Components</Filter>
     </ClInclude>
   </ItemGroup>

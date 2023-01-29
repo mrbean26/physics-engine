@@ -227,7 +227,7 @@ void ViewModel::Render() {
 	SetShaderVec3(usedShader, "colour", ObjectColour);
 	SetShaderMat4(usedShader, "view", PhysicsEngine::viewMatrix());
 
-	mat4 modelMatrix = parentObject->GetComponent<Transform*>()->getModelMatrix();
+	mat4 modelMatrix = ParentObject()->GetComponent<Transform*>()->getModelMatrix();
 	SetShaderMat4(usedShader, "model", modelMatrix);
 
 	PointLight::ApplyPointLights(usedShader);

@@ -34,7 +34,7 @@ public:
 	int lastMatrixVertexFrameUpdate = 0;
 
 	static inline int lastFrameClear = 0;
-	vector<const char*> alreadyCollidedObjects;
+	vector<string> alreadyCollidedObjects;
 
 	bool checkCollider2D(vec3 point, int pointOneShift, int pointTwoShift);
 	bool pointInColliderXY(vec3 point);

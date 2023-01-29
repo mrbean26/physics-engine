@@ -61,7 +61,7 @@ vector<mat4> PointLight::ShadowTransforms() {
 	mat4 shadowProjection = perspective(radians(90.0f), 1.0f, nearLight, farLight);
 
 	// Views
-	Transform* objectTransform = parentObject->GetComponent<Transform*>();
+	Transform* objectTransform = ParentObject()->GetComponent<Transform*>();
 
 	mat4 viewOne = lookAt(objectTransform->position, objectTransform->position + vec3(1.0f, 0.0f, 0.0f), vec3(0.0f, -1.0f, 0.0f));
 	mat4 viewTwo = lookAt(objectTransform->position, objectTransform->position + vec3(-1.0f, 0.0f, 0.0f), vec3(0.0f, -1.0f, 0.0f));
@@ -97,16 +97,16 @@ void PointLight::RenderCubeMap() {
 		SetShaderMat4(cubemapShader, name.data(), shadowMatrices[i]);
 	}
 
-	Transform* parentTransform = parentObject->GetComponent<Transform*>();
+	Transform* parentTransform = ParentObject()->GetComponent<Transform*>();
 
 	SetShaderFloat(cubemapShader, "far_plane", farLight);
 	SetShaderVec3(cubemapShader, "lightPos", parentTransform->position);
 	
 	// Draw
 	Scene* currentScene = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene];
-	map<const char*, Object>* sceneObjects = &currentScene->SceneObjects;
+	map<string, Object>* sceneObjects = &currentScene->SceneObjects;
 
-	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
+	for (map<string, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
 		if (it->second.HasComponent<ViewModel>()) {
 			ViewModel* currentViewModel = it->second.GetComponent<ViewModel*>();
 			Transform* currentTransform = it->second.GetComponent<Transform*>();
@@ -127,9 +127,9 @@ void PointLight::ApplyPointLights(int shaderValue) {
 	int lightCount = 0;
 
 	Scene* currentScene = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene];
-	map<const char*, Object>* sceneObjects = &currentScene->SceneObjects;
+	map<string, Object>* sceneObjects = &currentScene->SceneObjects;
 
-	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
+	for (map<string, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
 		if (it->second.HasComponent<PointLight>()) {
 			PointLight* currentPointLight = it->second.GetComponent<PointLight*>();
 			Transform* currentLightTransform = it->second.GetComponent<Transform*>();

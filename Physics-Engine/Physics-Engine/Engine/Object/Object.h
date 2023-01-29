@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <unordered_map>
 #include <memory>
 #include <string>
 using namespace std;
@@ -20,6 +21,7 @@ using namespace std;
 #include <Engine/Components/Button.h>
 #include <Engine/Components/Text.h>
 #include <Engine/Components/Scrollbar.h>
+#include <Engine/Components/Dropdown.h>
 
 /*
 ----ADDING A NEW COMPONENT---
@@ -41,6 +43,7 @@ struct AllComponents {
 	Button button;
 	Text text;
 	Scrollbar scrollbar;
+	Dropdown dropdown;
 };
 
 Component* CreateComponent(AllComponents* objectComponents, string componentName);
@@ -50,13 +53,13 @@ using namespace std;
 
 class Object {
 public:
-	const char* name;
+	string name;
 
 	Object();
 	void ObjectMainloop();
 	
 	AllComponents allComponents;
-	map<string, Component*> components;
+	unordered_map<string, Component*> components;
 
 	// Template functions
 	template<typename T> bool HasComponent() {
@@ -73,8 +76,7 @@ public:
 		string componentName = templateName.substr(6, templateName.size() - 6);
 		
 		Component * newComponent = CreateComponent(&allComponents, componentName);
-		newComponent->componentObjectParentName = name;
-		newComponent->parentObject = this;
+		newComponent->ParentObjectName = name;
 		components.insert(make_pair(componentName, newComponent));
 	}
 	template<typename T> void RemoveComponent() {

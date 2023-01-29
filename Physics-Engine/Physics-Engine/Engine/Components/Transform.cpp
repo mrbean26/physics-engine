@@ -26,10 +26,10 @@ void Transform::Mainloop() {
 	// update gravitational and electric force
 	if (mass != 0.0f || charge != 0.0f) {
 		Scene* currentScene = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene];
-		map<const char*, Object>* sceneObjects = &currentScene->SceneObjects;
+		map<string, Object>* sceneObjects = &currentScene->SceneObjects;
 
-		for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
-			if (it->first == componentObjectParentName) {
+		for (map<string, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
+			if (it->first == ParentObjectName) {
 				continue;
 			}
 

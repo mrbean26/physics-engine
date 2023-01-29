@@ -155,6 +155,7 @@
     <ClCompile Include="Engine\Components\Camera.cpp" />
     <ClCompile Include="Engine\Components\Collider.cpp" />
     <ClCompile Include="Engine\Components\DirectionalLight.cpp" />
+    <ClCompile Include="Engine\Components\Dropdown.cpp" />
     <ClCompile Include="Engine\Components\PointLight.cpp" />
     <ClCompile Include="Engine\Components\Scrollbar.cpp" />
     <ClCompile Include="Engine\Components\Text.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Engine\Components\Camera.h" />
     <ClInclude Include="Engine\Components\Collider.h" />
     <ClInclude Include="Engine\Components\DirectionalLight.h" />
+    <ClInclude Include="Engine\Components\Dropdown.h" />
     <ClInclude Include="Engine\Components\PointLight.h" />
     <ClInclude Include="Engine\Components\Scrollbar.h" />
     <ClInclude Include="Engine\Components\Text.h" />

@@ -84,7 +84,7 @@ void Text::Render() {
 	glActiveTexture(GL_TEXTURE0);
 	SetShaderInt(CharacterShader, "texture0", 0);
 
-	Transform* ObjectTransform = parentObject->GetComponent<Transform*>();
+	Transform* ObjectTransform = ParentObject()->GetComponent<Transform*>();
 	SetShaderVec3(CharacterShader, "colour", Colour);
 	
 	// Prequisites for measuring

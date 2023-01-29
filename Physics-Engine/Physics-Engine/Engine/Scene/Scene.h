@@ -11,9 +11,10 @@ public:
 	string name;
 	void SceneMainloop();
 
-	map<const char*, Object> SceneObjects;
-	Object * CreateSceneObject(const char * name);
-	Object * GetSceneObjectByID(const char * name);
+	map<string, Object> SceneObjects;
+	Object * CreateSceneObject(string name);
+	Object * GetSceneObjectByID(string name);
+	void DeleteObjectByID(string name);
 
 	Camera* mainCamera;
 	AudioListener* mainAudioListener;

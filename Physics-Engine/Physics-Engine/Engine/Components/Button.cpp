@@ -31,13 +31,13 @@ void Button::UpdateClicks() {
 	vec2 PointThree = CurrentModelMatrix * vec4(1.0f, -1.0f, 0.0f, 1.0f);
 	vec2 PointFour = CurrentModelMatrix * vec4(1.0f, 1.0f, 0.0f, 1.0f);
 
-	Transform* ParentTransform = parentObject->GetComponent<Transform*>();
+	Transform* ParentTransform = ParentObject()->GetComponent<Transform*>();
 	Scene* currentScene = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene];
-	map<const char*, Object>* sceneObjects = &currentScene->SceneObjects;
+	map<string, Object>* sceneObjects = &currentScene->SceneObjects;
 
 	bool ClickedButtonOverlaying = false;
-	for (map<const char*, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
-		if (it->first == parentObject->name) {
+	for (map<string, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
+		if (it->first == ParentObjectName) {
 			continue;
 		}
 
@@ -96,7 +96,7 @@ void Button::UpdateClicks() {
 }
 
 mat4 Button::GetUIMatrix() {
-	Transform* objectTransform = parentObject->GetComponent<Transform*>();
+	Transform* objectTransform = ParentObject()->GetComponent<Transform*>();
 
 	mat4 newModelMatrix = mat4(1.0f);
 	newModelMatrix = translate(newModelMatrix, objectTransform->position);
