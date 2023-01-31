@@ -101,19 +101,21 @@ mat4 Button::GetUIMatrix() {
 	mat4 newModelMatrix = mat4(1.0f);
 	newModelMatrix = translate(newModelMatrix, objectTransform->position);
 
-	vec3 newScale = objectTransform->scale * vec3(PhysicsEngine::displayHeight / PhysicsEngine::displayWidth, 1.0f, 1.0f);
-	newModelMatrix = scale(newModelMatrix, newScale);
+	vec3 newScale = objectTransform->scale;
+	newModelMatrix = scale(newModelMatrix, vec3(PhysicsEngine::displayHeight / PhysicsEngine::displayWidth, 1.0f, 1.0f));
 
 	vec3 rotation = objectTransform->rotation;
 	newModelMatrix = rotate(newModelMatrix, radians(rotation.x), vec3(1.0f, 0.0f, 0.0f));
 	newModelMatrix = rotate(newModelMatrix, radians(rotation.y), vec3(0.0f, 1.0f, 0.0f));
 	newModelMatrix = rotate(newModelMatrix, radians(rotation.z), vec3(0.0f, 0.0f, 1.0f));
+	
+	newModelMatrix = scale(newModelMatrix, newScale);
 
 	return newModelMatrix;
 }
 void Button::Render() {
 	mat4 modelMatrix = GetUIMatrix();
-
+	
 	// Render
 	glBindVertexArray(ButtonVAO);
 	glUseProgram(ButtonShader);

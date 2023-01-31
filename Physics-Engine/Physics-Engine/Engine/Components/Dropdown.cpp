@@ -1,11 +1,14 @@
 #include <Engine/Engine.h>
 #include <Engine/Components/Dropdown.h>
 
+#include <GLM/gtc/matrix_transform.hpp>
+
 void Dropdown::Mainloop() {
 	Initialise();
 
 	OpenCloseDropdown();
 	CheckEntryPress();
+	UpdateEntryTransforms();
 }
 void Dropdown::Initialise() {
 	if (initialised) {
@@ -64,12 +67,6 @@ void Dropdown::OpenDropdown() {
 		NewDropdownEntry->AddComponent<Button>();
 		NewDropdownEntry->GetComponent<Button*>()->texturePath = EntryButtonBackgroundTexturePath;
 		
-		NewDropdownEntry->allComponents.transform = ParentObject()->allComponents.transform;
-		
-		// Adjust Position of Entry
-		float DeltaY = -0.5f - 1.125f * (i + 1);
-		NewDropdownEntry->GetComponent<Transform*>()->position += vec3(0.0f, 0.1f * DeltaY, 0.0f);
-
 		// Append
 		DropdownEntryObjectPointers.push_back(NewDropdownEntry);
 	}
@@ -86,4 +83,32 @@ void Dropdown::CloseDropdown() {
 	DropdownEntryObjectPointers.clear();
 
 	DropdownOpen = false;
+}
+
+void Dropdown::UpdateEntryTransforms() {
+	if (!DropdownOpen) {
+		return;
+	}
+
+	mat4 newMatrix = mat4(1.0f);
+	vec3 rotation = ParentObject()->GetComponent<Transform*>()->rotation;
+	
+	newMatrix = scale(newMatrix, vec3(PhysicsEngine::displayHeight / PhysicsEngine::displayWidth, 1.0f, 1.0f));
+
+	newMatrix = rotate(newMatrix, radians(rotation.x), vec3(1.0f, 0.0f, 0.0f));
+	newMatrix = rotate(newMatrix, radians(rotation.y), vec3(0.0f, 1.0f, 0.0f));
+	newMatrix = rotate(newMatrix, radians(rotation.z), vec3(0.0f, 0.0f, 1.0f));
+
+	newMatrix = scale(newMatrix, ParentObject()->GetComponent<Transform*>()->scale * vec3(2.0f));
+
+	int EntryCount = DropdownEntryObjectPointers.size();
+	for (int i = 0; i < EntryCount; i++) {
+		DropdownEntryObjectPointers[i]->allComponents.transform = *ParentObject()->GetComponent<Transform*>();
+
+		// Adjust Position of Entry
+		float DeltaY = -0.5f - 1.125f * (i + 1); // Gap of half scale from top to first, gap of 8th scale between each entry
+		vec2 ShiftedUIPosition = newMatrix * vec4(0.0f, DeltaY, 0.0f, 1.0f);
+
+		DropdownEntryObjectPointers[i]->GetComponent<Transform*>()->position += vec3(ShiftedUIPosition, 0.0f);
+	}
 }

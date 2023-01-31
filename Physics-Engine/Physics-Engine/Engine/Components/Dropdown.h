@@ -21,4 +21,6 @@ public:
 
 	void OpenDropdown();
 	void CloseDropdown();
+
+	void UpdateEntryTransforms();
 };
