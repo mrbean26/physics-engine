@@ -23,6 +23,13 @@ public:
 	void UpdateClicks();
 	void (*ButtonOnClickFunction)() = nullptr;
 
+	// Colour Changes
+	bool ColourEffects = true;
+	float HoverColourMultiplier = 0.95f;
+	float ClickColourMultiplier = 0.85f;
+
+	float CurrentColourMultiplier = 1.0f;
+
 	// GL Attributes
 	inline static GLuint ButtonVAO = -1;
 	inline static GLuint ButtonVBO = -1;

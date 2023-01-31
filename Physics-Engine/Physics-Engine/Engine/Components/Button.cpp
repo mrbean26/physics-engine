@@ -25,6 +25,7 @@ void Button::Initialise() {
 
 void Button::UpdateClicks() {
 	mat4 CurrentModelMatrix = GetUIMatrix();
+	CurrentColourMultiplier = 1.0f;
 
 	vec2 PointOne = CurrentModelMatrix * vec4(-1.0f, -1.0f, 0.0f, 1.0f);
 	vec2 PointTwo = CurrentModelMatrix * vec4(-1.0f, 1.0f, 0.0f, 1.0f);
@@ -63,15 +64,14 @@ void Button::UpdateClicks() {
 	}
 
 	// On Click Logic
+	bool MouseOverButton = Collider::pointInTriangle(PhysicsEngine::DisplayMousePosition, PointOne, PointTwo, PointThree) || Collider::pointInTriangle(PhysicsEngine::DisplayMousePosition, PointFour, PointTwo, PointThree);
+
 	bool OldClicked = ClickedLastFrame;
 	if (PhysicsEngine::MouseLeftDown) {
-		if (Collider::pointInTriangle(PhysicsEngine::DisplayMousePosition, PointOne, PointTwo, PointThree)) {
+		if (MouseOverButton) {
 			ClickedLastFrame = true;
 			ButtonPressedDown = true;
-		}
-		else if (Collider::pointInTriangle(PhysicsEngine::DisplayMousePosition, PointFour, PointTwo, PointThree)) {
-			ClickedLastFrame = true;
-			ButtonPressedDown = true;
+			CurrentColourMultiplier = ClickColourMultiplier;
 		}
 		else {
 			ClickedLastFrame = false;
@@ -80,6 +80,10 @@ void Button::UpdateClicks() {
 	else {
 		ClickedLastFrame = false;
 		ButtonPressedDown = false;
+
+		if (MouseOverButton) {
+			CurrentColourMultiplier = HoverColourMultiplier;
+		}
 	}
 	
 	if (OldClicked && !ClickedLastFrame) {
@@ -124,7 +128,7 @@ void Button::Render() {
 	glBindTexture(GL_TEXTURE_2D, ButtonTextureID);
 	SetShaderInt(ButtonShader, "texture0", 0);
 
-	SetShaderVec3(ButtonShader, "colour", ButtonColour);
+	SetShaderVec3(ButtonShader, "colour", ButtonColour * vec3(CurrentColourMultiplier));
 	SetShaderMat4(ButtonShader, "model", modelMatrix);
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
