@@ -66,5 +66,5 @@ void Scrollbar::UpdateObjectTransforms() {
 
 	vec2 NewSliderPosition = MinimumPoint + ScrollbarValue * VectorDeltas;
 	ScrollbarSlider->GetComponent<Transform*>()->position = vec3(NewSliderPosition, ParentTransform->position.z - 0.05f);
-	ScrollbarSlider->GetComponent<Transform*>()->scale = ParentTransform->scale * ScrollbarSliderScale;
+	ScrollbarSlider->GetComponent<Transform*>()->scale = vec3(vec2(ParentTransform->scale.y), 1.0f) * ScrollbarSliderScale;
 }
