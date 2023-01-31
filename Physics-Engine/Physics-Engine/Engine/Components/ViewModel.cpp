@@ -19,7 +19,9 @@ void ViewModel::Initialise() {
 		return;
 	}
 	
-	ObjectTextureID = LoadTexture(texturePath.data());
+	if (verticesType == VERTICES_POINTS_TEXTURE) {
+		ObjectTextureID = LoadTexture(texturePath.data());
+	}
 
 	// Set Shaders To Uninitialised
 	initialiseShader();

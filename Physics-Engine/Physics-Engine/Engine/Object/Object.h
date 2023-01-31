@@ -22,6 +22,7 @@ using namespace std;
 #include <Engine/Components/Text.h>
 #include <Engine/Components/Scrollbar.h>
 #include <Engine/Components/Dropdown.h>
+#include <Engine/Components/ParticleSystem.h>
 
 /*
 ----ADDING A NEW COMPONENT---
@@ -44,6 +45,7 @@ struct AllComponents {
 	Text text;
 	Scrollbar scrollbar;
 	Dropdown dropdown;
+	ParticleSystem particleSystem;
 };
 
 Component* CreateComponent(AllComponents* objectComponents, string componentName);

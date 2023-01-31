@@ -54,6 +54,10 @@ Component* CreateComponent(AllComponents* objectComponents, string componentName
 		objectComponents->dropdown = Dropdown();
 		newComponent = &objectComponents->dropdown;
 	}
+	if (componentName == "ParticleSystem") {
+		objectComponents->particleSystem = ParticleSystem();
+		newComponent = &objectComponents->particleSystem;
+	}
 
 	return newComponent;
 }
