@@ -14,7 +14,9 @@ public:
 	vec3 scale;
 	vec3 rotation;
 
+	Transform* ParentTransform = nullptr;
 	mat4 getModelMatrix();
+	mat4 getUIModelMatrix();
 
 	// Forces
 	void UpdateGravityElectricalForce(Transform* secondTransform);

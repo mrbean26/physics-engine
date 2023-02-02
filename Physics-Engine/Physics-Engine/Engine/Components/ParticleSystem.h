@@ -15,8 +15,7 @@ public:
 
 	vector<pair<float, Object*>> AllParticles;
 	ViewModel ParticleViewmodel;
-	Transform ParticleTransform;
-
+	
 	// Particle Lifetime
 	float ScalingMultiplier = 0.75f;
 	float ParticleLifetime = 5.0f;

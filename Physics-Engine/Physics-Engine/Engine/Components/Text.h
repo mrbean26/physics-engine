@@ -25,7 +25,6 @@ public:
 	inline static GLuint CharacterShader = -1;
 
 	vec2 MeasureText();
-	mat4 ParentMatrix(Transform* ObjectTransform, float AspectRatio);
 
 	void InitialiseGLAttributes();
 	void Render();

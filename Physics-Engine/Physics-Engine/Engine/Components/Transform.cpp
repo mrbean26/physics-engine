@@ -60,8 +60,36 @@ mat4 Transform::getModelMatrix() {
 	newMatrix = rotate(newMatrix, radians(rotation.x), vec3(1.0f, 0.0f, 0.0f));
 	newMatrix = rotate(newMatrix, radians(rotation.y), vec3(0.0f, 1.0f, 0.0f));
 	newMatrix = rotate(newMatrix, radians(rotation.z), vec3(0.0f, 0.0f, 1.0f));
+	
+	if (ParentTransform == nullptr) {
+		return newMatrix;
+	}
+	
+	return ParentTransform->getModelMatrix() * newMatrix;
+}
+mat4 Transform::getUIModelMatrix() {
+	Transform* objectTransform = ParentObject()->GetComponent<Transform*>();
 
-	return newMatrix;
+	mat4 newModelMatrix = mat4(1.0f);
+	newModelMatrix = translate(newModelMatrix, objectTransform->position);
+
+	newModelMatrix = glm::scale(newModelMatrix, vec3(PhysicsEngine::displayHeight / PhysicsEngine::displayWidth, 1.0f, 1.0f));
+
+	vec3 rotation = objectTransform->rotation;
+	newModelMatrix = rotate(newModelMatrix, radians(rotation.x), vec3(1.0f, 0.0f, 0.0f));
+	newModelMatrix = rotate(newModelMatrix, radians(rotation.y), vec3(0.0f, 1.0f, 0.0f));
+	newModelMatrix = rotate(newModelMatrix, radians(rotation.z), vec3(0.0f, 0.0f, 1.0f));
+
+	newModelMatrix = glm::scale(newModelMatrix, vec3(1.0f) / vec3(PhysicsEngine::displayHeight / PhysicsEngine::displayWidth, 1.0f, 1.0f));
+
+	newModelMatrix = glm::scale(newModelMatrix, objectTransform->scale);
+
+	if (ParentTransform == nullptr) {
+		newModelMatrix = glm::scale(newModelMatrix, vec3(PhysicsEngine::displayHeight / PhysicsEngine::displayWidth, 1.0f, 1.0f));
+		return newModelMatrix;
+	}
+
+	return ParentTransform->getUIModelMatrix() * newModelMatrix;
 }
 
 void Transform::UpdateGravityElectricalForce(Transform* secondTransform) {

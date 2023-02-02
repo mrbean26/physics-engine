@@ -10,7 +10,6 @@ public:
 	void Mainloop();
 	void Initialise();
 
-	mat4 GetUIMatrix();
 	void Render();
 
 	// Button OnClicks

@@ -30,17 +30,6 @@ vec2 Text::MeasureText() {
 
 	return ResultantSize;
 }
-mat4 Text::ParentMatrix(Transform* ObjectTransform, float AspectRatio) {
-	mat4 InitialModelMatrix = translate(mat4(1.0f), ObjectTransform->position);
-	InitialModelMatrix = scale(InitialModelMatrix, vec3(AspectRatio, 1.0f, 1.0f));
-
-	vec3 rotation = ObjectTransform->rotation;
-	InitialModelMatrix = rotate(InitialModelMatrix, radians(rotation.x), vec3(1.0f, 0.0f, 0.0f));
-	InitialModelMatrix = rotate(InitialModelMatrix, radians(rotation.y), vec3(0.0f, 1.0f, 0.0f));
-	InitialModelMatrix = rotate(InitialModelMatrix, radians(rotation.z), vec3(0.0f, 0.0f, 1.0f));
-
-	return InitialModelMatrix;
-}
 
 void Text::InitialiseGLAttributes() {
 	if (CharacterVAO > -1) {
@@ -91,14 +80,14 @@ void Text::Render() {
 	vec2 TextSize = MeasureText(); // Length X, Max Y
 	float AspectRatio = PhysicsEngine::displayHeight / PhysicsEngine::displayWidth;
 
-	float fullLength = 2.0f * ObjectTransform->scale.x * AspectRatio;
+	float fullLength = 2.0f;
 	float SizeRatio = fullLength / TextSize.x;
 	
-	float StartX = -1.0f * ObjectTransform->scale.x * AspectRatio;
+	float StartX = -1.0f;
 	float AccumulativeSize = 0.0f;
 	
 	// Initial Model Matrix
-	mat4 InitialModelMatrix = ParentMatrix(ObjectTransform, AspectRatio);
+	mat4 InitialModelMatrix = ParentObject()->GetComponent<Transform*>()->getUIModelMatrix();
 
 	// Render character by character
 	int TextLength = DisplayedText.length();
@@ -107,17 +96,14 @@ void Text::Render() {
 		mat4 ModelMatrix = InitialModelMatrix;
 
 		// Reverse Scaling To Translate To Character Position
-		ModelMatrix = scale(ModelMatrix, vec3(1.0f / AspectRatio, 1.0f, 1.0f));
 		ModelMatrix = translate(ModelMatrix, vec3(StartX, 0.0f, 0.0f));
 
 		float RightShift = (AccumulativeSize + 0.5f * FontCharacters->at(DisplayedText[i]).Size.x) * SizeRatio;
 		ModelMatrix = translate(ModelMatrix, vec3(RightShift, 0.0f, 0.0f));
 		
 		// Scale To Character Shape and As A Proportion of Entire Text
-		ModelMatrix = scale(ModelMatrix, vec3(AspectRatio, 1.0f, 1.0f));
 		ModelMatrix = scale(ModelMatrix, vec3(FontCharacters->at(DisplayedText[i]).Size, 1.0f));
 		ModelMatrix = scale(ModelMatrix, vec3((FontCharacters->at(DisplayedText[i]).Size.x / TextSize.x) / AspectRatio, 1.0f, 1.0f));
-		ModelMatrix = scale(ModelMatrix, ObjectTransform->scale);
 
 		// Render
 		SetShaderMat4(CharacterShader, "model", ModelMatrix);

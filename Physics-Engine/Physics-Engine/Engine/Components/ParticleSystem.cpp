@@ -33,9 +33,11 @@ void ParticleSystem::GenerateParticles() {
 		NewParticle->allComponents.viewModel = ParticleViewmodel;
 		NewParticle->components["ViewModel"] = &NewParticle->allComponents.viewModel;
 
-		ParticleTransform.ParentObjectName = NewParticleName;
-		NewParticle->allComponents.transform = ParticleTransform;
-		NewParticle->GetComponent<Transform*>()->velocity = GetParticleDirection();
+		NewParticle->GetComponent<Transform*>()->ParentTransform = ParentObject()->GetComponent<Transform*>();
+
+		vec3 ParticleDirection = GetParticleDirection();
+		NewParticle->GetComponent<Transform*>()->velocity = ParticleDirection;
+		NewParticle->GetComponent<Transform*>()->rotation = ParticleDirection;
 
 		CurrentProductionCountdown = ProductionInterval;
 

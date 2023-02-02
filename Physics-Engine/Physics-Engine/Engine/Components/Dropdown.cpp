@@ -5,7 +5,7 @@
 
 void Dropdown::Mainloop() {
 	Initialise();
-
+	
 	OpenCloseDropdown();
 	CheckEntryPress();
 	UpdateEntryTransforms();
@@ -66,12 +66,16 @@ void Dropdown::OpenDropdown() {
 		
 		NewDropdownEntry->AddComponent<Button>();
 		NewDropdownEntry->GetComponent<Button*>()->texturePath = EntryButtonBackgroundTexturePath;
+
+		NewDropdownEntry->GetComponent<Transform*>()->ParentTransform = ParentObject()->GetComponent<Transform*>();
+
+		float DeltaY = -0.5f - 2.25f * (i + 1);
+		NewDropdownEntry->GetComponent<Transform*>()->position = vec3(0.0f, DeltaY, 0.0f);
 		
 		// Append
 		DropdownEntryObjectPointers.push_back(NewDropdownEntry);
 	}
-
-
+	
 	DropdownOpen = true;
 }
 void Dropdown::CloseDropdown() {
@@ -90,6 +94,7 @@ void Dropdown::UpdateEntryTransforms() {
 		return;
 	}
 
+	/*
 	mat4 newMatrix = mat4(1.0f);
 	vec3 rotation = ParentObject()->GetComponent<Transform*>()->rotation;
 	
@@ -106,9 +111,10 @@ void Dropdown::UpdateEntryTransforms() {
 		DropdownEntryObjectPointers[i]->allComponents.transform = *ParentObject()->GetComponent<Transform*>();
 
 		// Adjust Position of Entry
-		float DeltaY = -0.5f - 1.125f * (i + 1); // Gap of half scale from top to first, gap of 8th scale between each entry
+		
 		vec2 ShiftedUIPosition = newMatrix * vec4(0.0f, DeltaY, 0.0f, 1.0f);
 
 		DropdownEntryObjectPointers[i]->GetComponent<Transform*>()->position += vec3(ShiftedUIPosition, 0.0f);
 	}
+	*/
 }

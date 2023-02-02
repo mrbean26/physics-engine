@@ -24,7 +24,7 @@ void Button::Initialise() {
 }
 
 void Button::UpdateClicks() {
-	mat4 CurrentModelMatrix = GetUIMatrix();
+	mat4 CurrentModelMatrix = ParentObject()->GetComponent<Transform*>()->getUIModelMatrix();
 	CurrentColourMultiplier = 1.0f;
 
 	vec2 PointOne = CurrentModelMatrix * vec4(-1.0f, -1.0f, 0.0f, 1.0f);
@@ -99,26 +99,8 @@ void Button::UpdateClicks() {
 	LastFrameClickUpdate = PhysicsEngine::frameNumber;
 }
 
-mat4 Button::GetUIMatrix() {
-	Transform* objectTransform = ParentObject()->GetComponent<Transform*>();
-
-	mat4 newModelMatrix = mat4(1.0f);
-	newModelMatrix = translate(newModelMatrix, objectTransform->position);
-
-	vec3 newScale = objectTransform->scale;
-	newModelMatrix = scale(newModelMatrix, vec3(PhysicsEngine::displayHeight / PhysicsEngine::displayWidth, 1.0f, 1.0f));
-
-	vec3 rotation = objectTransform->rotation;
-	newModelMatrix = rotate(newModelMatrix, radians(rotation.x), vec3(1.0f, 0.0f, 0.0f));
-	newModelMatrix = rotate(newModelMatrix, radians(rotation.y), vec3(0.0f, 1.0f, 0.0f));
-	newModelMatrix = rotate(newModelMatrix, radians(rotation.z), vec3(0.0f, 0.0f, 1.0f));
-	
-	newModelMatrix = scale(newModelMatrix, newScale);
-
-	return newModelMatrix;
-}
 void Button::Render() {
-	mat4 modelMatrix = GetUIMatrix();
+	mat4 modelMatrix = ParentObject()->GetComponent<Transform*>()->getUIModelMatrix();
 	
 	// Render
 	glBindVertexArray(ButtonVAO);
