@@ -10,7 +10,7 @@ using namespace std;
 
 #include <Engine/Components/ViewModel.h>
 
-#define GRAVITATIONAL_CONSTANT 0.00000606743
+#define GRAVITATIONAL_CONSTANT 6.67e-11
 #define ELECTRIC_CONSTANT 8998000000
 
 Transform::Transform() {

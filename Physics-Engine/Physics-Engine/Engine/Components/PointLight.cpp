@@ -134,7 +134,7 @@ void PointLight::ApplyPointLights(int shaderValue) {
 			PointLight* currentPointLight = it->second.GetComponent<PointLight*>();
 			Transform* currentLightTransform = it->second.GetComponent<Transform*>();
 			string overallString = "allPointLights[" + to_string(lightCount) + "].";
-
+			
 			SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->position);
 			
 			SetShaderFloat(shaderValue, (overallString + "intensity").data(), currentPointLight->intensity);

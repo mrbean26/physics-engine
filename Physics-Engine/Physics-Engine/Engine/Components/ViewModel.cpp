@@ -66,7 +66,7 @@ void ViewModel::LoadOBJ(const char* filePath) {
 				stof(lineData[2]),
 				stof(lineData[3])
 			);
-
+			
 			vertexNormals.push_back(newVertexNormal);
 		}
 

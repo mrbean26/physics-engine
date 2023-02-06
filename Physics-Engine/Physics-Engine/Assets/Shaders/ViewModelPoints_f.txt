@@ -91,7 +91,7 @@ vec3 calculatePointLight(PointLight light, vec3 originalColour, vec3 normal, vec
 	// specular
 	vec3 reflectDirection = reflect(-lightDirection, normal);
 	float specular = max(dot(viewDirection, reflectDirection), 0.0f);
-
+	
 	// ambient
 	float ambient = light.ambient;
 

@@ -22,7 +22,7 @@ public:
 	GLuint ObjectVAO;
 	GLuint ObjectVBO;
 	GLuint ObjectDrawSize;
-	vec3 ObjectColour;
+	vec3 ObjectColour = vec3(1.0f);
 
 	// OBJ Loading - MAKE SURE FACES ARE TRIANGLES (CTRL+T IN BLENDER)
 	void LoadOBJ(const char* filePath);
