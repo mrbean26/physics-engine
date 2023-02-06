@@ -32,13 +32,23 @@ vector<string> splitCharacter(string inputString, char character) {
 	return result;
 }
 
+bool FileExists(string Filename) {
+	struct stat buffer;
+	return (stat(Filename.c_str(), &buffer) == 0);
+}
+
 bool containsSubstring(string mainString, string subString) {
 	if (mainString.find(subString) != string::npos) {
 		return true;
 	}
 	return false;
 }
-
+bool EndsInString(string MainString, string SubString) {
+	if (MainString.length() < SubString.length()) {
+		return false;
+	}
+	return equal(SubString.rbegin(), SubString.rend(), MainString.rbegin());
+}
 string afterString(string mainString, string subString) {
 	return mainString.substr(mainString.find(subString) + 1);
 }

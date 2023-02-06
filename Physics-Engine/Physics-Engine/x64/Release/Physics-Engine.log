@@ -1,74 +1,11 @@
-﻿  AudioListener.cpp
-  AudioSource.cpp
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(274,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(355,99): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(360,79): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(441,124): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(445,134): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(469,28): warning C4267: '-=': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(470,28): warning C4267: '-=': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(495,57): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(513,79): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(572,99): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(665,127): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(821,29): warning C4244: '=': conversion from 'uint64_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(893,140): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(901,76): warning C4244: 'argument': conversion from 'uint64_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(916,41): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(917,33): warning C4267: '-=': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\API64\MP3\minimp3_ex.h(943,29): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\AudioSource.cpp(47,132): warning C4267: 'argument': conversion from 'size_t' to 'ALsizei', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\AudioSource.cpp(68,19): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\AudioSource.cpp(69,40): warning C4244: 'argument': conversion from 'int' to 'ALfloat', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\AudioSource.cpp(72,19): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\AudioSource.cpp(73,40): warning C4244: 'argument': conversion from 'int' to 'ALfloat', possible loss of data
-  Button.cpp
-  Camera.cpp
-  Collider.cpp
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Collider.cpp(25,53): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Collider.cpp(38,53): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Collider.cpp(99,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Collider.cpp(112,47): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Collider.cpp(182,43): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  DirectionalLight.cpp
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\DirectionalLight.cpp(79,63): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\DirectionalLight.cpp(79,34): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-  Dropdown.cpp
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Dropdown.cpp(43,53): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Dropdown.cpp(55,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Dropdown.cpp(81,53): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  ParticleSystem.cpp
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\ParticleSystem.cpp(24,48): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\ParticleSystem.cpp(64,48): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\ParticleSystem.cpp(71,48): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  PointLight.cpp
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\PointLight.cpp(123,63): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\PointLight.cpp(123,34): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-  Scrollbar.cpp
-  Text.cpp
+﻿  Text.cpp
 D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Text.cpp(25,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Text.cpp(93,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Transform.cpp
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\Transform.cpp(102,36): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  ViewModel.cpp
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\ViewModel.cpp(41,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\ViewModel.cpp(169,39): warning C4267: '=': conversion from 'size_t' to 'GLuint', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Components\ViewModel.cpp(181,39): warning C4267: '=': conversion from 'size_t' to 'GLuint', possible loss of data
-  Engine.cpp
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Engine.cpp(37,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Engine.cpp(38,18): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Engine.cpp(74,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Engine.cpp(75,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Projects\Physics Engine\Physics-Engine\Physics-Engine\Engine\Engine.cpp(116,38): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Component.cpp
-  Object.cpp
-  Scene.cpp
-  main.cpp
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  25 of 2165 functions ( 1.2%) were compiled, the rest were copied from previous compilation.
-    2 functions were new in current compilation
-    18 functions had inline decision re-evaluated but remain unchanged
+  7 of 2200 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+    3 functions were new in current compilation
+    135 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
 freetype.lib(ftbase.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(ftbase.obj)' or at ''; linking object as if no debug info

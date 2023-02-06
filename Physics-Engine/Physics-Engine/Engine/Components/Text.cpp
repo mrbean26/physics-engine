@@ -92,6 +92,10 @@ void Text::Render() {
 	// Render character by character
 	int TextLength = DisplayedText.length();
 	for (int i = 0; i < TextLength; i++) {
+		if (FontCharacters->find(DisplayedText[i]) == FontCharacters->find(DisplayedText[i])) {
+			throw ("Character:" + to_string(DisplayedText[i]) + ": does not exist in font.").data();
+		}
+
 		glBindTexture(GL_TEXTURE_2D, FontCharacters->at(DisplayedText[i]).TextureID);
 		mat4 ModelMatrix = InitialModelMatrix;
 
@@ -117,6 +121,13 @@ map<GLchar, Character>* Text::LoadFont(string FilePath) {
 	// check if already loaded
 	if (AllFonts.find(FilePath) != AllFonts.end()) {
 		return &AllFonts[FilePath];
+	}
+
+	if (!EndsInString(FilePath, ".ttf")) {
+		throw ("Incorrect file type for Font: " + FilePath).data();
+	}
+	if (!FileExists(FilePath)) {
+		throw ("File does not exist: " + FilePath).data();
 	}
 
 	// initialise

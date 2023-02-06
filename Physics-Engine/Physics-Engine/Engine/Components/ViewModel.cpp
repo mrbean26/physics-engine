@@ -33,6 +33,13 @@ void ViewModel::Initialise() {
 void ViewModel::LoadOBJ(const char* filePath) {
 	vertices.clear();
 
+	if (!EndsInString(filePath, ".obj")) {
+		throw ("Incorrect file type for OBJ: " + string(filePath)).data();
+	}
+	if (!FileExists(filePath)) {
+		throw ("File does not exist: " + string(filePath)).data();
+	}
+
 	vector<vec3> vertices;
 	vector<vec2> textureVertices;
 	vector<vec3> vertexNormals;

@@ -10,6 +10,10 @@
 #include <string>
 
 int CreateShader(const char* filePath, GLenum shaderType) {
+	if (!FileExists(filePath)) {
+		throw ("File does not exist: " + string(filePath)).data();
+	}
+
 	// get lines from file
 	vector<string> shaderLines = readLines(filePath);
 	int LineCount = shaderLines.size();
@@ -69,6 +73,13 @@ void OutputVec3(vec3 input) {
 }
 
 GLuint LoadTexture(const char* filePath) {
+	if (!EndsInString(filePath, ".png")) {
+		throw ("Incorrect Filetype for Image: " + string(filePath)).data();
+	}
+	if (!FileExists(filePath)) {
+		throw ("File does not exist: " + string(filePath)).data();
+	}
+
 	// Load Image Data
 	int width, height, channels;
 
@@ -76,7 +87,7 @@ GLuint LoadTexture(const char* filePath) {
 	unsigned char* imageData = stbi_load(filePath, &width, &height, &channels, 4);
 
 	if (!imageData) {
-		cout << "failed image load" << endl;
+		cout << "Failed Image Load: " << filePath << endl;
 	}
 	
 	// Set Image Data 
