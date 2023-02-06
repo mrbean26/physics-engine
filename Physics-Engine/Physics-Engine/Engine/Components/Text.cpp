@@ -92,7 +92,7 @@ void Text::Render() {
 	// Render character by character
 	int TextLength = DisplayedText.length();
 	for (int i = 0; i < TextLength; i++) {
-		if (FontCharacters->find(DisplayedText[i]) == FontCharacters->find(DisplayedText[i])) {
+		if (FontCharacters->find(DisplayedText[i]) == FontCharacters->end()) {
 			throw ("Character:" + to_string(DisplayedText[i]) + ": does not exist in font.").data();
 		}
 

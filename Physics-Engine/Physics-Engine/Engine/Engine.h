@@ -51,6 +51,26 @@ public:
 
 	inline static vector<Scene> loadedScenes;
 	inline static int currentScene = 0;
+	static Scene* GetCurrentScene();
+
+	template<typename T> static vector<Object*> GetObjectsWithComponent() {
+		Scene* CurrentLoadedScene = &loadedScenes[currentScene];
+		map<string, Object>* sceneObjects = &CurrentLoadedScene->SceneObjects;
+
+		vector<Object*> ReturnedObjects;
+		for (map<string, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
+			if (it->second.HasComponent<T>()) {
+				ReturnedObjects.push_back(&it->second);
+			}
+		}
+
+		return ReturnedObjects;
+	}
+	static vector<Object*> GetAllSceneObjects();
+
+	static Object* CreateNewSceneObject(string ObjectName);
+	static Object* FindSceneObject(string ObjectName);
+	static void DeleteSceneObject(string ObjectName);
 
 	static glm::mat4 viewMatrix();
 };

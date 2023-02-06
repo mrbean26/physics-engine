@@ -59,20 +59,20 @@ void DirectionalLight::RenderDepthMap() {
 	
 	glUseProgram(depthMapShader);
 
-	Scene* currentScene = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene];
-	map<string, Object>* sceneObjects = &currentScene->SceneObjects;
-	
-	for (map<string, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
-		if (it->second.HasComponent<ViewModel>()) {
-			ViewModel* currentViewModel = it->second.GetComponent<ViewModel*>();
-			Transform* currentTransform = it->second.GetComponent<Transform*>();
+	vector<Object*> AllViewmodelObjects = PhysicsEngine::GetObjectsWithComponent<ViewModel>();
+	int ViewmodelObjectCount = AllViewmodelObjects.size();
 
-			glBindVertexArray(currentViewModel->ObjectVAO);
-			SetShaderMat4(depthMapShader, "model", currentTransform->getModelMatrix());
-			SetShaderMat4(depthMapShader, "lightSpaceMatrix", LightSpaceMatrix());
+	for (int i = 0; i < ViewmodelObjectCount; i++) {
+		Object* CurrentObject = AllViewmodelObjects[i];
+		
+		ViewModel* currentViewModel = CurrentObject->GetComponent<ViewModel*>();
+		Transform* currentTransform = CurrentObject->GetComponent<Transform*>();
+		
+		glBindVertexArray(currentViewModel->ObjectVAO);
+		SetShaderMat4(depthMapShader, "model", currentTransform->getModelMatrix());
+		SetShaderMat4(depthMapShader, "lightSpaceMatrix", LightSpaceMatrix());
 
-			glDrawArrays(GL_TRIANGLES, 0, currentViewModel->ObjectDrawSize);
-		}
+		glDrawArrays(GL_TRIANGLES, 0, currentViewModel->ObjectDrawSize);
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -110,52 +110,52 @@ mat4 DirectionalLight::LightSpaceMatrix() {
 void DirectionalLight::ApplyDirectionalLights(int shaderValue) {
 	int lightCount = 0;
 	
-	Scene* currentScene = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene];
-	map<string, Object>* sceneObjects = &currentScene->SceneObjects;
+	vector<Object*> AllDirectionalLightObjects = PhysicsEngine::GetObjectsWithComponent<DirectionalLight>();
+	int DirectionalLightObjectCount = AllDirectionalLightObjects.size();
 
-	for (map<string, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
-		if (it->second.HasComponent<DirectionalLight>()) {
-			DirectionalLight* currentDirectionalLight = it->second.GetComponent<DirectionalLight*>();
-			Transform* currentLightTransform = it->second.GetComponent<Transform*>();
-			string overallString = "allDirectionalLights[" + to_string(lightCount) + "].";
+	for (int i = 0; i < DirectionalLightObjectCount; i++) {
+		Object* CurrentObject = AllDirectionalLightObjects[i];
 
-			SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->position);
+		DirectionalLight* currentDirectionalLight = CurrentObject->GetComponent<DirectionalLight*>();
+		Transform* currentLightTransform = CurrentObject->GetComponent<Transform*>();
+		string overallString = "allDirectionalLights[" + to_string(lightCount) + "].";
 
-			SetShaderFloat(shaderValue, (overallString + "intensity").data(), currentDirectionalLight->intensity);
-			SetShaderFloat(shaderValue, (overallString + "ambient").data(), currentDirectionalLight->ambient);
-			SetShaderFloat(shaderValue, (overallString + "diffuse").data(), currentDirectionalLight->diffuse);
-			SetShaderFloat(shaderValue, (overallString + "specular").data(), currentDirectionalLight->specular);
+		SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->position);
 
-			SetShaderFloat(shaderValue, (overallString + "attenuationConstant").data(), currentDirectionalLight->attenuationConstant);
-			SetShaderFloat(shaderValue, (overallString + "attenuationLinear").data(), currentDirectionalLight->attenuationLinear);
-			SetShaderFloat(shaderValue, (overallString + "attenuationQuadratic").data(), currentDirectionalLight->attenuationQuadratic);
+		SetShaderFloat(shaderValue, (overallString + "intensity").data(), currentDirectionalLight->intensity);
+		SetShaderFloat(shaderValue, (overallString + "ambient").data(), currentDirectionalLight->ambient);
+		SetShaderFloat(shaderValue, (overallString + "diffuse").data(), currentDirectionalLight->diffuse);
+		SetShaderFloat(shaderValue, (overallString + "specular").data(), currentDirectionalLight->specular);
 
-			SetShaderFloat(shaderValue, (overallString + "cutOff").data(), glm::cos(glm::radians(currentDirectionalLight->lowerAngleLight)));
-			SetShaderFloat(shaderValue, (overallString + "outerCutOff").data(), glm::cos(glm::radians(currentDirectionalLight->upperAngleLight)));
+		SetShaderFloat(shaderValue, (overallString + "attenuationConstant").data(), currentDirectionalLight->attenuationConstant);
+		SetShaderFloat(shaderValue, (overallString + "attenuationLinear").data(), currentDirectionalLight->attenuationLinear);
+		SetShaderFloat(shaderValue, (overallString + "attenuationQuadratic").data(), currentDirectionalLight->attenuationQuadratic);
 
-			// Calculate Direction
-			vec3 oldPosition = currentLightTransform->position;
-			vec3 oldScale = currentLightTransform->scale;
+		SetShaderFloat(shaderValue, (overallString + "cutOff").data(), glm::cos(glm::radians(currentDirectionalLight->lowerAngleLight)));
+		SetShaderFloat(shaderValue, (overallString + "outerCutOff").data(), glm::cos(glm::radians(currentDirectionalLight->upperAngleLight)));
 
-			currentLightTransform->position = vec3(0.0f);
-			currentLightTransform->scale = vec3(1.0f);
+		// Calculate Direction
+		vec3 oldPosition = currentLightTransform->position;
+		vec3 oldScale = currentLightTransform->scale;
 
-			vec3 lightDirectionPoint = vec3(currentLightTransform->getModelMatrix() * vec4(0.0f, 0.0f, -1.0f, 1.0f));
-			SetShaderVec3(shaderValue, (overallString + "direction").data(), lightDirectionPoint);
+		currentLightTransform->position = vec3(0.0f);
+		currentLightTransform->scale = vec3(1.0f);
 
-			currentLightTransform->position = oldPosition;
-			currentLightTransform->scale = oldScale;
+		vec3 lightDirectionPoint = vec3(currentLightTransform->getModelMatrix() * vec4(0.0f, 0.0f, -1.0f, 1.0f));
+		SetShaderVec3(shaderValue, (overallString + "direction").data(), lightDirectionPoint);
 
-			// Shadow Variables
-			
-			SetShaderMat4(shaderValue, ("lightSpaceMatrices[" + to_string(lightCount) + "]").data(), currentDirectionalLight->LightSpaceMatrix());
+		currentLightTransform->position = oldPosition;
+		currentLightTransform->scale = oldScale;
 
-			glActiveTexture(GL_TEXTURE1 + lightCount);
-			glBindTexture(GL_TEXTURE_2D, currentDirectionalLight->depthMap);
-			SetShaderInt(shaderValue, ("directionalShadowMaps[" + to_string(lightCount) + "]").data(), lightCount + 1);
+		// Shadow Variables
 
-			lightCount = lightCount + 1;
-		}
+		SetShaderMat4(shaderValue, ("lightSpaceMatrices[" + to_string(lightCount) + "]").data(), currentDirectionalLight->LightSpaceMatrix());
+
+		glActiveTexture(GL_TEXTURE1 + lightCount);
+		glBindTexture(GL_TEXTURE_2D, currentDirectionalLight->depthMap);
+		SetShaderInt(shaderValue, ("directionalShadowMaps[" + to_string(lightCount) + "]").data(), lightCount + 1);
+
+		lightCount = lightCount + 1;
 	}
 
 	SetShaderInt(shaderValue, "directionalLightCount", lightCount);

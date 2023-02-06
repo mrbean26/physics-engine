@@ -157,33 +157,37 @@ bool Collider::pointInCollider(vec3 point) {
 
 // Correction
 void Collider::updateCollisions() {
-	map<string, Object>* allSceneObjects = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene].SceneObjects;
 	updateMatrixVertices();
 	Transform* thisTransform = ParentObject()->GetComponent<Transform*>();
 
-	for (map<string, Object>::iterator it = allSceneObjects->begin(); it != allSceneObjects->end(); it++) {
-		if (it->first == ParentObjectName) {
+	vector<Object*> AllColliderObjects = PhysicsEngine::GetObjectsWithComponent<Collider>();
+	int ColliderObjectCount = AllColliderObjects.size();
+
+	for (int i = 0; i < ColliderObjectCount; i++) {
+		Object* CurrentObject = AllColliderObjects[i];
+
+		if (CurrentObject->name == ParentObjectName) {
 			continue;
 		}
-		
+
 		// check if collided with object already
-		if (find(alreadyCollidedObjects.begin(), alreadyCollidedObjects.end(), it->first) != alreadyCollidedObjects.end()) {
+		if (find(alreadyCollidedObjects.begin(), alreadyCollidedObjects.end(), CurrentObject->name) != alreadyCollidedObjects.end()) {
 			continue;
 		}
 
 		// check for collision
-		if (it->second.HasComponent<Collider>()) {
-			Collider* secondCollider = it->second.GetComponent<Collider*>();
+		if (CurrentObject->HasComponent<Collider>()) {
+			Collider* secondCollider = CurrentObject->GetComponent<Collider*>();
 			secondCollider->updateMatrixVertices();
 
-			Transform* secondTransform = it->second.GetComponent<Transform*>();
+			Transform* secondTransform = CurrentObject->GetComponent<Transform*>();
 			vector<vec3> secondColliderPoints = secondCollider->modelMatrixVertices;
-			
+
 			int count = secondColliderPoints.size();
 			for (int i = 0; i < count; i++) {
 				if (pointInCollider(secondColliderPoints[i])) {
 					// Assume perfectly elastic collision due to no heat energy concept
-					
+
 					// First Object
 					float scalarOne = (thisTransform->mass - secondTransform->mass) / (thisTransform->mass + secondTransform->mass);
 					float scalarTwo = (2.0f * secondTransform->mass) / (thisTransform->mass + secondTransform->mass);
@@ -193,15 +197,15 @@ void Collider::updateCollisions() {
 					// Second Object
 					float scalarThree = (2.0f * thisTransform->mass) / (thisTransform->mass + secondTransform->mass);
 					float scalarFour = (secondTransform->mass - thisTransform->mass) / (thisTransform->mass + secondTransform->mass);
-					
+
 					vec3 newVelocityTwo = scalarThree * thisTransform->velocity + scalarFour * secondTransform->velocity;
 
 					// Assign
 					thisTransform->velocity = newVelocityOne;
 					secondTransform->velocity = newVelocityTwo;
-					
+
 					secondCollider->alreadyCollidedObjects.push_back(ParentObjectName);
-					
+
 					break;
 				}
 			}

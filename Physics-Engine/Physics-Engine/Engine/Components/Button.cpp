@@ -33,26 +33,26 @@ void Button::UpdateClicks() {
 	vec2 PointFour = CurrentModelMatrix * vec4(1.0f, 1.0f, 0.0f, 1.0f);
 
 	Transform* ParentTransform = ParentObject()->GetComponent<Transform*>();
-	Scene* currentScene = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene];
-	map<string, Object>* sceneObjects = &currentScene->SceneObjects;
+	vector<Object*> AllButtonObjects = PhysicsEngine::GetObjectsWithComponent<Button>();
+	int ButtonObjectCount = AllButtonObjects.size();
 
 	bool ClickedButtonOverlaying = false;
-	for (map<string, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
-		if (it->first == ParentObjectName) {
+	for (int i = 0; i < ButtonObjectCount; i++) {
+		Object* CurrentObject = AllButtonObjects[i];
+
+		if (CurrentObject->name == ParentObjectName) {
 			continue;
 		}
 
-		if (it->second.HasComponent<Button>()) {
-			if (it->second.GetComponent<Transform*>()->position.z < ParentTransform->position.z) {
-				Button* secondButton = it->second.GetComponent<Button*>();
-				
-				if (secondButton->LastFrameClickUpdate != PhysicsEngine::frameNumber) {
-					secondButton->UpdateClicks();
-				}
+		if (CurrentObject->GetComponent<Transform*>()->position.z < ParentTransform->position.z) {
+			Button* secondButton = CurrentObject->GetComponent<Button*>();
 
-				if (secondButton->ClickedLastFrame || secondButton->ButtonPressedDown || secondButton->ButtonClicked) {
-					ClickedButtonOverlaying = true;
-				}
+			if (secondButton->LastFrameClickUpdate != PhysicsEngine::frameNumber) {
+				secondButton->UpdateClicks();
+			}
+
+			if (secondButton->ClickedLastFrame || secondButton->ButtonPressedDown || secondButton->ButtonClicked) {
+				ClickedButtonOverlaying = true;
 			}
 		}
 	}

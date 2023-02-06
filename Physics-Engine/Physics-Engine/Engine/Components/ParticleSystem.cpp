@@ -27,7 +27,7 @@ void ParticleSystem::GenerateParticles() {
 		CreatedParticleCount = CreatedParticleCount + 1;
 		string NewParticleName = ParentObjectName + "_Particle_" + to_string(CreatedParticleCount);
 
-		Object* NewParticle = PhysicsEngine::loadedScenes[PhysicsEngine::currentScene].CreateSceneObject(NewParticleName);
+		Object* NewParticle = PhysicsEngine::CreateNewSceneObject(NewParticleName);
 		
 		ParticleViewmodel.ParentObjectName = NewParticleName;
 		NewParticle->allComponents.viewModel = ParticleViewmodel;
@@ -74,7 +74,7 @@ void ParticleSystem::RemoveParticles() {
 		AllParticles[i].first -= PhysicsEngine::deltaTime;
 
 		if (AllParticles[i].first <= 0.0f) {
-			PhysicsEngine::loadedScenes[PhysicsEngine::currentScene].DeleteObjectByID(AllParticles[i].second->name);
+			PhysicsEngine::DeleteSceneObject(AllParticles[i].second->name);
 			AllParticles.erase(AllParticles.begin() + i);
 
 			i = i - 1;

@@ -17,5 +17,5 @@ public:
 	void DeleteObjectByID(string name);
 
 	Camera* mainCamera;
-	AudioListener* mainAudioListener;
+	AudioListener* mainAudioListener;	
 };

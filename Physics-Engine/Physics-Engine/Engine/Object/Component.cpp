@@ -6,5 +6,5 @@ void Component::Mainloop() {
 }
 
 Object* Component::ParentObject() {
-	return PhysicsEngine::loadedScenes[PhysicsEngine::currentScene].GetSceneObjectByID(ParentObjectName);
+	return PhysicsEngine::FindSceneObject(ParentObjectName);
 }

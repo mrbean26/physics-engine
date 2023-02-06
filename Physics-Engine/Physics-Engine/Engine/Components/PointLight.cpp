@@ -103,19 +103,19 @@ void PointLight::RenderCubeMap() {
 	SetShaderVec3(cubemapShader, "lightPos", parentTransform->position);
 	
 	// Draw
-	Scene* currentScene = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene];
-	map<string, Object>* sceneObjects = &currentScene->SceneObjects;
+	vector<Object*> AllPointLightObjects = PhysicsEngine::GetObjectsWithComponent<ViewModel>();
+	int PointLightObjectCount = AllPointLightObjects.size();
 
-	for (map<string, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
-		if (it->second.HasComponent<ViewModel>()) {
-			ViewModel* currentViewModel = it->second.GetComponent<ViewModel*>();
-			Transform* currentTransform = it->second.GetComponent<Transform*>();
+	for (int i = 0; i < PointLightObjectCount; i++) {
+		Object* CurrentObject = AllPointLightObjects[i];
+		
+		ViewModel* currentViewModel = CurrentObject->GetComponent<ViewModel*>();
+		Transform* currentTransform = CurrentObject->GetComponent<Transform*>();
+		
+		glBindVertexArray(currentViewModel->ObjectVAO);
+		SetShaderMat4(cubemapShader, "model", currentTransform->getModelMatrix());
 
-			glBindVertexArray(currentViewModel->ObjectVAO);
-			SetShaderMat4(cubemapShader, "model", currentTransform->getModelMatrix());
-
-			glDrawArrays(GL_TRIANGLES, 0, currentViewModel->ObjectDrawSize);
-		}
+		glDrawArrays(GL_TRIANGLES, 0, currentViewModel->ObjectDrawSize);
 	}
 
 	// End
@@ -126,34 +126,34 @@ void PointLight::RenderCubeMap() {
 void PointLight::ApplyPointLights(int shaderValue) {
 	int lightCount = 0;
 
-	Scene* currentScene = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene];
-	map<string, Object>* sceneObjects = &currentScene->SceneObjects;
+	vector<Object*> AllPointLightObjects = PhysicsEngine::GetObjectsWithComponent<PointLight>();
+	int PointLightObjectCount = AllPointLightObjects.size();
 
-	for (map<string, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
-		if (it->second.HasComponent<PointLight>()) {
-			PointLight* currentPointLight = it->second.GetComponent<PointLight*>();
-			Transform* currentLightTransform = it->second.GetComponent<Transform*>();
-			string overallString = "allPointLights[" + to_string(lightCount) + "].";
-			
-			SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->position);
-			
-			SetShaderFloat(shaderValue, (overallString + "intensity").data(), currentPointLight->intensity);
-			SetShaderFloat(shaderValue, (overallString + "ambient").data(), currentPointLight->ambient);
-			SetShaderFloat(shaderValue, (overallString + "diffuse").data(), currentPointLight->diffuse);
-			SetShaderFloat(shaderValue, (overallString + "specular").data(), currentPointLight->specular);
+	for (int i = 0; i < PointLightObjectCount; i++) {
+		Object* CurrentObject = AllPointLightObjects[i];
 
-			SetShaderFloat(shaderValue, (overallString + "attenuationConstant").data(), currentPointLight->attenuationConstant);
-			SetShaderFloat(shaderValue, (overallString + "attenuationLinear").data(), currentPointLight->attenuationLinear);
-			SetShaderFloat(shaderValue, (overallString + "attenuationQuadratic").data(), currentPointLight->attenuationQuadratic);
-			
-			// Shadows
-			glActiveTexture(GL_TEXTURE16 + lightCount);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, currentPointLight->depthCubemap);
-			SetShaderInt(shaderValue, ("pointShadowMaps[" + to_string(lightCount) + "]").data(), 16 + lightCount);
-			SetShaderFloat(shaderValue, ("pointShadowFars[" + to_string(lightCount) + "]").data(), currentPointLight->farLight);
+		PointLight* currentPointLight = CurrentObject->GetComponent<PointLight*>();
+		Transform* currentLightTransform = CurrentObject->GetComponent<Transform*>();
+		string overallString = "allPointLights[" + to_string(lightCount) + "].";
 
-			lightCount = lightCount + 1;
-		}
+		SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->position);
+
+		SetShaderFloat(shaderValue, (overallString + "intensity").data(), currentPointLight->intensity);
+		SetShaderFloat(shaderValue, (overallString + "ambient").data(), currentPointLight->ambient);
+		SetShaderFloat(shaderValue, (overallString + "diffuse").data(), currentPointLight->diffuse);
+		SetShaderFloat(shaderValue, (overallString + "specular").data(), currentPointLight->specular);
+
+		SetShaderFloat(shaderValue, (overallString + "attenuationConstant").data(), currentPointLight->attenuationConstant);
+		SetShaderFloat(shaderValue, (overallString + "attenuationLinear").data(), currentPointLight->attenuationLinear);
+		SetShaderFloat(shaderValue, (overallString + "attenuationQuadratic").data(), currentPointLight->attenuationQuadratic);
+
+		// Shadows
+		glActiveTexture(GL_TEXTURE16 + lightCount);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, currentPointLight->depthCubemap);
+		SetShaderInt(shaderValue, ("pointShadowMaps[" + to_string(lightCount) + "]").data(), 16 + lightCount);
+		SetShaderFloat(shaderValue, ("pointShadowFars[" + to_string(lightCount) + "]").data(), currentPointLight->farLight);
+
+		lightCount = lightCount + 1;
 	}
 
 	SetShaderInt(shaderValue, "pointLightCount", lightCount);

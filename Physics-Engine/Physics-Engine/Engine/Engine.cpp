@@ -125,6 +125,31 @@ void PhysicsEngine::LoadScene(string name) {
 	// Scene not found
 	throw ("Scene with name: " + name + " not found.").data();
 }
+Scene* PhysicsEngine::GetCurrentScene() {
+	return &loadedScenes[currentScene];
+}
+
+vector<Object*> PhysicsEngine::GetAllSceneObjects() {
+	Scene* CurrentLoadedScene = &loadedScenes[currentScene];
+	map<string, Object>* sceneObjects = &CurrentLoadedScene->SceneObjects;
+
+	vector<Object*> ReturnedObjects;
+	for (map<string, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
+		ReturnedObjects.push_back(&it->second);
+	}
+
+	return ReturnedObjects;
+}
+
+Object* PhysicsEngine::CreateNewSceneObject(string ObjectName) {
+	return loadedScenes[currentScene].CreateSceneObject(ObjectName);
+}
+Object* PhysicsEngine::FindSceneObject(string ObjectName) {
+	return loadedScenes[currentScene].GetSceneObjectByID(ObjectName);
+}
+void PhysicsEngine::DeleteSceneObject(string ObjectName) {
+	loadedScenes[currentScene].DeleteObjectByID(ObjectName);
+}
 
 mat4 PhysicsEngine::viewMatrix() {
 	return loadedScenes[currentScene].mainCamera->viewMatrix();

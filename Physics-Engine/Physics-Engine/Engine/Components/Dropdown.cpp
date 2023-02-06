@@ -56,7 +56,7 @@ void Dropdown::OpenDropdown() {
 
 	for (int i = 0; i < EntryCount; i++) {
 		string NewObjectName = string(ParentObjectName) + "_DropdownEntry_" + to_string(i);
-		Object* NewDropdownEntry = PhysicsEngine::loadedScenes[PhysicsEngine::currentScene].CreateSceneObject(NewObjectName);
+		Object* NewDropdownEntry = PhysicsEngine::CreateNewSceneObject(NewObjectName);
 		
 		// Add Components
 		NewDropdownEntry->AddComponent<Text>();
@@ -81,7 +81,7 @@ void Dropdown::CloseDropdown() {
 	int EntryCount = DropdownEntryObjectPointers.size();
 
 	for (int i = 0; i < EntryCount; i++) {
-		PhysicsEngine::loadedScenes[PhysicsEngine::currentScene].DeleteObjectByID(DropdownEntryObjectPointers[i]->name);
+		PhysicsEngine::DeleteSceneObject(DropdownEntryObjectPointers[i]->name);
 	}
 	DropdownEntryObjectPointers.clear();
 

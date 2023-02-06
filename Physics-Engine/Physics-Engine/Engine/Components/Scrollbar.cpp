@@ -22,7 +22,7 @@ void Scrollbar::CreateSubObjects() {
 	ParentObject()->AddComponent<Button>();
 	ParentObject()->GetComponent<Button*>()->texturePath = ScrollbarBackgroundTexturePath;
 
-	ScrollbarSlider = PhysicsEngine::loadedScenes[PhysicsEngine::currentScene].CreateSceneObject((string(ParentObjectName) + "_ScrollbarSlider").data());
+	ScrollbarSlider = PhysicsEngine::CreateNewSceneObject((string(ParentObjectName) + "_ScrollbarSlider").data());
 	ScrollbarSlider->AddComponent<Button>();
 	ScrollbarSlider->GetComponent<Button*>()->texturePath = ScrollbarSliderTexturePath;
 	ScrollbarSlider->GetComponent<Transform*>()->scale = ScrollbarSliderScale;

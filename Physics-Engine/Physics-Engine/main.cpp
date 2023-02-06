@@ -12,6 +12,7 @@ int main(void) {
 	newScene.mainCamera = cameraObject->GetComponent<Camera*>();
 
 	Object* NewModel = newScene.CreateSceneObject("Earth");
+
 	NewModel->AddComponent<ViewModel>();
 	NewModel->GetComponent<ViewModel*>()->LoadOBJ("Assets/Cube.obj");
 	NewModel->GetComponent<ViewModel*>()->ObjectColour = vec3(0.2f, 0.9f, 0.2f);
@@ -20,6 +21,7 @@ int main(void) {
 	NewModel->GetComponent<Transform*>()->charge = -100.0f;
 
 	Object* OrbitingModel = newScene.CreateSceneObject("Moon");
+
 	OrbitingModel->AddComponent<ViewModel>();
 	OrbitingModel->GetComponent<ViewModel*>()->LoadOBJ("Assets/sphere.obj");
 	OrbitingModel->GetComponent<ViewModel*>()->ObjectColour = vec3(0.9f, 0.2f, 0.2f);
@@ -29,6 +31,8 @@ int main(void) {
 	OrbitingModel->GetComponent<Transform*>()->mass = 14059375000.0f;
 	OrbitingModel->GetComponent<Transform*>()->charge = 1.0f;
 	OrbitingModel->GetComponent<Transform*>()->velocity = vec3(4.0f, 0.0f, 0.0f);
+
+
 
     PhysicsEngine gameEngine("Game Engine", 1280, 720, false, newScene);
     return 0;

@@ -25,15 +25,17 @@ void Transform::Mainloop() {
 
 	// update gravitational and electric force
 	if (mass != 0.0f || charge != 0.0f) {
-		Scene* currentScene = &PhysicsEngine::loadedScenes[PhysicsEngine::currentScene];
-		map<string, Object>* sceneObjects = &currentScene->SceneObjects;
+		vector<Object*> AllSceneObjects = PhysicsEngine::GetAllSceneObjects();
+		int SceneObjectCount = AllSceneObjects.size();
 
-		for (map<string, Object>::iterator it = sceneObjects->begin(); it != sceneObjects->end(); it++) {
-			if (it->first == ParentObjectName) {
+		for (int i = 0; i < SceneObjectCount; i++) {
+			Object* CurrentObject = AllSceneObjects[i];
+
+			if (CurrentObject->name == ParentObjectName) {
 				continue;
 			}
 
-			Transform* secondTransform = it->second.GetComponent<Transform*>();
+			Transform* secondTransform = CurrentObject->GetComponent<Transform*>();
 			UpdateGravityElectricalForce(secondTransform);
 		}
 	}
