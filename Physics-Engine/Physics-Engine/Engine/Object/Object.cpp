@@ -63,7 +63,7 @@ Component* CreateComponent(AllComponents* objectComponents, string componentName
 }
 
 Object::Object() {
-	//AddComponent<Transform>();
+	
 }
 void Object::ObjectMainloop() {
 	for (unordered_map<string, Component*>::iterator it = components.begin(); it != components.end(); it++) {

@@ -8,7 +8,6 @@ void Dropdown::Mainloop() {
 	
 	OpenCloseDropdown();
 	CheckEntryPress();
-	UpdateEntryTransforms();
 }
 void Dropdown::Initialise() {
 	if (initialised) {
@@ -87,34 +86,4 @@ void Dropdown::CloseDropdown() {
 	DropdownEntryObjectPointers.clear();
 
 	DropdownOpen = false;
-}
-
-void Dropdown::UpdateEntryTransforms() {
-	if (!DropdownOpen) {
-		return;
-	}
-
-	/*
-	mat4 newMatrix = mat4(1.0f);
-	vec3 rotation = ParentObject()->GetComponent<Transform*>()->rotation;
-	
-	newMatrix = scale(newMatrix, vec3(PhysicsEngine::displayHeight / PhysicsEngine::displayWidth, 1.0f, 1.0f));
-
-	newMatrix = rotate(newMatrix, radians(rotation.x), vec3(1.0f, 0.0f, 0.0f));
-	newMatrix = rotate(newMatrix, radians(rotation.y), vec3(0.0f, 1.0f, 0.0f));
-	newMatrix = rotate(newMatrix, radians(rotation.z), vec3(0.0f, 0.0f, 1.0f));
-
-	newMatrix = scale(newMatrix, ParentObject()->GetComponent<Transform*>()->scale * vec3(2.0f));
-
-	int EntryCount = DropdownEntryObjectPointers.size();
-	for (int i = 0; i < EntryCount; i++) {
-		DropdownEntryObjectPointers[i]->allComponents.transform = *ParentObject()->GetComponent<Transform*>();
-
-		// Adjust Position of Entry
-		
-		vec2 ShiftedUIPosition = newMatrix * vec4(0.0f, DeltaY, 0.0f, 1.0f);
-
-		DropdownEntryObjectPointers[i]->GetComponent<Transform*>()->position += vec3(ShiftedUIPosition, 0.0f);
-	}
-	*/
 }

@@ -11,18 +11,24 @@
 
 int CreateShader(const char* filePath, GLenum shaderType) {
 	// get lines from file
-	string allLines;
 	vector<string> shaderLines = readLines(filePath);
-	for (string line : shaderLines) {
-		allLines = allLines + line + "\n";
+	int LineCount = shaderLines.size();
+
+	string allLines;
+	for (int i = 0; i < LineCount; i++) {
+		allLines = allLines + shaderLines[i] + "\n";
 	}
+
 	const char* shaderSource = allLines.data();
+
 	// compile
 	int newShader = glCreateShader(shaderType);
 	glShaderSource(newShader, 1, &shaderSource, NULL);
+
 	glCompileShader(newShader);
 	int compileResult;
 	char infoLog[512];
+
 	glGetShaderiv(newShader, GL_COMPILE_STATUS, &compileResult);
 	if (!compileResult) {
 		glGetShaderInfoLog(newShader, 512, NULL, infoLog);

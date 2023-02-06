@@ -15,7 +15,9 @@ int main(void) {
 	NewModel->AddComponent<ViewModel>();
 	NewModel->GetComponent<ViewModel*>()->LoadOBJ("Assets/Cube.obj");
 	NewModel->GetComponent<ViewModel*>()->ObjectColour = vec3(0.2f, 0.9f, 0.2f);
-	NewModel->GetComponent<Transform*>()->mass = 1000000000000.0f;
+
+	//NewModel->GetComponent<Transform*>()->mass = 10000000000000000.0f;
+	NewModel->GetComponent<Transform*>()->charge = -100.0f;
 
 	Object* OrbitingModel = newScene.CreateSceneObject("Moon");
 	OrbitingModel->AddComponent<ViewModel>();
@@ -23,8 +25,10 @@ int main(void) {
 	OrbitingModel->GetComponent<ViewModel*>()->ObjectColour = vec3(0.9f, 0.2f, 0.2f);
 	OrbitingModel->GetComponent<Transform*>()->position = vec3(0.0f, 4.0f, 0.0f);
 	OrbitingModel->GetComponent<Transform*>()->scale = vec3(0.2f);
-	OrbitingModel->GetComponent<Transform*>()->mass = 1.0f;
-	OrbitingModel->GetComponent<Transform*>()->velocity = vec3(4.08f, 0.0f, 0.0f);
+
+	OrbitingModel->GetComponent<Transform*>()->mass = 14059375000.0f;
+	OrbitingModel->GetComponent<Transform*>()->charge = 1.0f;
+	OrbitingModel->GetComponent<Transform*>()->velocity = vec3(4.0f, 0.0f, 0.0f);
 
     PhysicsEngine gameEngine("Game Engine", 1280, 720, false, newScene);
     return 0;

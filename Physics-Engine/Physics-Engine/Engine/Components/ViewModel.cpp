@@ -82,70 +82,35 @@ void ViewModel::LoadOBJFace(vector<string> faceData, vector<vec3> fileVertices, 
 
 	if (verticesType == VERTICES_POINTS_ONLY) {
 		// Face 1
-		vertices.push_back(fileVertices[faceOne.x].x);
-		vertices.push_back(fileVertices[faceOne.x].y);
-		vertices.push_back(fileVertices[faceOne.x].z);
-		
-		vertices.push_back(fileVertices[faceOne.z].x);
-		vertices.push_back(fileVertices[faceOne.z].y);
-		vertices.push_back(fileVertices[faceOne.z].z);
+		AddVec3ToVector(&vertices, fileVertices[faceOne.x]);
+		AddVec3ToVector(&vertices, fileVertices[faceOne.z]);
 		
 		// Face 2
-		vertices.push_back(fileVertices[faceTwo.x].x);
-		vertices.push_back(fileVertices[faceTwo.x].y);
-		vertices.push_back(fileVertices[faceTwo.x].z);
-
-		vertices.push_back(fileVertices[faceTwo.z].x);
-		vertices.push_back(fileVertices[faceTwo.z].y);
-		vertices.push_back(fileVertices[faceTwo.z].z);
+		AddVec3ToVector(&vertices, fileVertices[faceTwo.x]);
+		AddVec3ToVector(&vertices, fileVertices[faceTwo.z]);
 
 		// Face 3
-		vertices.push_back(fileVertices[faceThree.x].x);
-		vertices.push_back(fileVertices[faceThree.x].y);
-		vertices.push_back(fileVertices[faceThree.x].z);
-
-		vertices.push_back(fileVertices[faceThree.z].x);
-		vertices.push_back(fileVertices[faceThree.z].y);
-		vertices.push_back(fileVertices[faceThree.z].z);
+		AddVec3ToVector(&vertices, fileVertices[faceThree.x]);
+		AddVec3ToVector(&vertices, fileVertices[faceThree.z]);
 	}
 	if (verticesType == VERTICES_POINTS_TEXTURE) {
 		// Face 1
-		vertices.push_back(fileVertices[faceOne.x].x);
-		vertices.push_back(fileVertices[faceOne.x].y);
-		vertices.push_back(fileVertices[faceOne.x].z);
-
-		vertices.push_back(textureVertices[faceOne.y].x);
-		vertices.push_back(textureVertices[faceOne.y].y);
-
-		vertices.push_back(fileVertices[faceOne.z].x);
-		vertices.push_back(fileVertices[faceOne.z].y);
-		vertices.push_back(fileVertices[faceOne.z].z);
+		AddVec3ToVector(&vertices, fileVertices[faceOne.x]);
+		AddVec2ToVector(&vertices, textureVertices[faceOne.y]);
+		AddVec3ToVector(&vertices, fileVertices[faceOne.z]);
 		
 		// Face 2
-		vertices.push_back(fileVertices[faceTwo.x].x);
-		vertices.push_back(fileVertices[faceTwo.x].y);
-		vertices.push_back(fileVertices[faceTwo.x].z);
-
-		vertices.push_back(textureVertices[faceTwo.y].x);
-		vertices.push_back(textureVertices[faceTwo.y].y);
-
-		vertices.push_back(fileVertices[faceTwo.z].x);
-		vertices.push_back(fileVertices[faceTwo.z].y);
-		vertices.push_back(fileVertices[faceTwo.z].z);
+		AddVec3ToVector(&vertices, fileVertices[faceTwo.x]);
+		AddVec2ToVector(&vertices, textureVertices[faceTwo.y]);
+		AddVec3ToVector(&vertices, fileVertices[faceTwo.z]);
 		
 		// Face 3
-		vertices.push_back(fileVertices[faceThree.x].x);
-		vertices.push_back(fileVertices[faceThree.x].y);
-		vertices.push_back(fileVertices[faceThree.x].z);
-		
-		vertices.push_back(textureVertices[faceThree.y].x);
-		vertices.push_back(textureVertices[faceThree.y].y);
-
-		vertices.push_back(fileVertices[faceThree.z].x);
-		vertices.push_back(fileVertices[faceThree.z].y);
-		vertices.push_back(fileVertices[faceThree.z].z);
+		AddVec3ToVector(&vertices, fileVertices[faceThree.x]);
+		AddVec2ToVector(&vertices, textureVertices[faceThree.y]);
+		AddVec3ToVector(&vertices, fileVertices[faceThree.z]);
 	}
 }
+
 ivec3 ViewModel::LoadOBJFacePoint(string point) {
 	ivec3 result = ivec3(-1, -1, -1);
 	vector<string> indexes = splitCharacter(point, '/');
@@ -160,6 +125,15 @@ ivec3 ViewModel::LoadOBJFacePoint(string point) {
 	}
 	
 	return result;
+}
+void ViewModel::AddVec3ToVector(vector<float>* UsedVector, vec3 UsedPoint) {
+	UsedVector->push_back(UsedPoint.x);
+	UsedVector->push_back(UsedPoint.y);
+	UsedVector->push_back(UsedPoint.z);
+}
+void ViewModel::AddVec2ToVector(vector<float>* UsedVector, vec2 UsedPoint) {
+	UsedVector->push_back(UsedPoint.x);
+	UsedVector->push_back(UsedPoint.y);
 }
 
 void ViewModel::initialiseShader() {
@@ -231,7 +205,7 @@ void ViewModel::Render() {
 
 	mat4 modelMatrix = ParentObject()->GetComponent<Transform*>()->getModelMatrix();
 	SetShaderMat4(usedShader, "model", modelMatrix);
-
+	
 	PointLight::ApplyPointLights(usedShader);
 	DirectionalLight::ApplyDirectionalLights(usedShader);
 
