@@ -105,7 +105,7 @@ void PointLight::RenderCubeMap() {
 	
 	// Draw
 	vector<Object*> AllPointLightObjects = PhysicsEngine::GetObjectsWithComponent<ViewModel>();
-	int PointLightObjectCount = AllPointLightObjects.size();
+	int PointLightObjectCount = int(AllPointLightObjects.size());
 
 	for (int i = 0; i < PointLightObjectCount; i++) {
 		Object* CurrentObject = AllPointLightObjects[i];
@@ -121,14 +121,14 @@ void PointLight::RenderCubeMap() {
 
 	// End
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, PhysicsEngine::displayWidth, PhysicsEngine::displayHeight);
+	glViewport(0, 0, GLsizei(PhysicsEngine::displayWidth), GLsizei(PhysicsEngine::displayHeight));
 }
 
 void PointLight::ApplyPointLights(int shaderValue) {
 	int lightCount = 0;
 
 	vector<Object*> AllPointLightObjects = PhysicsEngine::GetObjectsWithComponent<PointLight>();
-	int PointLightObjectCount = AllPointLightObjects.size();
+	int PointLightObjectCount = int(AllPointLightObjects.size());
 
 	for (int i = 0; i < PointLightObjectCount; i++) {
 		Object* CurrentObject = AllPointLightObjects[i];

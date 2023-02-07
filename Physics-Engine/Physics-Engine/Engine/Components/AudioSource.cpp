@@ -44,7 +44,7 @@ void AudioSource::Initialise() {
 	rawAudioData = GetAudioSamples(audioFileMP3Filename.data());
 	
 	alGenBuffers(1, &bufferID);
-	alBufferData(bufferID, AL_FORMAT_MONO16, &rawAudioData.second[0], rawAudioData.second.size() * sizeof(ALshort), rawAudioData.first);
+	alBufferData(bufferID, AL_FORMAT_MONO16, &rawAudioData.second[0], ALsizei(rawAudioData.second.size() * sizeof(ALshort)), rawAudioData.first);
 	
 	alGenSources(1, &sourceID);
 	alSourcei(sourceID, AL_BUFFER, bufferID);
@@ -65,10 +65,10 @@ void AudioSource::Stop() {
 }
 
 void AudioSource::SetPositionTime(float time) {
-	int sampleOffset = time * rawAudioData.first;
+	ALfloat sampleOffset = ALfloat(int(time * rawAudioData.first));
 	alSourcef(sourceID, AL_SAMPLE_OFFSET, sampleOffset);
 }
 void AudioSource::SetPositionDecimal(float percentageDecimal) {
-	int sampleOffset = percentageDecimal * rawAudioData.second.size();
+	ALfloat sampleOffset = ALfloat(int(percentageDecimal * rawAudioData.second.size()));
 	alSourcef(sourceID, AL_SAMPLE_OFFSET, sampleOffset);
 }

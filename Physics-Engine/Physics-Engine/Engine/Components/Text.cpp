@@ -22,7 +22,7 @@ void Text::Initialise() {
 vec2 Text::MeasureText() {
 	vec2 ResultantSize = vec2(0.0f); // Length X, Max Y
 
-	int TextLength = DisplayedText.length();
+	int TextLength = int(DisplayedText.length());
 	for (int i = 0; i < TextLength; i++) {
 		ResultantSize.x += FontCharacters->at(DisplayedText[i]).Size.x;
 		ResultantSize.y = fmaxf(ResultantSize.y, FontCharacters->at(DisplayedText[i]).Size.y);
@@ -90,30 +90,32 @@ void Text::Render() {
 	mat4 InitialModelMatrix = ParentObject()->GetComponent<Transform*>()->getUIModelMatrix();
 
 	// Render character by character
-	int TextLength = DisplayedText.length();
+	int TextLength = int(DisplayedText.length());
 	for (int i = 0; i < TextLength; i++) {
 		if (FontCharacters->find(DisplayedText[i]) == FontCharacters->end()) {
 			throw ("Character:" + to_string(DisplayedText[i]) + ": does not exist in font.").data();
 		}
 
-		glBindTexture(GL_TEXTURE_2D, FontCharacters->at(DisplayedText[i]).TextureID);
+		Character* CurrentCharacter = &FontCharacters->at(DisplayedText[i]);
+
+		glBindTexture(GL_TEXTURE_2D, CurrentCharacter->TextureID);
 		mat4 ModelMatrix = InitialModelMatrix;
 
 		// Reverse Scaling To Translate To Character Position
 		ModelMatrix = translate(ModelMatrix, vec3(StartX, 0.0f, 0.0f));
 
-		float RightShift = (AccumulativeSize + 0.5f * FontCharacters->at(DisplayedText[i]).Size.x) * SizeRatio;
+		float RightShift = (AccumulativeSize + 0.5f * CurrentCharacter->Size.x) * SizeRatio;
 		ModelMatrix = translate(ModelMatrix, vec3(RightShift, 0.0f, 0.0f));
 		
 		// Scale To Character Shape and As A Proportion of Entire Text
-		ModelMatrix = scale(ModelMatrix, vec3(FontCharacters->at(DisplayedText[i]).Size, 1.0f));
-		ModelMatrix = scale(ModelMatrix, vec3((FontCharacters->at(DisplayedText[i]).Size.x / TextSize.x) / AspectRatio, 1.0f, 1.0f));
+		ModelMatrix = scale(ModelMatrix, vec3(CurrentCharacter->Size, 1.0f));
+		ModelMatrix = scale(ModelMatrix, vec3((CurrentCharacter->Size.x / TextSize.x) / AspectRatio, 1.0f, 1.0f));
 
 		// Render
 		SetShaderMat4(CharacterShader, "model", ModelMatrix);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		AccumulativeSize += FontCharacters->at(DisplayedText[i]).Size.x;
+		AccumulativeSize += CurrentCharacter->Size.x;
 	}
 }
 

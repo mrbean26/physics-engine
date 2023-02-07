@@ -22,7 +22,7 @@ void Collider::InitialiseMeshVertices() {
 	ViewModel* objectViewModel = ParentObject()->GetComponent<ViewModel*>();
 
 	if (objectViewModel->verticesType == VERTICES_POINTS_ONLY) {
-		int vertexCount = objectViewModel->vertices.size();
+		int vertexCount = int(objectViewModel->vertices.size());
 
 		for (int i = 0; i < vertexCount; i += 6) {
 			vec3 newPoint = vec3(0.0f);
@@ -35,7 +35,7 @@ void Collider::InitialiseMeshVertices() {
 		}
 	}
 	if (objectViewModel->verticesType == VERTICES_POINTS_TEXTURE) {
-		int vertexCount = objectViewModel->vertices.size();
+		int vertexCount = int(objectViewModel->vertices.size());
 
 		for (int i = 0; i < vertexCount; i += 8) {
 			vec3 newPoint = vec3(0.0f);
@@ -96,7 +96,7 @@ void Collider::updateMatrixVertices() {
 	}
 
 	modelMatrixVertices.clear();
-	int count = triangleFaceVertices.size();
+	int count = int(triangleFaceVertices.size());
 	
 	mat4 modelMatrix = ParentObject()->GetComponent<Transform*>()->getModelMatrix();
 	for (int i = 0; i < count; i++) {
@@ -109,7 +109,7 @@ void Collider::updateMatrixVertices() {
 
 // Detection
 bool Collider::checkCollider2D(vec3 point, int pointOneShift, int pointTwoShift) {
-	int vertexCount = triangleFaceVertices.size();
+	int vertexCount = int(triangleFaceVertices.size());
 
 	vec2 checkPoint = vec2(point[pointOneShift], point[pointTwoShift]);
 	for (int i = 0; i < vertexCount; i += 3) {
@@ -161,7 +161,7 @@ void Collider::updateCollisions() {
 	Transform* thisTransform = ParentObject()->GetComponent<Transform*>();
 
 	vector<Object*> AllColliderObjects = PhysicsEngine::GetObjectsWithComponent<Collider>();
-	int ColliderObjectCount = AllColliderObjects.size();
+	int ColliderObjectCount = int(AllColliderObjects.size());
 
 	for (int i = 0; i < ColliderObjectCount; i++) {
 		Object* CurrentObject = AllColliderObjects[i];
@@ -183,11 +183,10 @@ void Collider::updateCollisions() {
 			Transform* secondTransform = CurrentObject->GetComponent<Transform*>();
 			vector<vec3> secondColliderPoints = secondCollider->modelMatrixVertices;
 
-			int count = secondColliderPoints.size();
+			int count = int(secondColliderPoints.size());
 			for (int i = 0; i < count; i++) {
 				if (pointInCollider(secondColliderPoints[i])) {
 					// Assume perfectly elastic collision due to no heat energy concept
-
 					// First Object
 					float scalarOne = (thisTransform->mass - secondTransform->mass) / (thisTransform->mass + secondTransform->mass);
 					float scalarTwo = (2.0f * secondTransform->mass) / (thisTransform->mass + secondTransform->mass);

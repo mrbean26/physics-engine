@@ -40,7 +40,7 @@ void Dropdown::CheckEntryPress() {
 		return;
 	}
 
-	int EntryCount = DropdownEntryObjectPointers.size();
+	int EntryCount = int(DropdownEntryObjectPointers.size());
 	for (int i = 0; i < EntryCount; i++) {
 		if (DropdownEntryObjectPointers[i]->GetComponent<Button*>()->ButtonClicked) {
 			DropdownEntryValueIndex = i;
@@ -52,7 +52,7 @@ void Dropdown::CheckEntryPress() {
 }
 
 void Dropdown::OpenDropdown() {
-	int EntryCount = DropdownEntries.size();
+	int EntryCount = int(DropdownEntries.size());
 
 	for (int i = 0; i < EntryCount; i++) {
 		string NewObjectName = string(ParentObjectName) + "_DropdownEntry_" + to_string(i);
@@ -78,7 +78,7 @@ void Dropdown::OpenDropdown() {
 	DropdownOpen = true;
 }
 void Dropdown::CloseDropdown() {
-	int EntryCount = DropdownEntryObjectPointers.size();
+	int EntryCount = int(DropdownEntryObjectPointers.size());
 
 	for (int i = 0; i < EntryCount; i++) {
 		PhysicsEngine::DeleteSceneObject(DropdownEntryObjectPointers[i]->name);

@@ -10,7 +10,7 @@ using namespace std;
 
 #include <Engine/Components/ViewModel.h>
 
-#define GRAVITATIONAL_CONSTANT 6.67e-11
+#define GRAVITATIONAL_CONSTANT 6.67e-11f
 #define ELECTRIC_CONSTANT 8998000000
 
 Transform::Transform() {
@@ -26,7 +26,7 @@ void Transform::Mainloop() {
 	// update gravitational and electric force
 	if (mass != 0.0f || charge != 0.0f) {
 		vector<Object*> AllSceneObjects = PhysicsEngine::GetAllSceneObjects();
-		int SceneObjectCount = AllSceneObjects.size();
+		int SceneObjectCount = int(AllSceneObjects.size());
 
 		for (int i = 0; i < SceneObjectCount; i++) {
 			Object* CurrentObject = AllSceneObjects[i];
@@ -119,8 +119,8 @@ vec3 Transform::GetFullWorldRotation() {
 void Transform::UpdateGravityElectricalForce(Transform* secondTransform) {
 	float distanceApart = distance(position, secondTransform->position);
 
-	if (distanceApart <= 0.01f) {
-		distanceApart = INFINITY;
+	if (distanceApart <= 0.25f) {
+		return;
 	}
 
 	float gravitationalForceMagnitude = -GRAVITATIONAL_CONSTANT * ((mass * secondTransform->mass) / powf(distanceApart, 2.0f)); // universal law of gravitation

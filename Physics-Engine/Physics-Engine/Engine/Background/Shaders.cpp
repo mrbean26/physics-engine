@@ -16,7 +16,7 @@ int CreateShader(const char* filePath, GLenum shaderType) {
 
 	// get lines from file
 	vector<string> shaderLines = readLines(filePath);
-	int LineCount = shaderLines.size();
+	int LineCount = int(shaderLines.size());
 
 	string allLines;
 	for (int i = 0; i < LineCount; i++) {
@@ -43,7 +43,7 @@ int CreateShader(const char* filePath, GLenum shaderType) {
 }
 int CreateProgram(vector<int> shaders) {
 	int newProgram = glCreateProgram();
-	int shaderCount = shaders.size();
+	int shaderCount = int(shaders.size());
 	for (int i = 0; i < shaderCount; i++) {
 		glAttachShader(newProgram, shaders[i]);
 	}

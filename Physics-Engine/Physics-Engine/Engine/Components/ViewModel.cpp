@@ -45,7 +45,7 @@ void ViewModel::LoadOBJ(const char* filePath) {
 	vector<vec3> vertexNormals;
 
 	vector<string> fileLines = readLines(filePath);
-	int lineCount = fileLines.size();
+	int lineCount = int(fileLines.size());
 
 	for (int i = 0; i < lineCount; i++) {
 		vector<string> lineData = splitCharacter(fileLines[i], ' ');
@@ -173,7 +173,7 @@ void ViewModel::InitialiseVertices() {
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
 
-		ObjectDrawSize = vertices.size() / 6;
+		ObjectDrawSize = GLuint(vertices.size() / 6);
 	}
 	if (verticesType == VERTICES_POINTS_TEXTURE) {
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
@@ -185,7 +185,7 @@ void ViewModel::InitialiseVertices() {
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
 		glEnableVertexAttribArray(2);
 
-		ObjectDrawSize = vertices.size() / 8;
+		ObjectDrawSize = GLuint(vertices.size() / 8);
 	}
 }
 

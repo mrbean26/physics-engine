@@ -34,8 +34,8 @@ PhysicsEngine::PhysicsEngine(const char* title, int width, int height, bool full
 	
 	glfwMakeContextCurrent(mainWindow);
 	glfwSetMouseButtonCallback(mainWindow, UpdateMouseEvent);
-	displayWidth = width;
-	displayHeight = height;
+	displayWidth = float(width);
+	displayHeight = float(height);
 
 	if (glewInit() != GLEW_OK) {
 		return;
@@ -71,8 +71,8 @@ void PhysicsEngine::EngineMainloop() {
 
 		loadedScenes[currentScene].SceneMainloop();
 
-		deltaTime = glfwGetTime() - runtime;
-		runtime = glfwGetTime();
+		deltaTime = float(glfwGetTime()) - runtime;
+		runtime = float(glfwGetTime());
 
 		glfwSwapBuffers(mainWindow);
 		glfwPollEvents();
@@ -113,7 +113,7 @@ void PhysicsEngine::AddScene(Scene newScene) {
 	loadedScenes.push_back(newScene);
 }
 void PhysicsEngine::LoadScene(string name) {
-	int sceneCount = loadedScenes.size();
+	int sceneCount = int(loadedScenes.size());
 
 	for (int i = 0; i < sceneCount; i++) {
 		if (loadedScenes[i].name == name) {

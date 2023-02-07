@@ -59,7 +59,7 @@ void DirectionalLight::RenderDepthMap() {
 	glUseProgram(depthMapShader);
 
 	vector<Object*> AllViewmodelObjects = PhysicsEngine::GetObjectsWithComponent<ViewModel>();
-	int ViewmodelObjectCount = AllViewmodelObjects.size();
+	int ViewmodelObjectCount = int(AllViewmodelObjects.size());
 
 	for (int i = 0; i < ViewmodelObjectCount; i++) {
 		Object* CurrentObject = AllViewmodelObjects[i];
@@ -75,7 +75,7 @@ void DirectionalLight::RenderDepthMap() {
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, PhysicsEngine::displayWidth, PhysicsEngine::displayHeight);
+	glViewport(0, 0, GLsizei(PhysicsEngine::displayWidth), GLsizei(PhysicsEngine::displayHeight));
 }
 
 vec3 DirectionalLight::LightTarget() {
@@ -112,7 +112,7 @@ void DirectionalLight::ApplyDirectionalLights(int shaderValue) {
 	int lightCount = 0;
 	
 	vector<Object*> AllDirectionalLightObjects = PhysicsEngine::GetObjectsWithComponent<DirectionalLight>();
-	int DirectionalLightObjectCount = AllDirectionalLightObjects.size();
+	int DirectionalLightObjectCount = int(AllDirectionalLightObjects.size());
 
 	for (int i = 0; i < DirectionalLightObjectCount; i++) {
 		Object* CurrentObject = AllDirectionalLightObjects[i];

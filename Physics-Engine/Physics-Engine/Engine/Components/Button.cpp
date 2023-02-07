@@ -34,7 +34,7 @@ void Button::UpdateClicks() {
 
 	Transform* ParentTransform = ParentObject()->GetComponent<Transform*>();
 	vector<Object*> AllButtonObjects = PhysicsEngine::GetObjectsWithComponent<Button>();
-	int ButtonObjectCount = AllButtonObjects.size();
+	int ButtonObjectCount = int(AllButtonObjects.size());
 
 	bool ClickedButtonOverlaying = false;
 	for (int i = 0; i < ButtonObjectCount; i++) {

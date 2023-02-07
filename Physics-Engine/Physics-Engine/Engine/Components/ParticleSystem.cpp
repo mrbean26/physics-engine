@@ -21,7 +21,7 @@ void ParticleSystem::Initialise() {
 }
 
 void ParticleSystem::GenerateParticles() {
-	int CurrentParticleCount = AllParticles.size();
+	int CurrentParticleCount = int(AllParticles.size());
 
 	if (CurrentProductionCountdown <= 0.0f && CurrentParticleCount < MaxParticleCount) {
 		CreatedParticleCount = CreatedParticleCount + 1;
@@ -61,14 +61,14 @@ vec3 ParticleSystem::GetParticleDirection() {
 }
 
 void ParticleSystem::ScaleParticles() {
-	int CurrentParticleCount = AllParticles.size();
+	int CurrentParticleCount = int(AllParticles.size());
 	
 	for (int i = 0; i < CurrentParticleCount; i++) {
 		AllParticles[i].second->GetComponent<Transform*>()->scale *= vec3(1.0f - ScalingMultiplier * PhysicsEngine::deltaTime);
 	}
 }
 void ParticleSystem::RemoveParticles() {
-	int CurrentParticleCount = AllParticles.size();
+	int CurrentParticleCount = int(AllParticles.size());
 	
 	for (int i = 0; i < CurrentParticleCount; i++) {
 		AllParticles[i].first -= PhysicsEngine::deltaTime;
