@@ -31,12 +31,12 @@ mat4 Scrollbar::GetUIMatrix() {
 	Transform* ParentTransform = ParentObject()->GetComponent<Transform*>();
 
 	mat4 NewMatrix = mat4(1.0f);
-	NewMatrix = translate(NewMatrix, ParentTransform->position);
+	NewMatrix = translate(NewMatrix, ParentTransform->GetFullWorldPosition());
 
-	vec3 newScale = ParentTransform->scale * vec3(PhysicsEngine::displayHeight / PhysicsEngine::displayWidth, 1.0f, 1.0f);
+	vec3 newScale = ParentTransform->GetFullWorldScale() * vec3(PhysicsEngine::displayHeight / PhysicsEngine::displayWidth, 1.0f, 1.0f);
 	NewMatrix = scale(NewMatrix, newScale);
 
-	vec3 rotation = ParentTransform->rotation;
+	vec3 rotation = ParentTransform->GetFullWorldRotation();
 	NewMatrix = rotate(NewMatrix, radians(rotation.x), vec3(1.0f, 0.0f, 0.0f));
 	NewMatrix = rotate(NewMatrix, radians(rotation.y), vec3(0.0f, 1.0f, 0.0f));
 	NewMatrix = rotate(NewMatrix, radians(rotation.z), vec3(0.0f, 0.0f, 1.0f));

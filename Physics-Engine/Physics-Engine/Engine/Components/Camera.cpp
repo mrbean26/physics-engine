@@ -13,8 +13,8 @@ mat4 Camera::viewMatrix() {
 	// View
 	Transform* cameraTransform = ParentObject()->GetComponent<Transform*>();
 
-	vec3 cameraPosition = cameraTransform->position;
-	vec3 cameraRotation = cameraTransform->rotation;
+	vec3 cameraPosition = cameraTransform->GetFullWorldPosition();
+	vec3 cameraRotation = cameraTransform->GetFullWorldRotation();
 	
 	// View Matrix
 	mat4 viewMatrix = mat4(1.0f);

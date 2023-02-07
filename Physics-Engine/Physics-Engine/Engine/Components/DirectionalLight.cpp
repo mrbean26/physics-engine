@@ -23,7 +23,6 @@ void DirectionalLight::Initialise() {
 	initialised = true;
 }
 
-
 void DirectionalLight::InitialiseDepthMap() {
 	glGenFramebuffers(1, &depthMapFBO);
 
@@ -85,9 +84,11 @@ vec3 DirectionalLight::LightTarget() {
 	Transform* parentTransform = ParentObject()->GetComponent<Transform*>();
 
 	mat4 rotationalMatrix = mat4(1.0f);
-	rotationalMatrix = rotate(rotationalMatrix, -radians(parentTransform->rotation.x), vec3(0.0f, 1.0f, 0.0f));
-	rotationalMatrix = rotate(rotationalMatrix, -radians(parentTransform->rotation.y), vec3(1.0f, 0.0f, 0.0f));
-	rotationalMatrix = rotate(rotationalMatrix, radians(parentTransform->rotation.z), vec3(0.0f, 0.0f, 1.0f));
+	vec3 ParentRotation = parentTransform->GetFullWorldRotation();
+
+	rotationalMatrix = rotate(rotationalMatrix, -radians(ParentRotation.x), vec3(0.0f, 1.0f, 0.0f));
+	rotationalMatrix = rotate(rotationalMatrix, -radians(ParentRotation.y), vec3(1.0f, 0.0f, 0.0f));
+	rotationalMatrix = rotate(rotationalMatrix, radians(ParentRotation.z), vec3(0.0f, 0.0f, 1.0f));
 
 	return vec3(rotationalMatrix * vec4(direction, 1.0f));
 }
@@ -100,7 +101,7 @@ mat4 DirectionalLight::LightSpaceMatrix() {
 	Transform* parentTransform = ParentObject()->GetComponent<Transform*>();
 
 
-	mat4 lightView = glm::lookAt(parentTransform->position, LightTarget(), glm::vec3(0.0f, 1.0f, 0.0f));
+	mat4 lightView = glm::lookAt(parentTransform->GetFullWorldPosition(), LightTarget(), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	// Overall
 	mat4 lightSpaceMatrix = lightProjection * lightView;
@@ -120,7 +121,7 @@ void DirectionalLight::ApplyDirectionalLights(int shaderValue) {
 		Transform* currentLightTransform = CurrentObject->GetComponent<Transform*>();
 		string overallString = "allDirectionalLights[" + to_string(lightCount) + "].";
 
-		SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->position);
+		SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->GetFullWorldPosition());
 
 		SetShaderFloat(shaderValue, (overallString + "intensity").data(), currentDirectionalLight->intensity);
 		SetShaderFloat(shaderValue, (overallString + "ambient").data(), currentDirectionalLight->ambient);

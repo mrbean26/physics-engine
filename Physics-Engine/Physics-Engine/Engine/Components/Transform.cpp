@@ -94,6 +94,28 @@ mat4 Transform::getUIModelMatrix() {
 	return ParentTransform->getUIModelMatrix() * newModelMatrix;
 }
 
+vec3 Transform::GetFullWorldPosition() {
+	return getModelMatrix() * vec4(0.0f, 0.0f, 0.0f, 1.0f);
+}
+vec3 Transform::GetFullWorldScale() {
+	vec3 ResultantScale = this->scale;
+
+	if (ParentTransform == nullptr) {
+		return ResultantScale;
+	}
+
+	return ParentTransform->GetFullWorldScale() * ResultantScale;
+}
+vec3 Transform::GetFullWorldRotation() {
+	vec3 ResultantRotation = this->rotation;
+
+	if (ParentTransform == nullptr) {
+		return ResultantRotation;
+	}
+
+	return ParentTransform->GetFullWorldRotation() + ResultantRotation;
+}
+
 void Transform::UpdateGravityElectricalForce(Transform* secondTransform) {
 	float distanceApart = distance(position, secondTransform->position);
 

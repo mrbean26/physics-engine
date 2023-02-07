@@ -62,13 +62,14 @@ vector<mat4> PointLight::ShadowTransforms() {
 
 	// Views
 	Transform* objectTransform = ParentObject()->GetComponent<Transform*>();
+	vec3 OverallPosition = objectTransform->GetFullWorldPosition();
 
-	mat4 viewOne = lookAt(objectTransform->position, objectTransform->position + vec3(1.0f, 0.0f, 0.0f), vec3(0.0f, -1.0f, 0.0f));
-	mat4 viewTwo = lookAt(objectTransform->position, objectTransform->position + vec3(-1.0f, 0.0f, 0.0f), vec3(0.0f, -1.0f, 0.0f));
-	mat4 viewThree = lookAt(objectTransform->position, objectTransform->position + vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 1.0f));
-	mat4 viewFour = lookAt(objectTransform->position, objectTransform->position + vec3(0.0f, -1.0f, 0.0f), vec3(0.0f, 0.0f, -1.0f));
-	mat4 viewFive = lookAt(objectTransform->position, objectTransform->position + vec3(0.0f, 0.0f, 1.0f), vec3(0.0f, -1.0f, 0.0f));
-	mat4 viewSix = lookAt(objectTransform->position, objectTransform->position + vec3(0.0f, 0.0f, -1.0f), vec3(0.0f, -1.0f, 0.0f));
+	mat4 viewOne = lookAt(OverallPosition, OverallPosition + vec3(1.0f, 0.0f, 0.0f), vec3(0.0f, -1.0f, 0.0f));
+	mat4 viewTwo = lookAt(OverallPosition, OverallPosition + vec3(-1.0f, 0.0f, 0.0f), vec3(0.0f, -1.0f, 0.0f));
+	mat4 viewThree = lookAt(OverallPosition, OverallPosition + vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 1.0f));
+	mat4 viewFour = lookAt(OverallPosition, OverallPosition + vec3(0.0f, -1.0f, 0.0f), vec3(0.0f, 0.0f, -1.0f));
+	mat4 viewFive = lookAt(OverallPosition, OverallPosition + vec3(0.0f, 0.0f, 1.0f), vec3(0.0f, -1.0f, 0.0f));
+	mat4 viewSix = lookAt(OverallPosition, OverallPosition + vec3(0.0f, 0.0f, -1.0f), vec3(0.0f, -1.0f, 0.0f));
 	
 	// Overalls
 	vector<mat4> result = {
@@ -100,7 +101,7 @@ void PointLight::RenderCubeMap() {
 	Transform* parentTransform = ParentObject()->GetComponent<Transform*>();
 
 	SetShaderFloat(cubemapShader, "far_plane", farLight);
-	SetShaderVec3(cubemapShader, "lightPos", parentTransform->position);
+	SetShaderVec3(cubemapShader, "lightPos", parentTransform->GetFullWorldPosition());
 	
 	// Draw
 	vector<Object*> AllPointLightObjects = PhysicsEngine::GetObjectsWithComponent<ViewModel>();
@@ -136,7 +137,7 @@ void PointLight::ApplyPointLights(int shaderValue) {
 		Transform* currentLightTransform = CurrentObject->GetComponent<Transform*>();
 		string overallString = "allPointLights[" + to_string(lightCount) + "].";
 
-		SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->position);
+		SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->GetFullWorldPosition());
 
 		SetShaderFloat(shaderValue, (overallString + "intensity").data(), currentPointLight->intensity);
 		SetShaderFloat(shaderValue, (overallString + "ambient").data(), currentPointLight->ambient);

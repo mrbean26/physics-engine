@@ -152,5 +152,8 @@ void PhysicsEngine::DeleteSceneObject(string ObjectName) {
 }
 
 mat4 PhysicsEngine::viewMatrix() {
+	if (loadedScenes[currentScene].mainCamera == nullptr) {
+		throw "No main camera has been set.";
+	}
 	return loadedScenes[currentScene].mainCamera->viewMatrix();
 }

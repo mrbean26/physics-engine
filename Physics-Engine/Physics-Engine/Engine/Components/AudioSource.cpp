@@ -30,7 +30,7 @@ void AudioSource::Mainloop() {
 
 	Transform* parentTransform = ParentObject()->GetComponent<Transform*>();
 
-	vec3 parentPosition = parentTransform->position;
+	vec3 parentPosition = parentTransform->GetFullWorldPosition();
 	alSource3f(sourceID, AL_POSITION, parentPosition.x, parentPosition.y, parentPosition.z);
 		
 	alSourcef(sourceID, AL_ROLLOFF_FACTOR, attenuationFactor);

@@ -14,9 +14,15 @@ public:
 	vec3 scale;
 	vec3 rotation;
 
+	// Model
 	Transform* ParentTransform = nullptr;
 	mat4 getModelMatrix();
 	mat4 getUIModelMatrix();
+
+	// Full Attributes Including Parent Transformations
+	vec3 GetFullWorldPosition();
+	vec3 GetFullWorldScale();
+	vec3 GetFullWorldRotation();
 
 	// Forces
 	void UpdateGravityElectricalForce(Transform* secondTransform);

@@ -8,12 +8,12 @@
 
 void AudioListener::Mainloop() {
 	Transform* parentTransform = ParentObject()->GetComponent<Transform*>();
-	vec3 parentPosition = parentTransform->position;
+	vec3 parentPosition = parentTransform->GetFullWorldPosition();
 
 	alListener3f(AL_POSITION, parentPosition.x, parentPosition.y, parentPosition.z);
 
 	// Orientation
-	vec3 rotation = parentTransform->rotation;
+	vec3 rotation = parentTransform->GetFullWorldRotation();
 
 	mat4 parentModelMatrix = mat4(1.0f);
 	parentModelMatrix = rotate(parentModelMatrix, radians(rotation.x), vec3(1.0f, 0.0f, 0.0f));

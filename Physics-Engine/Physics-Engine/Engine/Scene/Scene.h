@@ -16,6 +16,6 @@ public:
 	Object * GetSceneObjectByID(string name);
 	void DeleteObjectByID(string name);
 
-	Camera* mainCamera;
+	Camera* mainCamera = nullptr;
 	AudioListener* mainAudioListener;	
 };

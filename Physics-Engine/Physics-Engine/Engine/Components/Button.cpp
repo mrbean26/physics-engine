@@ -44,7 +44,7 @@ void Button::UpdateClicks() {
 			continue;
 		}
 
-		if (CurrentObject->GetComponent<Transform*>()->position.z < ParentTransform->position.z) {
+		if (CurrentObject->GetComponent<Transform*>()->GetFullWorldPosition().z < ParentTransform->GetFullWorldPosition().z) {
 			Button* secondButton = CurrentObject->GetComponent<Button*>();
 
 			if (secondButton->LastFrameClickUpdate != PhysicsEngine::frameNumber) {
