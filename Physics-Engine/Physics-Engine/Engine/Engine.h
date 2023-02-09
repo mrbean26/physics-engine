@@ -32,7 +32,7 @@ public:
 	inline static float runtime;
 	inline static int frameNumber = 0;
 
-	// Input
+	// Mouse Input
 	static void UpdateMouseEvent(GLFWwindow* window, int button, int action, int mods);
 
 	inline static dvec2 MousePosition;
@@ -40,6 +40,12 @@ public:
 
 	inline static bool MouseRightDown;
 	inline static bool MouseLeftDown;
+
+	// Keyboard Input
+	inline static vector<int> KeysPressedDown;
+	
+	static void GLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	bool CheckKeyPressedDown(int key);
 
 	// Audio
 	ALCdevice* mainAudioDevice;

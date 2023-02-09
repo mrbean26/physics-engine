@@ -19,7 +19,7 @@ int main(void) {
     ButtonObject->GetComponent<Transform*>()->mass = 80000000000.0f;
     ButtonObject->GetComponent<Transform*>()->position = vec3(0.0f, 0.0f, 0.0f);
     ButtonObject->AddComponent<Collider>();
-
+    
     Object* childLight = newScene.CreateSceneObject("childlight");
     childLight->GetComponent<Transform*>()->position = vec3(-5.0f, 0.0f, 0.0f);
     childLight->GetComponent<Transform*>()->mass = 10.0f;
