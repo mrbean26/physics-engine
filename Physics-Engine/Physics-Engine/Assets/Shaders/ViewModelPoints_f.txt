@@ -86,7 +86,7 @@ vec3 calculatePointLight(PointLight light, vec3 originalColour, vec3 normal, vec
 	vec3 lightDirection = normalize(light.position - fragPosition);
 	
 	// diffuse
-	float diffuse = max(dot(normal, lightDirection), 0.0f);
+	float diffuse = max(dot(lightDirection, normal), 0.0f);
 
 	// specular
 	vec3 reflectDirection = reflect(-lightDirection, normal);

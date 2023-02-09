@@ -114,6 +114,9 @@ void DirectionalLight::ApplyDirectionalLights(int shaderValue) {
 	vector<Object*> AllDirectionalLightObjects = PhysicsEngine::GetObjectsWithComponent<DirectionalLight>();
 	int DirectionalLightObjectCount = int(AllDirectionalLightObjects.size());
 
+	vec3 MainCameraPosition = PhysicsEngine::viewMatrix() * vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	SetShaderVec3(shaderValue, "viewPosition", MainCameraPosition);
+
 	for (int i = 0; i < DirectionalLightObjectCount; i++) {
 		Object* CurrentObject = AllDirectionalLightObjects[i];
 

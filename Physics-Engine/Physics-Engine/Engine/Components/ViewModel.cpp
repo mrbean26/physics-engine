@@ -206,7 +206,9 @@ void ViewModel::Render() {
 		glBindTexture(GL_TEXTURE_2D, ObjectTextureID);
 		usedShader = ViewModelPointsTextureShader;
 	}
-	
+	if (ParentObjectName == "Earth") {
+		ParentObject()->GetComponent<Transform*>()->rotation.y = glfwGetTime() * 30.0f;
+	}
 	SetShaderVec3(usedShader, "colour", ObjectColour);
 	SetShaderMat4(usedShader, "view", PhysicsEngine::viewMatrix());
 

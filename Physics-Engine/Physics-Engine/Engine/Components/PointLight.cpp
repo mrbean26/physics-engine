@@ -130,13 +130,16 @@ void PointLight::ApplyPointLights(int shaderValue) {
 	vector<Object*> AllPointLightObjects = PhysicsEngine::GetObjectsWithComponent<PointLight>();
 	int PointLightObjectCount = int(AllPointLightObjects.size());
 
+	vec3 MainCameraPosition = PhysicsEngine::viewMatrix() * vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	SetShaderVec3(shaderValue, "viewPosition", MainCameraPosition);
+
 	for (int i = 0; i < PointLightObjectCount; i++) {
 		Object* CurrentObject = AllPointLightObjects[i];
 
 		PointLight* currentPointLight = CurrentObject->GetComponent<PointLight*>();
 		Transform* currentLightTransform = CurrentObject->GetComponent<Transform*>();
 		string overallString = "allPointLights[" + to_string(lightCount) + "].";
-
+		
 		SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->GetFullWorldPosition());
 
 		SetShaderFloat(shaderValue, (overallString + "intensity").data(), currentPointLight->intensity);
