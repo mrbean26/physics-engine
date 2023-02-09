@@ -124,7 +124,8 @@ void DirectionalLight::ApplyDirectionalLights(int shaderValue) {
 		Transform* currentLightTransform = CurrentObject->GetComponent<Transform*>();
 		string overallString = "allDirectionalLights[" + to_string(lightCount) + "].";
 
-		SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->GetFullWorldPosition());
+		vec3 LightPosition = currentLightTransform->GetFullWorldPosition();
+		SetShaderVec3(shaderValue, (overallString + "position").data(), vec3(LightPosition.x, LightPosition.y, -LightPosition.z));
 
 		SetShaderFloat(shaderValue, (overallString + "intensity").data(), currentDirectionalLight->intensity);
 		SetShaderFloat(shaderValue, (overallString + "ambient").data(), currentDirectionalLight->ambient);

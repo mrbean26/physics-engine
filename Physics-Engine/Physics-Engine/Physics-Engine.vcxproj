@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CustomComponent.cpp" />
     <ClCompile Include="Engine\Background\FileLoading.cpp" />
     <ClCompile Include="Engine\Background\Shaders.cpp" />
     <ClCompile Include="Engine\Components\AudioListener.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CustomComponent.h" />
     <ClInclude Include="Engine\Background\FileLoading.h" />
     <ClInclude Include="Engine\Background\Shaders.h" />
     <ClInclude Include="Engine\Components\AudioListener.h" />

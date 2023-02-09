@@ -140,7 +140,8 @@ void PointLight::ApplyPointLights(int shaderValue) {
 		Transform* currentLightTransform = CurrentObject->GetComponent<Transform*>();
 		string overallString = "allPointLights[" + to_string(lightCount) + "].";
 		
-		SetShaderVec3(shaderValue, (overallString + "position").data(), currentLightTransform->GetFullWorldPosition());
+		vec3 LightPosition = currentLightTransform->GetFullWorldPosition();
+		SetShaderVec3(shaderValue, (overallString + "position").data(), vec3(LightPosition.x, LightPosition.y, -LightPosition.z));
 
 		SetShaderFloat(shaderValue, (overallString + "intensity").data(), currentPointLight->intensity);
 		SetShaderFloat(shaderValue, (overallString + "ambient").data(), currentPointLight->ambient);

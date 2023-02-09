@@ -105,7 +105,7 @@ vec3 calculatePointLight(PointLight light, vec3 originalColour, vec3 normal, vec
 	specular = specular * attenuation;
 	
 	float shadow = ShadowCalculationPoint(lightIndex);                      
-        
+    
 	return (ambient + (1.0f - shadow) * (diffuse + specular)) * originalColour;		
 }
 vec3 calculateDirectionalLight(DirectionalLight light, vec3 originalColour, vec3 normal, vec3 fragPosition, vec3 viewDirection, int lightIndex) {

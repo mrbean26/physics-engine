@@ -90,6 +90,9 @@
     <ClCompile Include="Engine\Components\ParticleSystem.cpp">
       <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
+    <ClCompile Include="CustomComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Components\ParticleSystem.h">
       <Filter>Source Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomComponent.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

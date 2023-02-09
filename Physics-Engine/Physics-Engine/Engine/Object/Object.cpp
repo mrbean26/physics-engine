@@ -58,6 +58,10 @@ Component* CreateComponent(AllComponents* objectComponents, string componentName
 		objectComponents->particleSystem = ParticleSystem();
 		newComponent = &objectComponents->particleSystem;
 	}
+	if (componentName == "CustomComponent") {
+		objectComponents->customComponent = CustomComponent();
+		newComponent = &objectComponents->customComponent;
+	}
 
 	return newComponent;
 }
